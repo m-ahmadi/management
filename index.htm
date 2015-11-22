@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html class="theme">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+	
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/materialize.css" />
+	<link rel="stylesheet" type="text/css" href="css/reset.css" />
+	
+	<link rel="stylesheet" type="text/css" href="css/foundicons.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-icons.css" />
+	<link rel="stylesheet" type="text/css" href="css/jstree/style.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+	<link rel="stylesheet" type="text/css" href="css/alertify.core.css" />
+	<link rel="stylesheet" type="text/css" href="css/alertify.default.css" />
+	<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<title>سامانه مدیریت</title>
+</head>
+<body class="preloading">
+
+<div class="my-preloader">
+	<h2>در حال بررسی وضعیت ورود...</h2>
+	
+	<!-- <div class="preloader-wrapper big active">
+		<div class="spinner-layer spinner-blue-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div> -->
+	
+	<div class="preloader-wrapper big active">
+		<div class="spinner-layer spinner-blue">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+		<div class="spinner-layer spinner-red">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+		<div class="spinner-layer spinner-yellow">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+		<div class="spinner-layer spinner-green">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<header class="header no-display">
+	<div class="header-right">
+		<h1 class="header-right-maintitle">سامانه مدیریت شبکه یکپارچه مخابراتی شهرداری تهران</h1> <!-- سامانه گزارش گیری شبکه یکپارچه مخابـراتی شهـرداری تهـران -->
+		<h2 class="header-right-subtitle">شهـــــرداری تهـــــران</h2> <!-- 5 char -->
+	</div>
+	<div class="header-left">
+		<img class="fn-current_user-profpic" src="images/profpic.png" alt="User Picture"/>
+		<div class="header-leftdata">
+			<h1 class="header-userinfo">
+				<span class="fn-current_user-fullnamefa"></span>&nbsp;-&nbsp;
+				<a class="fn-logout" href="">خروج از سایت</a>
+			</h1>
+			<!-- <h4 class="fn-current_user-title"></h4> -->
+			<h2 class="header-date hidden">
+				<span class="header-endate">
+					<span class="fn-endate-dayname">TUESDAY</span>,
+					<span class="fn-endate-daynumber">10</span>
+					<span class="fn-endate-monthname">FEBRUARY</span>,
+					<span class="fn-endate-year">2015</span>
+				</span>
+				
+				<span class="fn-fadate-dayname"></span>
+				<span>،</span>
+				<span class="fn-fadate-daynumber"></span>
+				<span class="fn-fadate-monthname"></span>&zwnj;ماه
+				<span class="fn-fadate-year"></span>
+			</h2>
+		</div>
+	</div>
+</header>
+<div class="content no-display">
+	<!-- sideNav -->
+	<!-- <ul id="slide-out" class="side-nav right">
+		<li><a href="#!"><span class="glyphicon glyphicon-user"></span> مدیر سامانه</a></li>
+		<li><a href="#!"><span class="glyphicon glyphicon-user"></span> مدیر محلی</a></li>
+		<li><a href="#!"><span class="glyphicon glyphicon-user"></span> مدیر</a></li>
+	</ul>
+	<a href="#" data-activates="slide-out" class="button-collapse"><i class="large mdi-navigation-menu"></i></a> -->
+	
+	<nav class="tabigation">
+		<ul>
+			<li class="">                                    <button class="btn waves-effect waves-light navitem fn-tablink current"  data-tab="0"><span class="fa fa-fort-awesome fa-lg"></span> خانه</button></li>
+			<li class="fn-manager-tab_link no-display">      <button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="3"><span class="fa fa-check-square-o fa-lg"></span> مدیریت</button></li>
+			<li class="fn-service_admin-tab_link no-display"><button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="1"><span class="fa fa-asterisk fa-lg"></span> مدیر سامانه</button></li>
+			<li class="fn-local_admin-tab_link no-display">  <button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="2"><span class="fa fa-th-list fa-lg"></span> مدیر محلی</button></li>
+			<li class="fn-emailer-tab_link lefty no-display"><button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="4"><span class="fa fa-envelope fa-lg"></span> ارسال قبض</button></li>
+			<li class="lefty">                               <a      class="btn waves-effect waves-light navitem" href="/app">  <span class="fa fa-area-chart fa-lg"></span> سامانه گزارش گیری</a></li>
+		</ul>
+	</nav>
+	<div class="tabs-wrap">
+		<div class="tab-item tab0 home">
+			<div class="mainpanel">
+				<!-- <div class="mainpanel-header">
+					<h2 class="fn-mainpanel-roletitle">خانه</h2>
+				</div> -->
+			</div>
+		</div>
+		
+		<div class="tab-item tab1 mgmt no-display">
+			<div class="tab-preloader fn-mgmt-tabpre">
+				<h1>در حال دریافت اطلاعات...</h1>
+				<div class="preloader-wrapper big active">
+					<div class="spinner-layer">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div>
+						<div class="gap-patch">
+							<div class="circle"></div>
+						</div>
+						<div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-preloader-comment">
+				<!-- <div class="tab-preloader fn-mgmt-tabpre">
+					<h1>در حال دریافت اطلاعات...</h1>
+					<div class="preloader-wrapper big active">
+						<div class="spinner-layer">
+							<div class="circle-clipper left">
+								<div class="circle"></div>
+							</div>
+							<div class="gap-patch">
+								<div class="circle"></div>
+							</div>
+							<div class="circle-clipper right">
+								<div class="circle"></div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+			
+			
+			<div class="mainpanel no-display">
+				<!-- <div class="mainpanel-header">
+					<h2 class="fn-mainpanel-roletitle">مدیر سامانه</h2>
+				</div> -->
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	1	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				<div class="rightpanel">
+				
+				
+				<div class="subpanel profile">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> مشخصات</div>
+					<div class="subpanel-body">
+						<div class="profile-wrap">
+							<!-- <input id="mgmt-autocomplete_1" class="jq-autocomplete" type="text" placeholder="جست و جوی کاربران"> -->
+							
+							<div class="autoc">
+								<input class="fn-autoc-input" type="text" placeholder="جست و جوی کاربران">
+								
+								<div class="items-wrap no-display">
+									<table class="autoc-suggestions">
+										<!--
+										<tr class="fn-autoc-item" id="fn-num-">
+											<td class="item-wrap" data-username="">
+												<img src="images/profpic.png" alt="Profile Pic"/>
+												<div class="autoc-data">
+													<div class="autoc-data-right">
+														<p class="autoc-fullname-fa"></p>
+														<p class="autoc-title"></p>
+													</div>
+													<div class="autoc-data-left">
+														<p class="autoc-username"></p>
+														<p class="autoc-email"></p>
+													</div>
+												</div>
+											</td>
+										</tr>
+										-->
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="profile-img">
+								<!-- <img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture"/> -->
+								<img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture"/>
+							</div>
+							<table class="profile-table">
+								<tr>
+									<th><span class="glyphicon glyphicon-user"></span> نام</th>
+									<td class="fn-profile-firstname"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-info-sign"></span> نام خانوادگی</th>
+									<td class="fn-profile-lastname"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-envelope"></span> ایمیل</th>
+									<td class="fn-profile-email"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-file"></span> سمت</th>
+									<td class="fn-profile-title"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-earphone"></span> تلفن</th>
+									<td class="fn-profile-phone"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	2	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				
+				</div>
+				
+				<div class="leftpanel">
+				
+				<div class="subpanel counter" id="fn-counter-tree">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-asterisk"></span> دسترسی کانتر</div>
+					
+					<div class="subpanel-body">
+						
+						<div class="tree-toolbar">
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
+							<button class="btn waves-effect waves-light disabled " id="fn-jstree_demo_div-give_access"><span class="glyphicon glyphicon-send"></span> اعمال دسترسی</button>
+						</div>
+		  
+						
+						<div class="tree-wrap" id="fn-jstree_demo_div-parent">
+							<div class="preloader-wrapper big active no-display">
+								<div class="spinner-layer tree-preloader">
+									<div class="circle-clipper left">
+										<div class="circle"></div>
+									</div>
+									<div class="gap-patch">
+										<div class="circle"></div>
+									</div>
+									<div class="circle-clipper right">
+										<div class="circle"></div>
+									</div>
+								</div>
+							</div>
+							<!-- <div id="jstree_demo_div" class="hidden treeroot"></div> -->
+							
+						</div>
+						
+					</div>
+					
+				</div>
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	3	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				<div class="subpanel admin-list" id="fn-counter-list">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> مدیران دارای دسترسی کانتر</div>
+					<div class="subpanel-body">
+						<button class="btn waves-effect waves-light fn-update_admin_list">به روز رسانی لیست <i class="fa fa-refresh"></i></button>
+						<div class="list-wrap">
+							<table class="fn-admin_list">
+									<!--
+									<tr>
+										<td class="btn waves-effect waves-light fn-adminlist-item" data-username=""></td>
+									</tr>
+									-->
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	4	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				<div class="subpanel record fn-hiddenable_subpanel no-display" id="fn-record-tree">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> دسترسی رکورد</div>
+					<div class="subpanel-body">
+						<div class="tree-toolbar">
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
+							<button class="btn waves-effect waves-light disabled" id="fn-jstree_demo_div_2-give_access"><span class="glyphicon glyphicon-send"></span> اعمال دسترسی</button>
+						</div>
+					
+						<div class="tree-wrap" id="fn-jstree_demo_div_2-parent">
+							<div class="preloader-wrapper big active no-display">
+								<div class="spinner-layer tree-preloader">
+									<div class="circle-clipper left">
+										<div class="circle"></div>
+									</div>
+									<div class="gap-patch">
+										<div class="circle"></div>
+									</div>
+									<div class="circle-clipper right">
+										<div class="circle"></div>
+									</div>
+								</div>
+							</div>
+							<!-- <div id="jstree_demo_div_2" class="hidden treeroot"></div> -->
+						</div>
+					</div>
+				</div>
+				<div class="subpanel admin-list fn-hiddenable_subpanel no-display" id="fn-record-list">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> مدیران دارای دسترسی رکورد</div>
+					<div class="subpanel-body">
+						<button class="btn waves-effect waves-light fn-update_admin_list">به روز رسانی لیست <i class="fa fa-refresh"></i></button>
+						<div class="list-wrap">
+							<table class="fn-admin_list">
+									<!--
+									<tr>
+										<td class="btn waves-effect waves-light fn-adminlist-item" data-username=""></td>
+									</tr>
+									-->
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				</div>
+			
+			</div>
+		</div>
+		
+		<div class="tab-item tab2 no-display"></div>
+		<div class="tab-item tab3 manager no-display">
+			<div class="mainpanel">
+				<!-- <div class="mainpanel-header">
+					<h2 class="fn-mainpanel-roletitle">مدیریت کاربرها</h2>
+				</div> -->
+				<div class="rightsec">
+					<div class="subpanel profile">
+						<div class="subpanel-body">
+							<div class="autoc">
+								<input class="fn-autoc-input" type="text" placeholder="جست و جوی کاربران">
+								<div class="items-wrap no-display">
+									<table class="autoc-suggestions">
+										<!--
+										<tr class="fn-autoc-item" id="fn-num-">
+											<td class="item-wrap" data-username="">
+												<img src="images/profpic.png" alt="Profile Pic"/>
+												<div class="autoc-data">
+													<div class="autoc-data-right">
+														<p class="autoc-fullname-fa"></p>
+														<p class="autoc-title"></p>
+													</div>
+													<div class="autoc-data-left">
+														<p class="autoc-username"></p>
+														<p class="autoc-email"></p>
+													</div>
+												</div>
+											</td>
+										</tr>
+										-->
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="profile-img">
+								<!-- <img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture" /> -->
+								<img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture" />
+							</div>
+							<table class="profile-table">
+								<tr>
+									<th><span class="glyphicon glyphicon-user"></span> نام</th>
+									<td class="fn-profile-firstname"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-info-sign"></span> نام خانوادگی</th>
+									<td class="fn-profile-lastname"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-envelope"></span> ایمیل</th>
+									<td class="fn-profile-email"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-file"></span> سمت</th>
+									<td class="fn-profile-title"></td>
+								</tr>
+								<tr>
+									<th><span class="glyphicon glyphicon-earphone"></span> تلفن</th>
+									<td class="fn-profile-phone"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="subpanel userlist">
+						<div class="subpanel-body">
+							<div class="">
+								<div class="dropdown">
+									<!-- <label>دسترسی ها</label> -->
+									<select class="browser-default fn-userlist_dropdown">
+										<option value="0">همه ی مدیران</option>
+										<option value="1">مدیر سامانه</option>
+										<option value="2">مدیر محلی</option>
+										<option value="3">مدیر</option>
+									</select>
+								</div>
+								<button class="btn waves-effect waves-light update-userlist fn-update_userlist">به روز رسانی لیست <i class="fa fa-refresh"></i></button>
+								
+							</div>
+	  
+							<div class="list-wrap">
+								<table class="fn-userlist">
+										<!--
+										<tr>
+											<td class="btn waves-effect waves-light fn-userlist_item" data-username=""></td>
+										</tr>
+										-->
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="leftsec">
+					<div class="subpanel settings">
+						<div class="subpanel-body">
+							<div class="wrap">
+								<div class="settings-overlay no-display">
+								
+									<div class="preloader-wrapper big active">
+										<div class="spinner-layer">
+											<div class="circle-clipper left">
+												<div class="circle"></div>
+											</div>
+											<div class="gap-patch">
+												<div class="circle"></div>
+											</div>
+											<div class="circle-clipper right">
+												<div class="circle"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="subgroup action-sec">
+									<p class="subgroup-title">رخداد</p>
+									<a class="btn btn-flat fn-subgroup-action-btn fn-subgroup-btn disabled" data-subgroupname="action" data-state="false">رخداد</a>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-action" id="PERM_SEND_MAIL_BILL" />
+												<label for="PERM_SEND_MAIL_BILL"><div class="chktitle">مجوز ارسال قبض</div><div class="chkdesc">کاربر می تواند به دیگران قبض ارسال نمایید.</div><div class="ensec">SEND_MAIL_BILL</div></label>
+											</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="subgroup service_admin-sec">
+									<p class="subgroup-title">مدیر سامانه</p>
+									<a class="btn btn-flat fn-subgroup-service_admin-btn fn-subgroup-btn disabled" data-subgroupname="service_admin" data-state="false">مدیر سامانه</a>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_RECORDS_MASTER" />
+												<label for="PERM_RECORDS_MASTER"><div class="chktitle">مجوز اعطای دسترسی مدیریت ریز مکالمات</div><div class="chkdesc">کاربر می تواند به مدیران محلی دسترسی  مدیریت ریز مکالمات بدهد.</div><div class="ensec">RECORDS_MASTER</div></label>
+											</span>
+										</div>
+									</div>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_GET_USER_ADMIN_ACCESS" />
+												<label for="PERM_GET_USER_ADMIN_ACCESS"><div class="chktitle">مجوز مشاهده مدیریت دسترسی</div><div class="chkdesc">کاربر می تواند دسترسی مدیریتی مدیران محلی را مشاهده کند.</div><div class="ensec">GET_USER_ADMIN_ACCESS</div></label>
+											</span>
+										</div>
+										
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_SET_USER_ADMIN_ACCESS" />
+												<label for="PERM_SET_USER_ADMIN_ACCESS"><div class="chktitle">مجوز تغییر مدیریت دسترسی</div><div class="chkdesc">کاربر می تواند دسترسی مدیریتی مدیران محلی را تغییر بدهد.</div><div class="ensec">SET_USER_ADMIN_ACCESS</div></label>
+											</span>
+										</div>
+									</div>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_GET_USERS_WITH_ADMIN_ACCESS" />
+												<label for="PERM_GET_USERS_WITH_ADMIN_ACCESS"><div class="chktitle">مجوز دریافت لیست مدیران محلی</div><div class="chkdesc">کاربر می تواند لیست مدیران محلی را مشاهده کتد.</div><div class="ensec">GET_USERS_WITH_ADMIN_ACCESS</div></label>
+											</span>
+										</div>
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_GET_USERS_WITH_PERMISSION" />
+												<label for="PERM_GET_USERS_WITH_PERMISSION"><div class="chktitle">مجوز دریافت لیست مدیران سامانه</div><div class="chkdesc">کاربر می تواند لیست مدیران سامانه را مشاهده کند.</div><div class="ensec">GET_USERS_WITH_PERMISSION</div></label>
+											</span>
+										</div>
+									</div>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_GET_PERMISSION" />
+												<label for="PERM_GET_PERMISSION"><div class="chktitle">مجوز مشاهده مجوزهای کاربران</div><div class="chkdesc">کاربر می تواند مجوزهای دیگر کاربران را مشاهده کند.</div><div class="ensec">GET_PERMISSION</div></label>
+											</span>
+										</div>
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-service_admin" id="PERM_SET_PERMISSION" />
+												<label for="PERM_SET_PERMISSION"><div class="chktitle">مجوز تغییر مجوزهای کاربران</div><div class="chkdesc">کاربر می تواند مجوزهای دیگر کاربران را تغییر بدهد.</div><div class="ensec">SET_PERMISSION</div></label>
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="subgroup local_admin-sec">
+									<p class="subgroup-title">مدیر محلی</p>
+									<a class="btn btn-flat fn-subgroup-local_admin-btn fn-subgroup-btn disabled" data-subgroupname="local_admin" data-state="false">مدیر محلی</a>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-local_admin" id="PERM_SET_USER_VIEW_ACCESS" />
+												<label for="PERM_SET_USER_VIEW_ACCESS"><div class="chktitle">مجوز تغییر دسترسی نمایش</div><div class="chkdesc">کاربر می تواند مجوزهای دسترسی نمایشی کاربران را تغییر بدهد.</div><div class="ensec">SET_USER_VIEW_ACCESS</div></label>
+											</span>
+										</div>
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-local_admin" id="PERM_GET_USER_VIEW_ACCESS" />
+												<label for="PERM_GET_USER_VIEW_ACCESS"><div class="chktitle">مجوز مشاهده دسترسی نمایش</div><div class="chkdesc">کاربر می تواند مجوزهای دسترسی نمایشی کاربران را مشاهده کند.</div><div class="ensec">GET_USER_VIEW_ACCESS</div></label>
+											</span>
+										</div>
+									</div>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-local_admin" id="PERM_GET_USERS_WITH_VIEW_ACCESS" />
+												<label for="PERM_GET_USERS_WITH_VIEW_ACCESS"><div class="chktitle">مجوز دریافت لیست مدیران گروه</div><div class="chkdesc">کاربر می تواند لیست مدیران گروه را مشاهده کند.</div><div class="ensec">GET_USERS_WITH_VIEW_ACCESS</div></label>
+											</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="subgroup manager-sec">
+									<p class="subgroup-title">مدیر گروه</p>
+									<a class="btn btn-flat fn-subgroup-manager-btn fn-subgroup-btn disabled" data-subgroupname="manager" data-state="false">مدیر گروه</a>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager disabled" id="PERM_GET_USER_INFO" />
+												<label for="PERM_GET_USER_INFO"><div class="chktitle">مجوز دریافت مشخصات کاربران</div><div class="chkdesc">کاربر می تواند مشخصات عمومی کاربران را مشاهده کند.</div><div class="ensec">GET_USER_INFO</div></label>
+											</span>
+										</div>
+									</div>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_GROUPS_COUNTERS" />
+												<label for="PERM_GET_GROUPS_COUNTERS"><div class="chktitle">مجوز دریافت سرجمع گروه ها</div><div class="chkdesc">کاربر محدود به دسترسی تخصیص داده شده، می تواند اطلاعات سرجمع گروه ها را مشاهده کند.</div><div class="ensec">GET_GROUPS_COUNTERS</div></label>
+											</span>
+										</div>
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_GROUPS_LIST" />
+												<label for="PERM_GET_GROUPS_LIST"><div class="chktitle">مجوز دریافت لیست گروه ها</div><div class="chkdesc">کاربر محدود به دسترسی تخصیص داده شده، می تواند لیست گروه ها را مشاهده کند.</div><div class="ensec">GET_GROUPS_LIST</div></label>
+											</span>
+										</div>
+									</div>
+									<div class="myrow">
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_COUNTERS" />
+												<label for="PERM_GET_COUNTERS"><div class="chktitle">مجوز دریافت سرجمع کاربران</div><div class="chkdesc">کاربر می تواند اطلاعات سرجمع کاربران را مشاهده کند.</div><div class="ensec">GET_COUNTERS</div></label>
+											</span>
+										</div>
+										<div class="mycolumn">
+											<span class="checkbox-wrap">
+												<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_RECORDS" />
+												<label for="PERM_GET_RECORDS"><div class="chktitle">مجوز دریافت ریز مکالمات کاربران</div><div class="chkdesc">کاربر محدود به دسترسی تخصیص داده شده، می تواند ریز مکالمات کاربران را مشاهده کند.</div><div class="ensec">GET_RECORDS</div></label>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+							
+							<!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+							<table style="display:none;">
+								<tr class="abbas1">
+									<th class="grouptitle">رخداد</th>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr class="abbas1">
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-action" id="PERM_SEND_MAIL_BILL" />
+										<label for="PERM_SEND_MAIL_BILL">SEND_MAIL_BILL</label>
+									</td>
+									<td></td>
+									<td></td>
+								</tr>
+								
+								<tr>
+									<td>&nbsp;</td>
+									<td></td>
+									<td></td>
+								</tr>
+								
+								
+								<tr class="abbas2">
+									<th class="grouptitle">مدیر سامانه</th>
+									<td></td>
+									<td></td>
+								</tr>
+							
+								<tr class="abbas2">
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_RECORDS_MASTER" />
+										<label for="PERM_RECORDS_MASTER">RECORDS_MASTER</label>
+									</td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_SET_USER_ADMIN_ACCESS" />
+										<label for="PERM_SET_USER_ADMIN_ACCESS">SET_USER_ADMIN_ACCESS</label>
+									</td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_GET_USER_ADMIN_ACCESS" />
+										<label for="PERM_GET_USER_ADMIN_ACCESS">GET_USER_ADMIN_ACCESS</label>
+									</td>
+								</tr>
+								<tr class="abbas2">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_GET_USERS_WITH_ADMIN_ACCESS" />
+										<label for="PERM_GET_USERS_WITH_ADMIN_ACCESS">GET_USERS_WITH_ADMIN_ACCESS</label>
+									</td>
+								</tr>
+								<tr class="abbas2">
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_SET_PERMISSION" />
+										<label for="PERM_SET_PERMISSION">SET_PERMISSION</label>
+									</td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_GET_PERMISSION" />
+										<label for="PERM_GET_PERMISSION">GET_PERMISSION</label>
+									</td>
+								</tr>
+								<tr class="abbas2">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-software_admin" id="PERM_GET_USERS_WITH_PERMISSION" />
+										<label for="PERM_GET_USERS_WITH_PERMISSION">GET_USERS_WITH_PERMISSION</label>
+									</td>
+								</tr>
+									
+								<tr>
+									<td>&nbsp;</td>
+									<td></td>
+									<td></td>
+								</tr>
+								
+								
+								<tr class="abbas3">
+									<th class="grouptitle">مدیر محلی</th>
+									<td></td>
+									<td></td>
+								</tr>
+									
+								
+								<tr class="abbas3">
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-local_admin" id="PERM_SET_USER_VIEW_ACCESS" />
+										<label for="PERM_SET_USER_VIEW_ACCESS">SET_USER_VIEW_ACCESS</label>
+									</td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-local_admin" id="PERM_GET_USER_VIEW_ACCESS" />
+										<label for="PERM_GET_USER_VIEW_ACCESS">GET_USER_VIEW_ACCESS</label>
+									</td>
+								</tr>
+								<tr class="abbas3">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-local_admin" id="PERM_GET_USERS_WITH_VIEW_ACCESS" />
+										<label for="PERM_GET_USERS_WITH_VIEW_ACCESS">GET_USERS_WITH_VIEW_ACCESS</label>
+									</td>
+								</tr>
+								
+								
+								<tr>
+									<td>&nbsp;</td>
+									<td></td>
+									<td></td>
+								</tr>
+								
+								
+								<tr class="abbas4">
+									<th class="grouptitle">مدیر گروه</th>
+									<td></td>
+									<td></td>
+									<!-- <th class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_USER_INFO" />
+										<label for="PERM_GET_USER_INFO" class="grouptitle">مدیر</label>
+									</th> -->
+								</tr>
+								<tr class="abbas4">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_USER_INFO" />
+										<label for="PERM_GET_USER_INFO">GET_USER_INFO</label>
+									</td>
+								</tr>
+								<tr class="abbas4">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_GROUPS_LIST" />
+										<label for="PERM_GET_GROUPS_LIST">GET_GROUPS_LIST</label>
+									</td>
+								</tr>
+								<tr class="abbas4">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_RECORDS" />
+										<label for="PERM_GET_RECORDS">GET_RECORDS</label>
+									</td>
+								</tr>
+								<tr class="abbas4">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_COUNTERS" />
+										<label for="PERM_GET_COUNTERS">GET_COUNTERS</label>
+									</td>
+								</tr>
+								<tr class="abbas4">
+									<td></td>
+									<td></td>
+									<td class="checkbox-wrap">
+										<input type="checkbox" class="filled-in fn-settings-checkbox fn-subgroup-manager" id="PERM_GET_GROUPS_COUNTERS" />
+										<label for="PERM_GET_GROUPS_COUNTERS">GET_GROUPS_COUNTERS</label>
+									</td>
+								</tr>
+							</table>
+							
+							<!-- <div class="toolbar">
+								<button class="btn waves-effect waves-light fn-submit_settings">اعمال<i class="glyphicon glyphicon-ok"></i></button>
+								<button class="btn waves-effect waves-light fn-checkall">انتخاب همه<i class="fa fa-paper-plane-o"></i></button>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-item tab4 emailer no-display">
+			<div class="mainpanel">
+				<!-- <div class="mainpanel-header">
+					<h2 class="fn-mainpanel-roletitle">مدیر سامانه</h2>
+				</div> -->
+				<div class="subpanel profile">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> مشخصات</div>
+					
+					<div class="subpanel-body">
+						
+						<div class="profile-img">
+							<img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture"/>
+						</div>
+						<table class="">
+							<tr>
+								<th><span class="glyphicon glyphicon-user"></span> نام</th>
+								<td class="fn-profile-firstname"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-info-sign"></span> نام خانوادگی</th>
+								<td class="fn-profile-lastname"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-envelope"></span> ایمیل</th>
+								<td class="fn-profile-email"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-file"></span> سمت</th>
+								<td class="fn-profile-title"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-earphone"></span> تلفن</th>
+								<td class="fn-profile-phone"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="subpanel main">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-asterisk"></span> لیست کاربران</div>
+					
+					<div class="subpanel-body">
+						<div class="tree-toolbar">
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
+						</div>
+						<div class="submit-btns">
+							<button id="fn-submit-first" class="button button-3d button-caution disabled"><i class="fa fa-cloud-upload"></i> تایید</button>
+							<!-- <button id="fn-submit-first" class="button button-3d button-caution disabled">
+								<i class="fa fa-cloud-upload"></i>
+								<span> </span>
+								<span id="fn-submit-first-text">تایید</span>
+							</button> -->
+							<button id="fn-submit-second" class="button button-3d button-action disabled"><i class="fa fa-bomb"></i> بفرست</button>
+						</div>
+						<div class="progress-bar no-opacity">
+							<span class="fn-progress-main-msg">در حال فرستادن ایمیل ها...</span>
+							<i id="refresh" class="fa fa-refresh fa-spin"></i>
+							<span class="progress-remaining fn-remaining"></span>
+							<span class="fn-progress-msg"></span>
+						</div>
+						
+						<div style="clear:both"></div>
+						
+						<div class="mp-wrap">
+							<label for="fn-mp-input">انتخاب ماه</label>
+							<br />
+							<input id="fn-mp-input" class="mp-input" type="text" value="">
+							
+							<div class="monthpicker hidden opacity-none">
+								<div class="mp-header">
+									<button class="btn waves-effect waves-light mp-next fn-mp-next">&lt;</button>
+									<h4 class="mp-year"><span class="fn-mp-year">1394</span></h4>
+									<button class="btn waves-effect waves-light mp-prev fn-mp-prev">&gt;</button>
+								</div>
+								<div class="mp-body">
+									<table>
+										<tr>
+											<td class="fn-month spring" data-val="01"><a>فروردین</a></td>
+											<td class="fn-month spring" data-val="02"><a>اردیبهشت</a></td>
+											<td class="fn-month spring" data-val="03"><a>خرداد</a></td>
+										</tr>
+										<tr>
+											<td class="fn-month summer" data-val="04"><a>تیر</a></td>
+											<td class="fn-month summer" data-val="05"><a>مرداد</a></td>
+											<td class="fn-month summer" data-val="06"><a>شهریور</a></td>
+										</tr>
+										<tr>
+											<td class="fn-month fall" data-val="07"><a>مهر</a></td>
+											<td class="fn-month fall" data-val="08"><a>آبان</a></td>
+											<td class="fn-month fall" data-val="09"><a>آذر</a></td>
+										</tr>
+										<tr>
+											<td class="fn-month winter" data-val="10"><a>دی</a></td>
+											<td class="fn-month winter" data-val="11"><a>بهمن</a></td>
+											<td class="fn-month winter" data-val="12"><a>اسفند</a></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+						
+						<div class="user-select">
+							<div>
+							  <input name="group1" type="radio" id="user-select-radio" class="fn-radio" checked/>
+							  <label for="user-select-radio">ارسال به کاربر</label>
+							</div>
+							
+							<!-- <input id="emailer-autocomplete_1" class="fn-us-input" type="text" value="" placeholder="جست و جوی کاربران"> -->
+							
+							<div class="autoc">
+								<input class="fn-autoc-input fn-us-input" type="text" placeholder="جست و جوی کاربران">
+								<div class="items-wrap no-display">
+									<table class="autoc-suggestions">
+										<!--
+										<tr class="fn-autoc-item" id="fn-num-">
+											<td class="item-wrap" data-username="">
+												<img src="images/profpic.png" alt="Profile Pic"/>
+												<div class="autoc-data">
+													<div class="autoc-data-right">
+														<p class="autoc-fullname-fa"></p>
+														<p class="autoc-title"></p>
+													</div>
+													<div class="autoc-data-left">
+														<p class="autoc-username"></p>
+														<p class="autoc-email"></p>
+													</div>
+												</div>
+											</td>
+										</tr>
+										-->
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div>
+								<input name="group1" type="radio" id="self-radio" class="fn-radio"/>
+								<label for="self-radio">ارسال به صاحبان</label>
+							</div>
+							
+						</div>
+						
+						<div style="clear:both;"></div>
+						
+						<div class="emailer-tree-wrap" id="fn-jstree_emailer-parent">
+							<div id="jstree_emailer" class=""></div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div>
+		<div id="modal1" class="modal">
+			<div class="modal-content">
+			</div>
+			<div class="modal-footer">
+				<button class="btn waves-effect waves-light ">انجام بده</button>
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">برگرد</a>
+			</div>
+		</div>
+		<div id="modal2" class="modal">
+			<div class="modal-content">
+			</div>
+			<div class="modal-footer">
+				<button class="btn waves-effect waves-light ">انجام بده</button>
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">برگرد</a>
+			</div>
+		</div>
+		<div id="modal3" class="modal">
+			<div class="modal-content">
+				<h1>در صورت گرفتن این مجوز از خود قادر به انجام عملیات مدیریتی نخواهید بود!</h1>
+				<p>آیا مطمئن هستید که می خواهید چنین کاری کنید؟</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn waves-effect waves-light ">انجام بده</button>
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">برگرد</a>
+			</div>
+		</div>
+		<div id="modal4" class="modal">
+			<div class="modal-content">
+				<h1>مدت زمان بیکاری شما از حد مجاز گذشته است.</h1>
+				<p>شما بابد دوباره وارد سایت شوید.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn waves-effect waves-light ">برو</button>
+			</div>
+		</div>
+	</div>
+</div>
+<footer class="footer no-display">
+	<ul>
+		<li>شهرداری تهران</li>
+		<li><a href="/cgi-bin/oauth2/privacy" target="_blank">حریم شخصی کاربران</a></li>
+		<li><a href="/cgi-bin/oauth2/privacy" target="_blank">درباره ما</a></li>
+	</ul>
+</footer>
+
+
+
+<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/lib/materialize.min.js"></script>
+<script type="text/javascript" src="js/lib/jstree.min.js"></script>
+<script type="text/javascript" src="js/lib/bootbox.min.js"></script>
+<script type="text/javascript" src="js/lib/alertify.js"></script>
+<script type="text/javascript" src="js/lib/base64.min.js"></script>
+
+<script type="text/javascript" src="js/fn.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
+
+
+
+
+
+<!-- <button class="button button-3d button-box button-jumbo"><i class="fa fa-thumbs-up"></i></button>
+<a href="#" class="button button-3d button-primary button-rounded">Check out the new site!</a>
+<a href="#" class="button button-3d button-action button-pill">Visit Us!</a>
+<button class="button button-3d button-action button-circle button-jumbo"><i class="fa fa-thumbs-up"></i></button>
+<a href="#" class="button button-3d button-caution"><i class="fa fa-camera"></i> Go</a>
+<a href="#" class="button button-3d button-royal">Say Hi!</a>
+
+<a class="waves-effect waves-light btn"><i class="material-icons right">cloud</i>button</a>
+
+
+<i class="fa fa-spinner fa-spin"></i>
+<i class="fa fa-circle-o-notch fa-spin"></i>
+<i class="fa fa-refresh fa-spin"></i>
+<i class="fa fa-cog fa-spin"></i>
+<i class="fa fa-spinner fa-pulse"></i> -->

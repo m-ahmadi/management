@@ -1,0 +1,37 @@
+@mixin font-face($alies, $filename) {
+	@font-face {
+		font-family: $alies;
+		src: url('../fonts/'+ $filename +'.eot');
+		src: url('../fonts/'+ $filename +'.eot?#iefix')    format('embedded-opentype'),
+			 url('../fonts/'+ $filename +'.woff2')         format('woff2'),
+			 url('../fonts/'+ $filename +'.woff')          format('woff'),
+			 url('../fonts/'+ $filename +'.ttf')           format('truetype'),
+			 url('../fonts/'+ $filename +'.svg#' + $alies) format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+}
+@mixin gradient($colors) { // diagonal
+	$first: nth( nth($colors, 1), 1 );
+	$last: nth( nth( $colors, length($colors) ), 1 );
+	
+	background: $first;
+	background: -moz-linear-gradient(-45deg, $colors);
+	background: -webkit-linear-gradient(-45deg,  $colors);
+	background: linear-gradient(135deg, $colors);
+	filter: unquote("progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$first}', endColorstr='#{$last}', GradientType=1 )");
+}
+@mixin box-sizing($v) {
+	-webkit-box-sizing: $v;
+	   -moz-box-sizing: $v;
+	     -o-box-sizing: $v;
+	    -ms-box-sizing: $v;
+		    box-sizing: $v;
+}
+@mixin transition($v) {
+	-webkit-transition: $v;
+	   -moz-transition: $v;
+	     -o-transition: $v;
+	    -ms-transition: $v;
+	        transition: $v;
+}
