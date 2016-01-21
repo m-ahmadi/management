@@ -1,8 +1,14 @@
+if (!window.console) { window.console = {}; }
+if (!window.console.log) { window.console.log = function () {}; }
+$.support.cors = true;
+
 var a = (function () {
 'use strict';
 var urls = {
 	SERVER_1: 'http://100.80.0.175',
 	SERVER_2: 'http://10.255.135.92',
+	SERVER_3: 'http://100.80.0.177',
+	SERVER_4: 'http://185.4.29.188', // only "cgi-bin/cpni" script on this server
 	CPNI: '/cgi-bin/cpni',
 	FCPNI: '/fcpni',
 	actions: {
@@ -21,7 +27,6 @@ var urls = {
 		GET_MY_PERMISSION_LIST: 'GetMyPermissionList',
 		SEND_MAIL_BILL: 'SendMailBill',
 		GET_JOB_STATUS: 'GetJobStatus',
-		AC_USERNAME: 'AcUsername',
 		GET_USER_PERMISSION_LIST: 'GetUserPermissionList',
 		GET_USERS_WITH_PERMISSION_LIST: 'GetUsersWithPermission',
 		ADD_USER_PERMISSION: 'AddUserPermission',
@@ -42,11 +47,12 @@ var urls = {
 	}
 },
 general = {
-	currentSession: sessionStorage.session,
+	currentSession: window.sessionStorage.session,
 	currentUser: {
-		fullname: '',
 		username: '',
 		email: '',
+		fullnameFa: '',
+		fullNameEn: '',
 		roles: {
 			serviceAdmin: false,
 			localAdmin: false,
@@ -64,13 +70,11 @@ general = {
 		fullnameFa: '',
 		fullnameEn: ''
 	},
-	currentTab: 1,
+	currentTab: 0,
 	authUrl: '',
 	treeStructure: undefined,
 	localmanagerTreeLoaded: false,
 	formatUserInfo: function (user) {
-		//console.log( atob( user.ldap_dn.slice(0, -3) ) );
-		//console.log(user.ldap_sn);
 		var nameRow = '',
 			fullnameArr = [],
 			fullnameFa = '',
@@ -89,15 +93,14 @@ general = {
 				}
 			});
 		}
-		fullnameArr = nameRow.split(' - '),  // 
-		fullnameFa = fullnameArr[1] +' '+ fullnameArr[0],
-		fullnameEn = Base64.decode( user.ldap_givenname ) +' '+ Base64.decode( user.ldap_sn ),	// atob( user.ldap_givenname ) +' '+ atob( user.ldap_sn.slice(0, -1) );
-		firstname = fullnameArr[1], // Base64.decode( user.ldap_givenname )
-		lastname = fullnameArr[0];  // Base64.decode( user.ldap_sn.slice(0, -1) )
-		// atob		->		Base64.decode
+		fullnameArr = nameRow.split(' - ');
+		fullnameFa = fullnameArr[1] +' '+ fullnameArr[0];
+		fullnameEn = Base64.decode( user.ldap_givenname ) +' '+ Base64.decode( user.ldap_sn );
+		firstname = fullnameArr[1];
+		lastname = fullnameArr[0]; 
 		
 		if (typeof user.number === 'string') {
-			number = user.number.slice(4)
+			number = user.number.slice(4);
 		}
 		result = {
 			username: user.username,
@@ -117,62 +120,137 @@ general = {
 },
 util = {
 	isObject: function (v) {
-		return Object.prototype.toString.call(v) === "[object Object]";
+		return (
+			v &&
+			typeof v === 'object' &&
+			typeof v !== null &&
+			Object.prototype.toString.call(v) === "[object Object]"
+		) ? true : false;
 	},
 	isArray: function (v) {
 		if ( typeof Array.isArray === 'function' ) {
 			return Array.isArray(v);
-		} else {
-			return Object.prototype.toString.call(v) === "[object Array]";
 		}
+		return (
+			v &&
+			typeof v === 'object' &&
+			typeof v.length === 'number' &&
+			typeof v.splice === 'function' &&
+			!v.propertyIsEnumerable('length') &&
+			Object.prototype.toString.call(v) === "[object Array]"
+		) ? true : false;
 	},
 	isEmptyString: function (v) {
 		return ( typeof v === 'string'  &&  v.length === 0 ) ? true : false;
 	},
-	isEmptyObject: function (o) {
-		if (!this.isObject(o)) { throw new Error('isEmptyObject():  Arg is not an object.'); }
-		var k;
-		if (typeof Object.keys === 'function') {
-			return ( Object.keys(o).length === 0 ) ? true : false;
-		} else {
-			for (k in o) {
-				if ( obj.hasOwnProperty(k) ) { return false; }
-			}
-			return true;
+	objectLength: function (o) {
+		if ( this.isObject(o) ) {
+			return Object.keys(o).length;
 		}
 	},
-	extend: function (proto, literal) {
-		var result = Object.create(proto);
-		Object.keys(literal).forEach(function(key) {
-			result[key] = literal[key];
-		});
+	extend: function () {
+		var args = Array.prototype.slice.call(arguments),
+			len = args.length,
+			arr = [],
+			objects = [],
+			first, last,
+			result;
+			
+		if (len === 1) {
+			first = args[0];
+			if ( this.isArray(first)  &&  first.length > 1 ) {
+				last = first.pop();
+				objects = first;
+			} else if ( this.isObject(first) ){
+				result = Object.create(first);
+			}
+		} else if (len === 2) {
+			first = args[0];
+			last = args[len-1];
+			if ( this.isObject(first) ) {
+				result = Object.create(first);
+			}
+		} else if (len > 2) {
+			last = args.pop();
+			objects = args;
+		}
+		
+		if (objects.length !== 0) {
+			arr.push( {} );
+			objects.forEach(function (el, i) {
+				if ( this.isObject(el) ) {
+					Object.keys(el).forEach(function (k) {
+						arr[i][k] = el[k];
+					});
+					arr.push( Object.create(arr[i]) );
+				}
+			});
+			result = arr[arr.length-1];
+		}
+		
+		if ( typeof last !== 'undefined'  &&  this.isObject(last) ) {
+			Object.keys(last).forEach(function(key) {
+				result[key] = last[key];
+			});
+		}
 		return result;
 	},
 	getCommentsInside: function (selector) {
 		return $(selector).contents().filter( function () { return this.nodeType == 8; } );
 	}
 },
-pubsub = (function () {
+instantiatePubsub = function () {
 	var subscribers = {},
 	getSubscribers = function () {
 		return subscribers;
 	},
-	subscribe = function (evt, fn, pars) {
-		if (typeof subscribers[evt] === 'undefined') {
-			subscribers[evt] = [];
+	subscribe = function (evt, fn, par) {
+		var events,
+			add = function (str) {
+				if (typeof subscribers[str] === 'undefined') {
+					subscribers[str] = [];
+				}
+				subscribers[str].push({
+					fn: fn,
+					par: par
+				});
+			};
+		
+		if (typeof evt === 'string') {
+			if ( evt.indexOf(' ') === -1 ) {
+				add(evt);
+			} else {
+				events = evt.split(' ');
+				events.forEach(function (el) {
+					add(el);
+				});
+			}
+		} else if ( isObject(evt) ) {
+			Object.keys(evt).forEach(function (i) {
+				if (typeof subscribers[i] === 'undefined') {
+					subscribers[i] = [];
+				}
+				if (typeof evt[i] === 'function') {
+					subscribers[i].push({
+						fn: evt[i],
+						par: undefined
+					});
+				} else if ( isObject(evt[i]) ) {
+					subscribers[i].push({
+						fn: evt[i].fn,
+						par: evt[i].par
+					});
+				}
+			});
 		}
-		subscribers[evt].push({
-			fn: fn,
-			pars: pars
-		});
 	},
-	on = function (evt, fn, pars) { // alies
-		subscribe(evt, fn, pars);
+	on = function (evt, fn, par) { // alies
+		subscribe(evt, fn, par);
 	},
-	publish = function (evt) {
-		if (typeof subscribers[evt] !== 'undefined') {
-			subscribers[evt].forEach(function (i) {
-				i.fn(i.pars);
+	publish = function (evtName, evtData) {
+		if (typeof subscribers[evtName] !== 'undefined') {
+			subscribers[evtName].forEach(function (i) {
+				i.fn(evtData, i.par);
 			});
 		}
 	};
@@ -182,9 +260,11 @@ pubsub = (function () {
 		on: on,
 		publish: publish
 	};
-}()),
-checkSession = (function () {
-	var getAuthUrl = function () {
+},
+session = (function () {
+	var instance = util.extend( instantiatePubsub() ),
+	
+	getAuthUrl = function () {
 		$.ajax({
 			url: urls.mainUrl,
 			type: 'GET',
@@ -214,7 +294,8 @@ checkSession = (function () {
 		window.location.replace(general.authUrl);
 	},
 	isSessionValid = function (session, valid, invalid) {
-		var user;
+		var that = this;
+		
 		$.ajax({
 			url: urls.mainUrl, type: 'GET', dataType: 'json',
 			data: {
@@ -223,10 +304,12 @@ checkSession = (function () {
 			}		
 		})
 		.done(function (data) {
-			//console.log(typeof data[0][sessionStorage.username]);
-			user = data[0][sessionStorage.username];
+			var user = data[0][sessionStorage.username],
+				rdyUser;
 			if ( typeof data[0][sessionStorage.username] !== 'undefined' ) {
-				valid(user);
+				rdyUser = general.formatUserInfo(user);
+				valid(rdyUser);							// playing with fire
+				instance.publish('valid', rdyUser);		// playing with fire
 			} else if ( typeof data[0].error_msg === 'string' ) {
 				invalid();
 			}
@@ -237,61 +320,31 @@ checkSession = (function () {
 			}, 2000);
 		});
 	},
-	main = function (user) {
-		$('body').removeClass('preloading');
-		$('.header').removeClass('no-display');
-		$('.content').removeClass('no-display');
-		$('.footer').removeClass('no-display');
-			
-		currentUser.updateProfile( general.formatUserInfo(user) );
-		
-		$('.my-preloader').remove();
-		
-		a.misc.time();
-		a.role.determine(function () {
-			if (general.currentUser.roles.serviceAdmin || general.currentUser.roles.emailer) {
-				mgmt.tree.initialize(function () {
-					a.emailer.tree.loadTree();
-					$('.fn-mgmt-tabpre').remove();
-					$('.mgmt .mainpanel').removeClass('no-display');
-				});
-			}
-			if (general.currentUser.roles.localAdmin) {
-				mgmt.tree.loadAnotherStruc();
-			}
-		});
-		
-		mgmt.defEvt();
-		// mgmt.tree.initialize(); moved to role
-		mgmt.initialize();
-		emailer.defEvt();
-		emailer.initialize(user);
-		manager.defEvt();
-		manager.initialize();
-		
-		a.initializeMaterial();
-		$('.fn-tablink').on('click', a.tabs.show);
-		$('.fn-logout').on('click', a.misc.logout);
-	};
-	
-	getAuthUrl();
-	return function () {
+	check = function (main) {
 		if (!sessionExist) {
 			redirect();
 		} else if (sessionExist) {
 			isSessionValid(general.currentSession, main, redirect);	// main if valid, redirect if not valid
 		}
 	};
+	
+	getAuthUrl();
+	
+	instance.check = check;
+	return instance;
 }()),
-sessionTimedout = function (obj) {
+sessionInvalid = function (obj) {
 	var err;
 	if ( util.isObject(obj) ) {
 		err = obj.error_code;
-		if (typeof err !== 'undefined' && typeof err === 'number') {
+		if (err  &&  typeof err === 'number') {
 			if (err === -4) {
-				a.confirm.show();
-				return true;
+				a.confirm.setMsg(true);
+			} else if (err === -3) {
+				a.confirm.setMsg(false);
 			}
+			a.confirm.show();
+			return true;
 		} else {
 			return false;
 		}
@@ -301,19 +354,26 @@ sessionTimedout = function (obj) {
 },
 currentUser = (function () {
 	var updateProfile = function (user) {
-		$('.fn-current_user-profpic').attr({src: user.photo});
+		if (typeof user.photo === 'string') {
+			$('.fn-current_user-profpic').attr({src: user.photo});
+		}
 		$('.fn-current_user-title').text(user.title);
 		$('.fn-current_user-fullnamefa').text(user.fullnameFa);
+	},
+	setVars = function (user) {
+		general.currentUser.username = user.username;
+		general.currentUser.email = user.email;
+		general.currentUser.fullnameFa = user.fullnameFa;
+		general.currentUser.fullNameEn = user.fullNameEn;
 	};
 	return {
+		setVars: setVars,
 		updateProfile: updateProfile
 	};
 }()),
 role = (function () {
-	var callback,
-	getCallback = function () {
-		return callback;
-	},
+	var instance = util.extend( instantiatePubsub() ),
+	
 	addTabs = function () {
 		var roles = general.currentUser.roles,
 			keyStr,
@@ -331,27 +391,44 @@ role = (function () {
 	setRole = function (perms) {
 		if ( !util.isArray(perms) ) { throw new Error('role.determine():  Argument is not an array.'); }
 		
-		var serviceAdmin = false,
-			localAdmin = false,
-			manager = false,
-			emailer = false;
-
+		var result = {
+			serviceAdmin: false,
+			localAdmin: false,
+			manager: false,
+			emailer: false,
+			recordsMaster: false
+		};
+		
 		perms.forEach(function (i) {
 			if ( i === 'PERM_SET_USER_ADMIN_ACCESS' ) {
+				
 				general.currentUser.roles.serviceAdmin = true;
+				result.serviceAdmin = true;
+				
 			} else if ( i === 'PERM_SET_USER_VIEW_ACCESS' ) {
+				
 				general.currentUser.roles.localAdmin = true;
+				result.localAdmin = true;
+				
 			} else if (i === 'PERM_GET_PERMISSION') {
+				
 				general.currentUser.roles.manager = true;
+				result.manager = true;
+				
 			} else if (i === 'PERM_SEND_MAIL_BILL') {
+				
 				general.currentUser.roles.emailer = true;
+				result.emailer = true;
+				
 			} else if (i === 'PERM_RECORDS_MASTER') {
+				
 				general.currentUser.permissions.recordsMaster = true;
+				result.recordsMaster = true;
+
 			}
 		});
+		instance.publish('determined', result);
 		addTabs();
-		getCallback()();
-		
 		/*$.ajax({
 			url: urls.mainUrl,
 			type: 'GET',
@@ -395,15 +472,273 @@ role = (function () {
 			alertify.error('GetMyPermissionList failed.');
 		});
 	},
-	determine = function (fn) {
-		callback = fn;
+	determine = function () {
 		makeAjaxCall();
 	};
 	
-	return {
-		determine: determine
-	};
+	instance.determine = determine;
+	return instance;
 }()),
+instantiateAutoComp = function (root, submitFn) {
+	root.trim();
+	root += ' ';
+	var input = $(root+'.fn-autoc-input'),
+		rootEl = $(root+'.autoc'),
+		itemsWrap = $(root+'.items-wrap'),
+		table = $(root+'.autoc-suggestions'),
+		tbody = $(root+'.autoc-suggestions > tbody'),
+		currentItem = 0,
+		reqStat = false,
+		reqLog = 0,
+		instance = util.extend( instantiatePubsub() ),
+		
+	
+	setFocus = function (key) {
+		if (typeof key !== 'number') { throw new Error('setFocus():  Argument is not a number.'); }
+		var up = false,
+			down = false,
+			currentItemStr = '',
+			el,
+			items = tbody.children().length,
+			wrapHeight = itemsWrap.prop('offsetHeight'),
+			wrapScrollHeight = itemsWrap.prop('scrollHeight'),
+			wrapScrollTop = itemsWrap.scrollTop(),
+			elOffsetBott,
+			elOffsetTop;
+			
+		if (key === 38) {
+			up = true;  down = false;
+		} else if (key === 40) {
+			up = false; down = true;
+		}
+		
+		if ( items !== 0 ) {
+			if (down) {
+				currentItem += 1;
+				if (currentItem > items) {
+					currentItem = 1;
+				}
+				currentItemStr = currentItem + '';
+				rootEl.find('.focused').removeClass('focused');
+				el = rootEl.find('#fn-num-' + currentItemStr );
+				el.addClass('focused');
+				input.val( el.contents().filter(':first-child').data().username );
+				
+				elOffsetBott = el.prop('offsetTop') + el.prop('offsetHeight');
+				elOffsetTop = el.prop('offsetTop');
+				if ( elOffsetBott > wrapHeight ) {
+					itemsWrap.scrollTop( elOffsetBott - wrapHeight );
+				}
+				if (elOffsetTop === 0) {
+					itemsWrap.scrollTop(0);
+				}
+				
+			} else if (up) {
+				
+				currentItem -= 1;
+				if (currentItem < 1 ) {
+					currentItem = items;
+				}
+				currentItemStr = currentItem + '';
+				rootEl.find('.focused').removeClass('focused');
+				el = rootEl.find('#fn-num-' + currentItemStr );
+				el.addClass('focused');
+				input.val( el.contents().filter(':first-child').data().username );
+				
+				elOffsetTop = el.prop('offsetTop');
+				elOffsetBott = el.prop('offsetTop') + el.prop('offsetHeight');
+				if ( elOffsetTop < wrapScrollTop ) {
+					itemsWrap.scrollTop( itemsWrap.scrollTop() - elOffsetTop );
+				}
+				if ( elOffsetBott ===  (wrapScrollHeight - 1) ) {
+					itemsWrap.scrollTop(elOffsetBott);
+				}
+				
+			}
+		}
+	},
+	createHtml = function (arr) {
+		var baseHtml = '',
+			els = [],
+			tr,
+			counter = 1;
+			
+		baseHtml = util.getCommentsInside(table)[0].nodeValue.trim();
+		
+		arr.forEach(function (i) {
+			var formatted = general.formatUserInfo(i),
+				trId = '';
+			tr = $.parseHTML(baseHtml)[0];
+			tr = $(tr);
+			if (formatted.photo) {
+				tr.find('img')				.attr( 'src', formatted.photo	);
+			}
+			tr.find('.autoc-fullname-fa')	.text( formatted.fullnameFa		);
+			tr.find('.autoc-title')			.text( formatted.title			);
+			tr.find('.autoc-email')			.text( formatted.email			);
+			tr.find('.item-wrap')			.attr('data-username', formatted.username);
+			
+			trId = tr.attr('id');
+			tr.attr('id', trId + counter + '');
+			
+			els.push(tr[0]);
+			counter += 1;
+		});
+		tbody.empty();
+		currentItem = 0;
+		els.forEach(function (i) {
+			tbody.append(i);
+		});
+	},
+	makeAjax = function (term) {
+		var curr;
+		reqLog += 1;
+		curr = reqLog;
+		$.ajax({
+			url: urls.mainUrl,
+			type: 'GET',
+			dataType: 'json',
+			data: {
+				action: urls.actions.AC_USERNAME,
+				session: general.currentSession,
+				term: term
+			},
+			beforeSend: function () {
+				reqStat = false;
+			}
+		})
+		.done(function (data) {
+			if (sessionInvalid(data[0])) { return; }
+			reqStat = true;
+			var resp = data[0],
+				key,
+				arr = [];
+			
+			for (key in resp) {
+				if ( resp.hasOwnProperty(key) ) {
+					arr.push( resp[key] );
+				}
+			}
+			itemsWrap.removeClass('no-display');
+			table.removeClass('no-display');
+			
+			if (reqStat === true && curr === reqLog) {
+				createHtml(arr);
+			}
+		})
+		.fail(function () {
+			
+		});
+	},
+	hide = function (e) {
+		var inputVal = input.val();
+		if( !$(e.target).closest(rootEl).length ) {
+			if( !rootEl.hasClass('no-display') ) {
+				itemsWrap.addClass('no-display');
+				if ( util.isEmptyString(inputVal) ) {
+					input.val('');
+				}
+			}
+		}
+	},
+	keyup = function (e) {
+		var arrowKey = false,
+			enterKey = false,
+			escapeKey = false,
+			term = '',
+			key = e.which,
+			inputVal = $(this).val().trim();
+			
+		if (key === 37 || key === 38 || key === 39 || key === 40) {
+			arrowKey = true;
+		}
+		if (key === 13) {
+			enterKey = true;
+			if ( tbody.children().length !== 0 ) {
+				$(this).val( rootEl.find('.focused').contents().filter(':first-child').data().username );
+				tbody.empty();
+				currentItem = 0;
+				submit( input.val() );
+				itemsWrap.addClass('no-display');
+				input.trigger('focus');
+			}
+		}
+		if (key === 27) { // escape
+			escapeKey = true;
+		}
+		
+		if ( util.isEmptyString(inputVal) ) {
+			tbody.empty();
+			itemsWrap.addClass('no-display');
+			currentItem = 0;
+		} else if ( !arrowKey && !util.isEmptyString(inputVal) && !enterKey && !escapeKey) {
+			term = $(this).val().trim();
+			makeAjax( term );
+		} else if (escapeKey) {
+			itemsWrap.addClass('no-display');
+		}
+	},
+	keydown = function (e) {
+		// e.which === 37 // left
+		// e.which === 39 // right
+		// e.which === 38 // up
+		// e.which === 40 // down
+		var key = e.which;
+		if ( key === 38 || key === 40) {
+			setFocus(key);
+		}
+	},
+	mouseenter = function () {
+		var id = '',
+			numStr = '',
+			num = 0;
+		id = $(this).attr('id');
+		numStr = id.match(/[-]{1}\d{0,3}$/)[0].slice(1);
+		num = parseInt(numStr, 10);
+		currentItem = num;
+		
+		rootEl.find('.focused').removeClass('focused');
+		$(this).addClass('focused');
+		//$('#fn-autocomplete').val($(this).find('.item-wrap').data().username);
+	},
+	mouseleave = function () {
+		currentItem = 0;
+		$(this).removeClass('focused');
+		//$('#fn-autocomplete').val($(this).find('.item-wrap').data().username);
+	},
+	click = function () {
+		table.addClass('no-display');
+		itemsWrap.addClass('no-display');
+		input.val( $(this).find('.item-wrap').data().username );
+		submit( input.val() );
+	},
+	submit = function (username) {
+		instance.publish('select', username);
+		if (typeof submitFn === 'function') {
+			submitFn(username);
+		}
+	},
+	defEvt = function (evtRoot) {
+		$('html').on('click', hide);
+		input.on({
+			'keyup': keyup,
+			'keydown': keydown
+		});
+		rootEl.on({
+			'mouseenter': mouseenter,
+			'mouseleave': mouseleave,
+			'click': click
+		}, '.fn-autoc-item');
+	};
+	
+	defEvt();
+	
+	instance.rootEl = rootEl;
+	instance.itemsWrap = itemsWrap;
+	instance.table = table;
+	instance.tbody = tbody;
+	return instance;
+},
 autoc = (function () {
 	var currentItem = 0,
 		root = '',
@@ -534,7 +869,7 @@ autoc = (function () {
 	makeAjax = function (term) {
 		var curr;
 		reqLog += 1;
-		curr = reqLog
+		curr = reqLog;
 		$.ajax({
 			url: urls.mainUrl,
 			type: 'GET',
@@ -549,8 +884,8 @@ autoc = (function () {
 			}
 		})
 		.done(function (data) {
-			if (sessionTimedout(data[0])) { return; }
-			reqStat = true
+			if (sessionInvalid(data[0])) { return; }
+			reqStat = true;
 			var resp = data[0],
 				key,
 				arr = [];
@@ -659,7 +994,7 @@ autoc = (function () {
 	submit = function (username) {
 		var fn = getSubFn();
 		if (typeof fn === 'function') {
-			fn.call(getSubFnContext(), username)
+			fn.call(getSubFnContext(), username);
 		}
 	},
 	setCurrent = function (selector, fn, obj) {
@@ -675,13 +1010,6 @@ autoc = (function () {
 		$(evtRoot + ' .autoc').on('mouseenter', '.fn-autoc-item', mouseenter);
 		$(evtRoot + ' .autoc').on('mouseleave', '.fn-autoc-item', mouseleave);
 		$(evtRoot + ' .autoc').on('click', '.fn-autoc-item', click);
-		
-		$("#beLowerCase").on('input', function(){
-			var start = this.selectionStart,
-				end = this.selectionEnd;
-			this.value = this.value.toLowerCase();
-			this.setSelectionRange(start, end);
-		});
 	};
 	
 	return {
@@ -691,6 +1019,564 @@ autoc = (function () {
 		defEvt: defEvt
 	};
 }()),
+instantiateMonthpicker = function (root) {
+	root.trim();
+	root += ' '; 
+	var instance = util.extend( instantiatePubsub() ),
+		rootEl = $(root+'.mp-wrap'),
+		input = $(root+'#fn-mp-input'),
+		box = $(root+'.monthpicker'),
+		yearEl = $(root+'.fn-mp-year'),
+		months = $(root+'.fn-month'),
+		nextBtn = $(root+'.fn-mp-next'),
+		prevBtn = $(root+'.fn-mp-prev'),
+		selectedDate = '',
+		currentYear = parseInt( yearEl.text(), 10 ),
+		yearLimit = currentYear,
+	
+	getAppropriateDate = function (month) {
+		var prev;
+		prev = month - 1;
+		if (prev) {
+			
+		} else {
+			res = month - 1;
+		}
+		return
+	},
+	initialize = function (date) {
+		var monthNum = date.month.number,
+			yearNum = date.year.full,
+			prev,
+			year,
+			month;
+		
+		prev = monthNum - 1;
+		if ( prev !== 0 ) {
+			year = yearNum+'';
+			month = prev+'';
+		} else if ( prev === 0 ) {
+			year = (yearNum - 1)+'';
+			month = 12+'';
+		}
+		
+		selectedDate = year + month;
+		currentYear = date.year.full;
+		months.removeClass('selected');
+		months.filter('[data-val='+month+']').addClass('selected');
+		input.val( year.slice(-2) + '/' + month);
+		instance.publish('select', selectedDate);
+	},
+	show = function (e) {
+		e.stopPropagation();
+		box.removeClass('no-display');
+	},
+	hide = function (e) {
+		if( !$(e.target).closest('.monthpicker').length ) {
+			if( box.is(":visible") ) {
+				box.addClass('no-display');
+			}
+		}
+	},
+	next = function () {
+		currentYear += 1;
+		if ( currentYear <= yearLimit ) {
+			$('.fn-mp-year').text(''+currentYear);
+		} else {
+			currentYear = yearLimit;
+		}
+	},
+	prev = function () {
+		currentYear -= 1;
+		yearEl.text(currentYear+'');
+	},
+	select = function () {
+		var year = $('.fn-mp-year').text(),
+			month = $(this).data().val,
+			selectedDate = year + month;
+		input.val( year.slice(-2) + '/' + month);
+		
+		months.removeClass('selected');
+		months.filter('[data-val='+month+']').addClass('selected');
+		box.addClass('no-display');
+		instance.publish('select', selectedDate);
+	},
+	defEvt = function () {
+		$('html').on('click', hide);
+		input.on('click', show);
+		months.on('click', select);
+		nextBtn.on('click', next);
+		prevBtn.on('click', prev);
+	};
+	
+	defEvt();
+	
+	instance.initialize = initialize;
+	return instance;
+},
+instantiateDatepicker = function (root) {
+	root.trim();
+	root += ' '; 
+	var instance = util.extend( instantiatePubsub() ),
+		
+		rootElSelector = '.datepicker',
+		rootEl = $(root+rootElSelector),
+		input = $(root+'.fn-dp-input'),
+		box = $(root+'.box'),
+		monthsWrap = $('.dp-months'),
+		daysWrap = $('.dp-days'),
+		currSecEl = $(root+'.fn-dp-currsec'),
+		monthEls = $(root+'.fn-month'),
+		dayEls = $(root+'.fn-day'),
+		nextBtn = $(root+'.fn-dp-next'),
+		prevBtn = $(root+'.fn-dp-prev'),
+		clearBtn = $(root+'.fn-dp-clear'),
+		todayBtn = $(root+'.fn-dp-today'),
+		day30 = $(root+'.fn-dp-day30'),
+		day31 = $(root+'.fn-dp-day31'),
+		
+		months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
+		index = 0,
+		role = 'day',
+		currYear = 0,
+		currDay = 0,
+		yearLimit = 0,
+		selected = {
+			year: 0,
+			monthName: '',
+			monthNumber: 0,
+			day: 0
+		},
+		today = {
+			year: 0,
+			month: 0,
+			day: 0
+		},
+	
+	adjustMonth = function () {
+		var month = currMonth().number,
+		handle = function (el, wh) {
+			if (wh === true) {
+				el.text( el.data().val );
+				el.addClass('fn-dp-day');
+				el.on('click', selectDay);
+			} else if (wh === false) {
+				el.text('00');
+				el.removeClass('fn-dp-day');
+				el.removeClass('selected');
+				el.off('click');
+			}
+		};
+		
+		if ( month <= 6 ) {
+			handle(day31, true);
+		} else if ( month >= 7  &&  month <= 11 ) {
+			handle(day30, true);
+			handle(day31, false);
+		} else if (month === 12) {
+			if (currYear % 4 === 0) { // kabise
+				handle(day30, false);
+				handle(day31, false);
+			} else {
+				handle(day31, false);
+			}
+		}
+	},
+	currMonth = function () {
+		return {
+			name: months[index],
+			number: index + 1
+		};
+	},
+	yearmonth = function () {
+		return currMonth().name +' '+ currYear;
+	},
+	show = function (e) {
+		e.stopPropagation();
+		box.removeClass('no-display');
+	},
+	hide = function (e) {
+		if( !$(e.target).closest(rootElSelector).length ) {
+			if( box.is(":visible") ) {
+				box.addClass('no-display');
+			}
+		}
+	},
+	highlightMonth = function () {
+		monthEls.removeClass('selected');
+		monthEls.filter('[data-val='+currMonth().number+']').addClass('selected');
+	},
+	highlightDay = function () {
+		dayEls.removeClass('selected');
+		dayEls.filter('[data-val='+currDay+']').addClass('selected');
+	},
+	setIndex = function (direction) {
+		var next,
+			prev, 
+			realLength = months.length - 1;
+		
+		if ( direction === true ) {
+			next = index + 1;
+			index = ( next <= realLength ) ? next: 0;
+		} else if ( direction === false ) {
+			prev = index - 1;
+			index = ( prev > 0 ) ? prev: realLength;
+		}
+	},
+	switchRole = function () {
+		if (role === 'day') {
+			daysWrap.addClass('no-display');
+			monthsWrap.removeClass('no-display');
+			currSecEl.text(currYear);
+			role = 'month';
+		} else if (role === 'month') {
+			monthsWrap.addClass('no-display');
+			daysWrap.removeClass('no-display');
+			currSecEl.text( yearmonth() );
+			role = 'day';
+		}
+	},
+	prev = function () {
+		var n;
+		if (role === 'day') {
+			setIndex(false);
+			adjustMonth();
+			currSecEl.text( yearmonth() );
+			highlightMonth();
+		} else if (role === 'month') {
+			n = currYear - 1;
+			if ( n > 0 ) {
+				currYear -= 1;
+			}
+			currSecEl.text(''+currYear);
+		}
+	},
+	next = function () {
+		var n;
+		if (role === 'day') {
+			setIndex(true);
+			adjustMonth();
+			currSecEl.text( yearmonth() );
+		} else if (role === 'month') {
+			n = currYear + 1;
+			if ( n <= yearLimit ) {
+				currYear += 1;
+			}
+			currSecEl.text(''+currYear);
+		}
+	},
+	selectMonth = function () {
+		var num = parseInt( $(this).data().val, 10),
+			month = num - 1;
+		
+		index = month;
+		currSecEl.text( yearmonth() );
+		highlightMonth();
+		adjustMonth();
+		switchRole();
+	},
+	selectDay = function () {
+		var day = $(this).data().val,
+			forInp = day +' '+ yearmonth();
+		
+		currDay = day;
+		selected.year = currYear;
+		selected.monthName = currMonth().name;
+		selected.monthNumber = currMonth().number;
+		selected.day = day;
+		input.data({
+			year: currYear,
+			month: currMonth().number,
+			day: day
+		});
+		currSecEl.text( yearmonth() );
+		input.val( forInp );
+		highlightDay();
+		box.addClass('no-display');
+		
+		instance.publish('select', selected);
+	},
+	clear = function () {
+		monthEls.removeClass('selected');
+		dayEls.removeClass('selected');
+		input.val( '' );
+		input.data({});
+		box.addClass('no-display');
+	},
+	goToday = function () {
+		currYear = today.year;
+		index = today.month;
+		currDay = today.day;
+		
+		adjustMonth();
+		currSecEl.text( yearmonth() );
+		input.val( currDay +' '+ yearmonth() );
+		highlightMonth();
+		highlightDay();
+		
+	},
+	initialize = function (date) {
+		currYear = date.year.full;
+		index = date.month.number - 1;
+		currDay = date.day.monthday.number;
+		yearLimit = date.year.full;
+		
+		today.year = currYear;
+		today.month = index;
+		today.day = currDay;
+		
+		adjustMonth();
+		currSecEl.text( yearmonth() );
+		highlightMonth();
+		highlightDay();
+	},
+	defEvt = function () {
+		$('html').on('click', hide);
+		input.on('click', show);
+		currSecEl.on('click', switchRole);
+		monthEls.on('click', selectMonth);
+		dayEls.on('click', selectDay);
+		nextBtn.on('click', next);
+		prevBtn.on('click', prev);
+		clearBtn.on('click', clear);
+		todayBtn.on('click', goToday);
+	};
+	
+	defEvt();
+	
+	instance.initialize = initialize;
+	return instance;
+},
+instantiateTree = function (root, treeSelector, toolbarItemsSelector) {
+	root.trim();
+	treeSelector.trim();
+	toolbarItemsSelector.trim();
+	var	treeRdy = false,
+		mainSelector = root+' '+treeSelector,
+		treeDom = $(mainSelector),
+		toolbarItems = $(root+' '+toolbarItemsSelector),
+		toolbarPrefix = root+' #fn-'+treeSelector.slice(1)+'-',
+		treeInstance,
+		instance;
+	
+	
+	treeInstance = $.jstree.create(mainSelector, {
+		plugins: [
+			//"grid"
+			"checkbox"
+			//"contextmenu", 
+			// "dnd", 
+			//"massload", 
+			// "search", 
+			// "sort", 
+			// "state", 
+			// "types", 
+			// "unique", 
+			// "wholerow", 
+			// "changed", 
+			// "conditionalselect"
+		],
+		types : {
+			"default" : {
+				//"icon" : "jstree-icon jstree-file"
+				"disabled" : { 
+					"check_node" : false, 
+					"uncheck_node" : false 
+				}
+			},
+			"demo" : {
+			}
+		}
+	});
+	instance = util.extend( instantiatePubsub(), (function () {
+	var
+	getTreeDom = function () {
+		return treeDom;
+	},
+	getTreeInstance = function () {
+		return treeInstance;
+	},
+	getObjName = function () {
+		return root+' '+treeSelector+'.';
+	},	
+	setReadyData = function () {
+		treeRdy = true;
+	},
+	openAll = function () {
+		if ( $(this).hasClass('disabled') ) { return; }
+		treeInstance.open_all();
+		instance.publish('open_all');
+	},
+	closeAll = function () {
+		if ( $(this).hasClass('disabled') ) { return; }
+		treeInstance.close_all();
+		instance.publish('close_all');
+	},
+	selectAll = function () {
+		if ( $(this).hasClass('disabled') ) { return; }
+		treeInstance.select_all();
+		instance.publish('select_all');
+	},
+	deselectAll = function () {
+		if ( $(this).hasClass('disabled') ) { return; }
+		treeInstance.deselect_all();
+		instance.publish('deselect_all');
+	},
+	disableAll = function () {
+		treeInstance.settings.core.data.forEach(function (obj) {
+			treeInstance.disable_node(obj.id);
+		});
+	},
+	enableAll = function () {
+		treeInstance.settings.core.data.forEach(function (obj) {
+			treeInstance.enable_node(obj.id);
+		});
+	},
+	selectedCount = function () {
+		return treeInstance.get_selected().length;
+	},
+	show = function () {
+		treeDom.removeClass('hidden');
+	},
+	hide = function () {
+		treeDom.addClass('hidden');
+	},
+	getCustomSelection = function (selected) {
+		var childless = [],
+			withChild = [],
+			groups = {
+				forSend: [],
+				forView: []
+			},
+			users = {
+				forSend: [],
+				forView: []
+			},
+			groupsAndUsers = [],
+			userCount = 0,
+			result;
+			
+		if ( selected &&
+				util.isArray(selected) &&
+				selected.length !== 0 ) {
+			
+			selected.forEach(function (item) { // extract childless and withChild node objects
+				if (item.children.length === 0) { // childless node
+					// $.inArray( item.text, childless ) === -1
+					if ( childless.indexOf(item.text) === -1 ) { // item doesn't exists in our array
+						childless.push(item);
+						userCount += 1;
+					}
+					
+				} else if (item.children.length !== 0) { // item has child
+					withChild.push(item);
+				}
+			});
+			childless.forEach(function (item) {
+				var parent = treeInstance.get_node(item.parent);
+				if ( parent.state.selected === false || item.parent === '#' ) {
+					if (typeof item.icon === 'string') {	// file
+						users.forSend.push(item.text);
+						//users.forView.push(item.text);
+						groupsAndUsers.push({
+							text: item.text,
+							icon: item.icon
+						});
+					} else if (typeof item.icon === 'undefined' || typeof item.icon === 'boolean') { // childless folder
+					
+						groups.forSend.push(item.id);
+						groups.forView.push(item.text);
+						groupsAndUsers.push(item.text);
+					}
+				}
+			});
+			withChild.forEach(function (item) { // [Object,
+				if ( item.children.length !== 0 && item.state.selected === true ) { // completely selected folder
+					var parent = treeInstance.get_node(item.parent);
+					if ( parent.state.selected === false || item.parent === '#' ) {
+						groups.forSend.push(item.id);
+						groups.forView.push(item.text);
+						groupsAndUsers.push(item.text);
+					}
+				}
+			});
+		}
+		
+		result = {
+			users: users,
+			groups: groups,
+			groupsAndUsers: groupsAndUsers,
+			userCount: userCount
+		};
+		instance.publish('select_deselect', result);
+		return result;
+	},
+	getSelected = function (e, o) {
+		var action = o.action,
+			selected;
+		
+		if ( action &&
+				(action === 'select_node' ||
+				action === 'deselect_node' ||
+				action === 'select_all' ||
+				action === 'deselect_all') ) {
+				
+			selected = treeInstance.get_selected(true);
+			if (selected) {
+				getCustomSelection( selected );
+			}
+		}
+			
+	},
+	setStruc = function (newStruc) {
+		if ( treeInstance !== false ) {
+			treeInstance.settings.core.data = newStruc;
+		}
+	},
+	getStruc = function () {
+		return treeInstance.settings.core.data;
+	},
+	refresh = function () {
+		treeInstance.refresh();
+	},
+	defEvt = function () {
+		treeDom.on('refresh.jstree', setReadyData);
+		//treeDom.on('select_node.jstree  deselect_node.jstree  select_all.jstree  deselect_all.jstree', getSelected);
+		treeDom.on('changed.jstree', getSelected);
+		$(toolbarPrefix+'open_all').on('click', openAll);
+		$(toolbarPrefix+'close_all').on('click', closeAll);
+		$(toolbarPrefix+'select_all').on('click', selectAll);
+		$(toolbarPrefix+'deselect_all').on('click', deselectAll);
+	};
+	
+	defEvt();
+	return {
+		treeDom: treeDom,
+		treeInstance: treeInstance,
+		isTreeRdy: function () { return treeRdy; },
+		toolbarItems: toolbarItems,
+		toolbarPrefix: toolbarPrefix,
+		getObjName: getObjName,
+		openAll: openAll,
+		closeAll: closeAll,
+		selectAll: selectAll,
+		deselectAll: deselectAll,
+		disableAll: disableAll,
+		enableAll: enableAll,
+		selectedCount: selectedCount,
+		show: show,
+		hide: hide,
+		getCustomSelection: getCustomSelection,
+		getSelected: getSelected,
+		getStruc: getStruc,
+		setStruc: setStruc,
+		refresh: refresh,
+		defEvt: defEvt
+	};
+	}()));
+	
+	return instance;
+},
 misc = (function () {
 	var time = (function () {
 		var countTime = function (timestamps) {
@@ -729,47 +1615,34 @@ misc = (function () {
 				}
 				
 			}, 1000);
-		};
-		return function () {
-			$.ajax({
-				url: urls.mainUrl,
-				type: 'GET',
-				dataType: 'json',
-				data: {
-					action: urls.actions.GET_DATE
-				}
-			})
-			.done(function (data) {
-				var response= data[0],
-				timestamp = parseInt(response.timestamp, 10),
-					d = new Date(timestamp),
-					week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-					month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-					weekday = week[ d.getDay() ],
-					monthNumber = d.getMonth(),
-					monthName = month[ monthNumber ];
-					
-				$('.header-date').removeClass('hidden');
+		},
+		adjust = function (data) {
+			var timestamp = parseInt(data.timestamp, 10),
+				d = new Date(timestamp),
+				week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+				month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				weekday = week[ d.getDay() ],
+				monthNumber = d.getMonth(),
+				monthName = month[ monthNumber ];
 				
-				$('.fn-endate-dayname').html(weekday.toUpperCase());
-				$('.fn-endate-monthnumber').html( monthNumber );
-				$('.fn-endate-monthname').html( monthName.toUpperCase() );
-				$('.fn-endate-year').html( d.getFullYear() );
-				
-				$('.fn-fadate-dayname').html(response.day.weekday.name);
-				$('.fn-fadate-daynumber').html(response.day.monthday.name);
-				$('.fn-fadate-monthname').html(response.month.name);
-				var year = '' + response.year.full;
-				$('.fn-fadate-year').html( year );
-				$('.fn-time-hour').html( d.getHours() );
-				$('.fn-time-minute').html( d.getMinutes() );
-				$('.fn-time-second').html( d.getSeconds() );
-				countTime(timestamp);
-			})
-			.fail(function () {
-				$('.a-nav-time').css({visibility: 'hidden'});
-			});
+			$('.header-date').removeClass('hidden');
+			
+			$('.fn-endate-dayname').html(weekday.toUpperCase());
+			$('.fn-endate-monthnumber').html( monthNumber );
+			$('.fn-endate-monthname').html( monthName.toUpperCase() );
+			$('.fn-endate-year').html( d.getFullYear() );
+			
+			$('.fn-fadate-dayname').html(data.day.weekday.name);
+			$('.fn-fadate-daynumber').html(data.day.monthday.name);
+			$('.fn-fadate-monthname').html(data.month.name);
+			var year = '' + data.year.full;
+			$('.fn-fadate-year').html( year );
+			$('.fn-time-hour').html( d.getHours() );
+			$('.fn-time-minute').html( d.getMinutes() );
+			$('.fn-time-second').html( d.getSeconds() );
+			countTime(timestamp);
 		};
+		return adjust;
 	}()),
 	logout = function () {
 		sessionStorage.removeItem('session');
@@ -777,6 +1650,12 @@ misc = (function () {
 		sessionStorage.removeItem('state');
 		//for (key in sessionStorage) { if(sessionStorage.hasOwnProperty(key) ) { sessionStorage.removeItem(key) } }
 		//Object.keys(sessionStorage).forEach(function (i) {sessionStorage.removeItem(i); });
+		$('body').addClass('preloading');
+		$('.header').addClass('no-display');
+		$('.content').addClass('no-display');
+		$('.footer').addClass('no-display');
+		$('.my-preloader > h2').text('در حال خارج شدن از سامانه...');
+		$('.my-preloader').removeClass('no-display');
 		$.ajax({
 			url: urls.mainUrl,
 			type: 'GET',
@@ -786,12 +1665,16 @@ misc = (function () {
 				session: general.currentSession
 			}
 		})
-		.done(function () {
-			if (sessionTimedout(data[0])) { return; }
-			window.location.reload(true);
+		.done(function () { // strange behaviour caused by href="", fixed by href="#"
+			window.location.replace(general.authUrl);
 		})
 		.fail(function () {
-			alert(urls.actions.LOGOUT + ' failed.');
+			alertify.error(urls.actions.LOGOUT + ' failed.');
+			$('body').removeClass('preloading');
+			$('.header').removeClass('no-display');
+			$('.content').removeClass('no-display');
+			$('.footer').removeClass('no-display');
+			$('.my-preloader').addClass('no-display');
 		});
 	};
 	
@@ -800,8 +1683,10 @@ misc = (function () {
 		logout: logout
 	};
 }()),
-tabs = (function () {
-	var show = function (e) {
+tab = (function () {
+	var instance = util.extend( instantiatePubsub() ),
+	
+	show = function (e) {
 		var target = $(this).data().tab;
 		general.currentTab = target;
 		$('.fn-tablink').removeClass('current');
@@ -813,11 +1698,11 @@ tabs = (function () {
 			mgmt.tree.reset();
 			mgmt.profile.reset();
 			//adminList.reset();
-			mgmt.adminList.reset();
-			mgmt.userList.reset();
+			mgmt.counterList.reset();
+			mgmt.recordList.reset();
 		
-			a.mgmt.adminList.refresh();
-			a.mgmt.userList.refresh();
+			a.mgmt.counterList.refresh();
+			a.mgmt.recordList.refresh();
 		}
 		if ( target === 0 ) {
 		} else if ( target === 1 ) {
@@ -840,13 +1725,45 @@ tabs = (function () {
 			autoc.setCurrent('.emailer');
 		}
 		$('.tab'+target).removeClass('no-display');
+	},
+	change = function () {
+		var tabNum = $(this).data().tab;
+		general.currentTab = tabNum;
+		$('.fn-tablink').removeClass('current');
+		$(this).addClass('current');
+		$('.tab-item').addClass('no-display');
+		instance.publish('change');
+		if ( tabNum === 0 ) {
+			
+			instance.publish('home');
+			
+		} else if ( tabNum === 1 ) {
+			
+			instance.publish('mgmt', 'service_admin');
+			
+		} else if ( tabNum === 2 ) {
+			
+			$('.tab1').removeClass('no-display');
+			instance.publish('mgmt', 'local_admin');
+			return;
+			
+		} else if (tabNum === 3) {
+			
+			instance.publish('manager');
+			
+		} else if (tabNum === 4) {
+			
+			instance.publish('emailer');
+		}
+		$('.tab'+tabNum).removeClass('no-display');
 	};
-	return {
-		show: show
-	};
+	
+	instance.change = change;
+	return instance;
 }()),
 confirm = (function () {
-	var callback,
+	var root = '#modal4 ',
+		callback,
 		parameters = {},
 		
 	getCallback = function () {
@@ -857,30 +1774,39 @@ confirm = (function () {
 	},
 	setCallback = function (fn, obj) {
 		callback = fn;
-		parameters = obj
+		parameters = obj;
 	},
 	ok = function () {
-		$('#modal4').closeModal();
+		$(root).closeModal();
 		getCallback()( getPars() );
 	},
+	setMsg = function (sw) {
+		$(root+'.fn-sesinv-msg').addClass('no-display');
+		if (sw) {
+			$(root+'.fn-session_invalid-idle').removeClass('no-display');
+		} else if (sw) {
+			$(root+'.fn-session_invalid-relogin').addClass('no-display');
+		}
+		
+	},
 	show = function (okFn, pars) {
-		$('#modal4').openModal({
+		$(root).openModal({
 			dismissible: false,
-			opacity: .5,
+			opacity: 0.5,
 			in_duration: 300,
 			out_duration: 200,
 			ready: function() {
-				$('#modal4 button').trigger('focus');
+				$(root+'button').trigger('focus');
 			},
 			complete: function () {}
 		});
 	},
 	defEvt = function () {
-		$('#modal4 button').on('click', ok);
+		$(root+'button').on('click', ok);
 	};
 	defEvt();
 	setCallback(function () {
-		window.location.reload();
+		window.location.reload(true);
 	});
 	return {
 		show: show
@@ -899,9 +1825,88 @@ initializeMaterial = function () {
 	$(".button-collapse").sideNav();
 	//$('select').material_select();
 },
+help = (function () {
+	var handleModal = function () {
+		$('#modal5').openModal({
+			dismissible: false,
+			opacity: 0.5,
+			in_duration: 300,
+			out_duration: 200,
+			ready: function() {
+				$('#modal5 button').trigger('focus');
+			},
+			complete: function () {}
+		});
+	},
+	adjustSvg = function (e) {
+		e.preventDefault();
+		var target = $(e.target),
+			tarId = target.attr('id'),
+			svgs = $('.fn-helpimg'),
+			links = $('.fn-hlpnav'),
+			root;
+		
+		links.removeClass('current_item');
+		target.addClass('current_item');
+		$('.fn-helpimg').addClass('no-display');
+		
+		root = util.getCommentsInside('.fn-hlp-svgroot')[0].nodeValue.trim();
+		$('.fn-helpimg[src="'+root+tarId+'.svg"]').removeClass('no-display');
+
+	},
+	defEvt = function () {
+		$('.helpnav').on('click', adjustSvg);
+		$('.fn-showhelp').on('click', handleModal);
+		$('#modal5 .closemodal').on('click', function () {
+			$('#modal5').closeModal();
+		});
+	};
+	
+	return {
+		defEvt: defEvt
+		
+	};
+}()),
+audio = (function () {
+	var perm = false,
+		sounds = {
+			success: $('.fn-audio-success')[0],
+			error: $('.fn-audio-error')[0],
+			tabchange: $('.fn-audio-tabchange')[0]
+		},
+	
+	toggleOnOff = function () {
+		if (perm === false) {
+			perm = true;
+		} else if (perm === true) {
+			perm = false;
+		}
+	},
+	play = function (which) {
+		if (perm) {
+			sounds[which].play();
+		}
+	};
+	
+	return {
+		toggleOnOff: toggleOnOff,
+		play: play
+	};
+}()),
+
 mgmt = (function () {
-	var
+	var autoc,
+		counterTree,
+		recordTree,
+		counterList,
+		recordList,
+	
 	general = {
+		currentProfile: {
+			fullnameFa: '',
+			fullnameEn: '',
+			username: '',
+		},
 		counterTree: false,
 		recordTree: false,
 		tree: {
@@ -937,8 +1942,11 @@ mgmt = (function () {
 			}
 		}
 	},
-	profile = util.extend(pubsub, (function () {
-		var update = function (user) {
+	profile = (function () {
+		var instance = util.extend( instantiatePubsub() ),
+			currentTab,
+		
+		update = function (user) {
 			if (typeof user.photo === 'string') {
 				$('.mgmt .fn-profile-img').attr({ src: user.photo });
 			}
@@ -961,10 +1969,9 @@ mgmt = (function () {
 			this.publish('reset');
 		},
 		setVars = function (user) {
-			a.general.currentProfile.fullnameFa = user.fullnameFa;
-			a.general.currentProfile.fullnameEn = user.fullnameEn;
-			a.general.currentProfile.username = user.username;
-			//console.log(user);
+			general.currentProfile.fullnameFa = user.fullnameFa;
+			general.currentProfile.fullnameEn = user.fullnameEn;
+			general.currentProfile.username = user.username;
 		},
 		callback = function (rdyUser) {
 			setVars(rdyUser);
@@ -972,7 +1979,7 @@ mgmt = (function () {
 			update(rdyUser);
 		},
 		makeAjax = function (username) {
-			var that = this;
+			var initiationTab = currentTab;
 			$.ajax({
 				url: urls.mainUrl,
 				type : 'GET',
@@ -983,27 +1990,24 @@ mgmt = (function () {
 					username: username
 				},
 				beforeSend: function () {
-					that.publish('beforeUpdate');
+					instance.publish('beforeUpdate');
 					//tree.resetToolbars(true);
 				}
 			})
-			.done(function ( data, textStatus, jqXHR ) {
-				if (sessionTimedout(data[0])) { return; }
+			.done(function (data) {
+				if (sessionInvalid(data[0])) { return; }
 				var user = data[0][username],
 					rdyUser = a.general.formatUserInfo(user);
 				callback(rdyUser);
 				//tree.loadTrees();
-				that.publish('update');
+				instance.publish('update', {
+					initTab: initiationTab
+				});
 			}).fail(function (data, errorTitle, errorDetail) {
 				alertify.error('AcUsername failed<br />'+errorTitle+'<br />'+errorDetail);
 			});
 		},
-		foo = function () {
-			this.publish('update');
-			
-		},
 		makeAutocomplete = function (divId) {
-			var that = this;
 			$('#'+divId).autocomplete({
 				source: function ( request, response ) {
 					$.ajax({
@@ -1015,7 +2019,7 @@ mgmt = (function () {
 							str: request.term
 						}
 					}).done(function ( data ) {
-						if (sessionTimedout(data[0])) { return; }
+						if (sessionInvalid(data[0])) { return; }
 						var arrList = [],
 							key = '',
 							res = data[0];
@@ -1048,38 +2052,46 @@ mgmt = (function () {
 						},
 						beforeSend: function () {
 							//tree.resetToolbars(true);
-							that.publish('beforeUpdate');
+							instance.publish('beforeUpdate');
 						}
 					})
 					.done(function ( data, textStatus, jqXHR ) {
-						if (sessionTimedout(data[0])) { return; }
+						if (sessionInvalid(data[0])) { return; }
 						var user = data[0][ui.item.value],
 							rdyUser = a.general.formatUserInfo(user);
 						callback(rdyUser);
-						that.publish('update');
+						instance.publish('update');
 					}).fail(function (data, errorTitle, errorDetail) {
 						alertify.error('AcUsername failed<br />'+errorTitle+'<br />'+errorDetail);
 					});
 				}
 			});
+		},
+		defCusEvt = function () {
+			a.tab.on('mgmt', function (data) {
+				currentTab = data;
+			});
 		};
-		return {
-			foo: foo,
-			reset: reset,
-			callback: callback,
-			makeAjax: makeAjax,
-			makeAutocomplete: makeAutocomplete
-		};
-	}())),
+		
+		
+		instance.reset = reset;
+		instance.callback = callback;
+		instance.makeAjax = makeAjax;
+		instance.makeAutocomplete = makeAutocomplete;
+		instance.defCusEvt = defCusEvt;
+		return instance;
+	}()),
 	instantiateLister = function (root) {
 		if (typeof root === 'undefined') { throw new Error('You must provide a root element.'); }
 		if (typeof root !== 'string') { throw new Error('Root must be a string.'); }
 		root.trim();
 		root += ' '; 
 		
-		var refresher = '.fn-update_admin_list' ,
+		var instance = util.extend( instantiatePubsub() ),
+			refresher = '.fn-update_admin_list' ,
 			wrap = '.fn-admin_list',
 			item = '.fn-adminlist-item',
+			currentTab,
 			
 		createHtml = function (arr) {
 			var baseHtml = '',
@@ -1106,7 +2118,7 @@ mgmt = (function () {
 		makeAjax = function () {
 			var data =  {
 				session: a.general.currentSession
-			}
+			};
 			if (a.general.currentTab === 1) {
 				data.action = urls.actions.GET_USERS_WITH_ADMIN_ACCESS; // w12 GetUsersWithViewAccess
 			} else if (a.general.currentTab === 2) {
@@ -1130,7 +2142,7 @@ mgmt = (function () {
 				}
 			})
 			.done(function ( data ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				//if (  !data[0]['taslimi-p'] ) { alert('data came back messed up'); }
 				var response = data[0],
 					arr = [];
@@ -1142,6 +2154,7 @@ mgmt = (function () {
 				$(root + refresher).removeClass('disabled');
 				$(root + refresher + ' > i').removeClass('fa-spin');
 				createHtml(arr);
+				instance.publish('refresh');
 			})
 			.fail(function ( data, errorTitle, errorDetail  ) {
 				alertify.error(data.action + ' failed<br />'+errorTitle+'<br />'+errorDetail);
@@ -1151,6 +2164,7 @@ mgmt = (function () {
 		},
 		itemClick = function (e) {
 			if ( $(root + item).hasClass('disabled') ) { return; }
+			var initiationTab = currentTab;
 			$.ajax({
 				url: urls.mainUrl,
 				type : 'GET',
@@ -1161,18 +2175,22 @@ mgmt = (function () {
 					username: $(e.target).data().username
 				},
 				beforeSend: function () {
-					
-					tree.resetToolbars(true);
+					instance.publish('beforeItemClick');
+					//tree.resetToolbars(true);
 					$(root + item).addClass('disabled');
 				}
 			})
 			.done(function ( data, textStatus, jqXHR ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				$(root + item).removeClass('disabled');
 				var user = data[0][$(e.target).data().username],
 					rdyUser = a.general.formatUserInfo(user);
-				profile.callback(rdyUser);
-				tree.loadTrees();
+				instance.publish('itemClick', {
+					user: rdyUser,
+					initTab: initiationTab
+				});
+				//profile.callback(rdyUser);
+				//tree.loadTrees();
 			})
 			.fail(function (data, errorTitle, errorDetail) {
 				alertify.error('GetUserInfo failed<br />'+errorTitle+'<br />'+errorDetail);
@@ -1185,15 +2203,19 @@ mgmt = (function () {
 		},
 		defEvt = function () {
 			$(root + refresher).on('click', refresh);
-			$(root + wrap).on('click ' + item, itemClick); 
+			$(root + wrap).on('click', item, itemClick); 
+		},
+		defCusEvt = function () {
+			a.tab.on('mgmt', function (data) {
+				currentTab = data;
+			});
 		};
 		
 		defEvt();
-		return {
-			reset: reset,
-			refresh: refresh,
-		};
-		
+		defCusEvt();
+		instance.reset = reset;
+		instance.refresh = refresh;
+		return instance;
 	},
 	/*adminList = (function () {
 		var root = '',
@@ -1253,7 +2275,7 @@ mgmt = (function () {
 				}
 			})
 			.done(function ( data ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				//if (  !data[0]['taslimi-p'] ) { alert('data came back messed up'); }
 				var response = data[0],
 					arr = [];
@@ -1293,7 +2315,7 @@ mgmt = (function () {
 				}
 			})
 			.done(function ( data, textStatus, jqXHR ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				$(getRoot() + '.fn-adminlist-item').removeClass('disabled');
 				var user = data[0][$(e.target).data().username],
 					rdyUser = general.formatUserInfo(user);
@@ -1325,15 +2347,99 @@ mgmt = (function () {
 			defEvt : defEvt
 		};
 	}()),*/
+	instantiateTreeMgmt = function (root, treeSelector, toolbarItemsSelector, submitSelector) {
+		var baseTree = instantiateTree(root, treeSelector, toolbarItemsSelector),
+			instance = util.extend( baseTree ),
+			submit = $(root+' '+submitSelector),
+		
+		recheck = function (arr) {
+			if ( !util.isArray( arr ) ) { throw new Error('tree.reChek(): The list of nodes to check must be an array.'); }
+			if ( !instance.isTreeRdy() ) {
+				setTimeout(function () {
+					recheck(arr);
+				}, 50);
+				return;
+			}
+			var node;
+			instance.treeInstance.deselect_all(); // true
+			instance.treeInstance.close_all(); // true
+			
+			if ( arr.length === 0 ) { return; }
+			
+			instance.treeInstance.select_node(arr, true, false);
+			/*arr.forEach(function (item) {
+				console.log(item);
+				if (typeof item === 'string') {
+					node = instance.treeInstance.get_node(item, false); // 2true: as dom
+					instance.treeInstance.select_node(node.id, true, false); // 3true: closed,    3false:  opened
+					//instance.treeInstance.select_node(item, true, false); // 3true: closed,    3false:  opened
+				}
+			});*/
+			
+			
+		},
+		recheckAndShow = function (rdyRecheckData) {
+			recheck(rdyRecheckData);
+			instance.show();
+		},
+		resetToolbar = function (full) {
+			if (typeof full === 'undefined' || typeof full !== 'boolean') { throw new Error(instance.getObjName()+'resetToolbar(): A boolean argument is necessary.'); }
+			if (full === true) {
+				
+				instance.toolbarItems.addClass('disabled');		// disable
+				submit.addClass('disabled');			// disable
+				
+			} else if (full === false) {
+			
+				instance.toolbarItems.removeClass('disabled'); 	// enable
+				submit.addClass('disabled');			// disable
+				
+			}
+		},
+		reset = function () {
+			instance.treeInstance.destroy().empty();
+			resetToolbar(true);
+		},
+		adjustSubmitBtn = function (e) {
+			var target = $(e.target);
+			if ( e.which === 1 ) { // click
+				if ( target.hasClass('jstree-anchor') || target.hasClass('jstree-checkbox') ) {
+					$(instance.toolbarPrefix+'give_access').removeClass('disabled');
+				}
+			} else if ( e.which === 13 ) { // enter
+				$(instance.toolbarPrefix+'give_access').removeClass('disabled');
+			}
+		},
+		defEvt = function (mainTree) {//$(mainSelector)
+			instance.treeDom.on('click keydown', adjustSubmitBtn);
+		},
+		defCusEvt = function () {
+			instance.on('select_all deselect_all', function () {
+				submit.removeClass('disabled');
+			});
+			
+		};
+		
+		defEvt();
+		defCusEvt();
+		
+		instance.recheck = recheck;
+		instance.recheckAndShow = recheckAndShow;
+		instance.resetToolbar = resetToolbar;
+		instance.reset = reset;
+		instance.adjustSubmitBtn = adjustSubmitBtn;
+		instance.defEvt = defEvt;
+		return instance;
+	},
 	tree = (function () {
 		var useJstree = function (divId, treeStructure) {
 			if (typeof treeStructure === 'undefined') { return; }
 			$.jstree.defaults.plugins = [
 				//"grid"
 				"checkbox"
-				// "contextmenu", 
+				//"contextmenu", 
 				// "dnd", 
-				// "massload", 
+				//"massload", 
 				// "search", 
 				// "sort", 
 				// "state", 
@@ -1494,7 +2600,7 @@ mgmt = (function () {
 					}
 				}
 			};
-			$('#'+mainTree).on('click #'+mainTree, handler); // select_node.jstree
+			$('#'+mainTree).on('click', handler); // select_node.jstree
 			//$('#'+mainTree).on('click #jstree_demo_div_2', handler); //  deselect_node.jstree
 			
 			$('#'+mainTree).on('ready.jstree', function (e, data) {
@@ -1511,7 +2617,7 @@ mgmt = (function () {
 				}
 				*/
 
-				selected = $( '#'+mainTree).jstree('get_selected', ['full'] );
+				selected = $( '#'+mainTree).jstree(true).get_selected(true); // true: full node objects, false: only ids
 				result = getSelection( selected, mainTree );
 				
 				if (mainTree === 'jstree_demo_div') {
@@ -1617,12 +2723,16 @@ mgmt = (function () {
 		},
 		reCheck = function (divId, arr) {
 			if ( !util.isArray( arr ) ) { throw new Error('tree.reChek():  Second argument is not an array.'); }
-			
-			$('#'+divId).jstree(true).deselect_all(); // true
-			$('#'+divId).jstree(true).close_all(); // true
+			var node,
+				treeDiv = $('#'+divId);
+				
+			treeDiv.jstree(true).deselect_all(); // true
+			treeDiv.jstree(true).close_all(); // true
 			arr.forEach(function (item) {
 				if (typeof item === 'string') {
-					reCheckHelper( divId, $('#'+divId).jstree(true).get_node(item, false) );
+					node = treeDiv.jstree(true).get_node(item, false);
+					treeDiv.jstree(true).select_node(node.id, true, false); // 3true: closed,    3false:  opened
+					//reCheckHelper( divId, treeDiv.jstree(true).get_node(item, false) );
 				}
 			});
 			general.tree.modified = false;
@@ -1681,7 +2791,7 @@ mgmt = (function () {
 				}
 			})
 			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				a.general.treeStructure = data[0];
 				createDivAndTree(data[0], true);
 				fn();
@@ -1707,16 +2817,19 @@ mgmt = (function () {
 				}
 			})
 			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
-				$('.tree-wrap .preloader-wrapper').addClass('no-display');
-				$('.tree-wrap .treeroot').removeClass('no-display');
+				if (sessionInvalid(data[0])) { return; }
+				
 				var userAccessList = extractForRecheck( data[0] );
-				setTimeout(function () { // because tree is not ready
+				setTimeout(function () { // because tree is not ready (ui-wise)
+					$('.tree-wrap .preloader-wrapper').addClass('no-display');
+					$('.tree-wrap .treeroot').removeClass('no-display');
+					
 					reCheck('jstree_demo_div', userAccessList.counters);
 					reCheck('jstree_demo_div_2', userAccessList.records);
-					resetToolbars(false);
+					
 					$('#jstree_demo_div').removeClass('hidden');
 					$('#jstree_demo_div_2').removeClass('hidden');
+					resetToolbars(false);
 				}, 100);
 			})
 			.fail(function ( data, errorTitle, errorDetail ) {
@@ -1741,13 +2854,13 @@ mgmt = (function () {
 					html = util.getCommentsInside('.tab-preloader-comment')[0].nodeValue.trim();
 					$('.mgmt').prepend( $.parseHTML(html) );
 					$('.mgmt .mainpanel').addClass('no-display');
-					$('.fn-local_admin-tab_link > button').attr({disabled: true})
+					$('.fn-local_admin-tab_link > button').attr({disabled: true});
 					$('.mgmt #fn-record-tree').removeClass('no-display');
 					$('.mgmt #fn-record-list').removeClass('no-display');
 				}
 			}).done(function (data) {
 				
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				/*if (data[0].counters.jtree.length === 0) {
 					$('.mgmt #fn-counter-tree').addClass('no-display');
 					$('.mgmt #fn-counter-list').addClass('no-display');
@@ -1756,7 +2869,7 @@ mgmt = (function () {
 					$('.mgmt #fn-record-tree').addClass('no-display');
 					$('.mgmt #fn-record-list').addClass('no-display');
 				}
-				$('.fn-local_admin-tab_link > button').attr({disabled: false})
+				$('.fn-local_admin-tab_link > button').attr({disabled: false});
 				$('.fn-mgmt-tabpre').remove();
 				$('.mgmt .mainpanel').removeClass('no-display');
 				a.general.localmanagerTreeLoaded = true;
@@ -1803,7 +2916,7 @@ mgmt = (function () {
 				}
 			})
 			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				$('.tree-wrap .preloader-wrapper').addClass('no-display');
 				$('.tree-wrap .treeroot').removeClass('hidden');
 				var userAccessList = extractForRecheck( data[0] );
@@ -1826,7 +2939,7 @@ mgmt = (function () {
 				alertify.error(urls.actions.GET_USER_VIEW_ACCESS_LIST + ' failed<br />'+errorTitle+'<br />'+errorDetail);
 			});
 		},
-		loadAnotherStruc = function () { // unused
+		loadAnotherStruc = function () {
 			$.ajax({
 				url: urls.mainUrl,
 				type: 'GET',
@@ -1840,7 +2953,7 @@ mgmt = (function () {
 					general.recordTree = false;
 				}
 			}).done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				var resp = data[0],
 					counters = resp.counters.jtree,
 					records = resp.records.jtree;
@@ -1881,8 +2994,11 @@ mgmt = (function () {
 		};
 	}()),
 	confirmation = (function () {
-		var mode = '',
+		var instance = util.extend( instantiatePubsub() ),
+			mode = '',
 		callback = function () {
+			var sec;
+			
 			$('#modal1').closeModal();
 			var users,
 				groups,
@@ -1890,9 +3006,11 @@ mgmt = (function () {
 			if ( mode === 'full') {
 				users = general.fullPriv.users.forSend.join(',');
 				groups =  general.fullPriv.groups.forSend.join(',');
+				sec = 'counter';
 			} else if ( mode === 'half' ) {
 				users = general.halfPriv.users.forSend.join(',');
 				groups =  general.halfPriv.groups.forSend.join(',');
+				sec = 'record';
 			}
 			data = {
 				session: a.general.currentSession,
@@ -1902,10 +3020,10 @@ mgmt = (function () {
 			};
 			if (a.general.currentTab === 1) {
 				data.action = urls.actions.SET_USER_ADMIN_ACCESS_LIST;
-				data.admin = a.general.currentProfile.username;
+				data.admin = general.currentProfile.username;
 			} else if (a.general.currentTab === 2) {
 				data.action =  urls.actions.SET_USER_VIEW_ACCESS_LIST;
-				data.viewer = a.general.currentProfile.username;
+				data.viewer = general.currentProfile.username;
 			}
 			$.ajax({
 				url: urls.mainUrl,
@@ -1914,7 +3032,7 @@ mgmt = (function () {
 				data : data,
 			})
 			.done(function ( data, textStatus, jqXHR ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				var status = '', // 'error' || 'success'
 					message = '';
 				
@@ -1945,17 +3063,17 @@ mgmt = (function () {
 					}
 				}
 				alertify[status](message);
+				instance.publish('gave_access', sec);
 			})
 			.fail(function ( data, errorTitle, errorDetail ) {
 				alertify.error('SetUserAdminAccessList failed<br />'+errorTitle+'<br />'+errorDetail);
+				instance.publish('gave_access_fail');
 			});
 		},
 		showMessage = function (title, message) {
-			$('#modal1 .modal-content').html( '<h1>' + title + '</h1>' +
-					'<p>' + message + '</p>' );
 			$('#modal1').openModal({
 				dismissible: false,
-				opacity: .5,
+				opacity: 0.5,
 				in_duration: 300,
 				out_duration: 200,
 				ready: function () {
@@ -1966,41 +3084,43 @@ mgmt = (function () {
 		},
 		main = function (mod, groups, users) {
 			mode = mod;
-			var title,
-				message = '';
+			var usersContainer = $('.fn-cnfr-userscontainer'),
+				foldersContainer = $('.fn-cnfr-folderscontainer'),
+				html;
+				
+			$('.fn-cnfr-hiddenable').addClass('no-display');
 			if ( mod === 'full' ) {
-				title = 'تغییر دسترسی کانترها';
+				$('.fn-cnfr-counter').removeClass('no-display');
 			} else if (mod === 'half') {
-				title = 'تغییر دسترسی رکورد ها';
+				$('.fn-cnfr-record').removeClass('no-display');
 			}
-			message += 'شما می خواهید ';
+
 			if ( (groups.length === 1 && users.length === 0) || (groups.length === 0 && users.length === 1) ) {
-				message += 'دسترسی ';
+				$('.fn-cnfr-singular').removeClass('no-display');
 			} else {
-				message += 'دسترسی های ';
+				$('.fn-cnfr-plural').removeClass('no-display');
 			}
-			message += 'زیر را به ';
-			message += '<b>'+a.general.currentProfile.username+'</b> ';
-			message += 'بدهید:';
-			message += '<br /><br />';
-			if (users.length !== 0 && groups.length === 0) {
-				message += 'کاربران :';
-				message += '<br /><br />';
-				message += users.join('    <br />    ');
-			} else if (groups.length !== 0 && users.length === 0) {
-				message += 'پوشه ها :';
-				message += '<br /><br />';
-				message += groups.join('<br />');
-			} else if ( groups.length !== 0 && users.length !== 0 ) {
-				message += 'کاربران :';
-				message += '<br /><br />';
-				message += users.join('<br />');
-				message += '<br /><br />';
-				message += 'پوشه ها :';
-				message += '<br /><br />';
-				message += groups.join('<br />');
-			}
-			showMessage(title, message);
+			$('.fn-cnfr-user').text(general.currentProfile.username);
+			
+			html = util.getCommentsInside('.fn-cnfr-item-template')[0].nodeValue.trim();
+			usersContainer.empty();
+			foldersContainer.empty();
+			
+			users.forEach(function (i) {
+					var el = $.parseHTML(html);
+					el = $(el);
+					el.text(i);
+					usersContainer.append(el[0]);
+				});
+				
+			groups.forEach(function (i) {
+				var el = $.parseHTML(html);
+				el = $(el);
+				el.text(i);
+				foldersContainer.append(el[0]);
+			});
+
+			showMessage();
 		},
 		defEvt = function () {
 			$('#fn-jstree_demo_div-give_access').on('click', function () {
@@ -2013,50 +3133,341 @@ mgmt = (function () {
 					main('half', general.halfPriv.groups.forView, general.halfPriv.users.forSend);
 				}
 			});
-			$('#modal1 button').on('click', mgmt.confirmation.callback);
+			$('#modal1 button').on('click', callback);
 		};
-		return {
-			callback: callback,
-			main: main,
-			defEvt: defEvt
-		};
+		
+		instance.call = callback;
+		instance.main = main;
+		instance.defEvt = defEvt;
+		return instance;
 	}()),
-	mediator = util.extend(pubsub, (function () {
-		profile.on('update', function () {
-			tree.loadTrees();
-		});
-		profile.on('beforeUpdate', function () {
-			tree.resetToolbars(true);
-		});
+	mediator = (function () {
+		var instance = util.extend( instantiatePubsub() ),
+			bigTreeLoaded = false,
+			smallTreeLoaded = false,
+			smallCounterTree = false,
+			smallRecordTree = false,
+			currentTab,
 		
-		return {
+		extractForRecheck = function (obj) {
+			if ( !util.isObject(obj) ) { throw new Error('tree.extractForRecheck():  Argument is not an object.'); }
+			if ( typeof obj === 'undefined' ) { throw new Error('tree.extractForRecheck():  Argument is undefined.'); }
+			var counters = [],
+				records = [];
 			
+			obj.counters.users.forEach(function (item) {
+				if ( typeof item !== 'undefined' && typeof item === 'string') {
+					counters.push(item);
+				}
+			});
+			obj.counters.groups.forEach(function (item) {
+				if ( typeof item !== 'undefined' ) {
+					counters.push(item);
+				}
+			});
+			obj.records.users.forEach(function (item) {
+				if ( typeof item !== 'undefined' ) {
+					records.push(item);
+				}
+			});
+			obj.records.groups.forEach(function (item) {
+				if ( typeof item !== 'undefined' ) {
+					records.push(item);
+				}
+			});
+			return {
+				counters: counters,
+				records: records
+			};
+		},
+		getSmallTree = function () {
+			$.ajax({
+				url: urls.mainUrl,
+				type: 'GET',
+				dataType: 'json',
+				data: {
+					action: urls.actions.GET_MY_ADMIN_ACCESS_LIST,
+					session: a.general.currentSession
+				},
+				beforeSend: function () {
+					var html;
+					smallCounterTree = false;
+					smallRecordTree = false;
+					if ( $('.mgmt .tab-preloader').length === 0 ) {
+						html = util.getCommentsInside('.tab-preloader-comment')[0].nodeValue.trim();
+						$('.mgmt').prepend( $.parseHTML(html) );
+						$('.mgmt .mainpanel').addClass('no-display');
+					}
+					//$('.fn-local_admin-tab_link > button').attr({disabled: true});
+					$('.mgmt #fn-record-tree').removeClass('no-display');
+					$('.mgmt #fn-record-list').removeClass('no-display');
+				}
+			})
+			.done(function (data) {
+				if (sessionInvalid(data[0])) { return; }
+				if (currentTab !== 'local_admin') { return; }
+				smallTreeLoaded = true;
+				//$('.fn-local_admin-tab_link > button').attr({disabled: false});
+				$('.fn-mgmt-tabpre').remove();
+				$('.mgmt .mainpanel').removeClass('no-display');
+				
+				if (data[0].counters.jtree.length !== 0) {
+					smallCounterTree = true;
+				}
+				if (data[0].records.jtree.length !== 0) {
+					smallRecordTree = true;
+				}
+				
+				if (smallCounterTree) {
+					general.counterTree = true;
+					counterTree.setStruc(data[0].counters.jtree);
+					counterTree.refresh();
+				}
+				
+				if (smallRecordTree) {
+					general.recordTree = true;
+					recordTree.setStruc(data[0].records.jtree);
+					recordTree.refresh();
+				} else {
+					$('.mgmt #fn-record-tree').addClass('no-display');
+					$('.mgmt #fn-record-list').addClass('no-display');
+				}
+			})
+			.fail(function () {
+				alertify.error('GetMyAdminAccessList Failed.');
+				$('.fn-local_admin-tab_link > button').attr({disabled: false});
+				$('.fn-mgmt-tabpre').remove();
+				$('.mgmt .mainpanel').removeClass('no-display');
+			});
+		},
+		getRecheckData = function (initiationTab) {
+			var data = {},
+				username = general.currentProfile.username,
+				c = function () {
+					return (currentTab !== initiationTab) ? true : false;
+				},
+				preloader = function (s) {
+					var preWrap = $('.tree-wrap .preloader-wrapper'),
+						treeRoot = $('.tree-wrap .treeroot');
+					if (s) {
+						preWrap.removeClass('no-display');
+						treeRoot.addClass('no-display');
+					} else {
+						preWrap.addClass('no-display');
+						treeRoot.removeClass('no-display');
+					}
+				};
+			
+			if (currentTab === 'service_admin') {
+				data.action = urls.actions.GET_USER_ADMIN_ACCESS_LIST;
+				data.admin = username;
+			} else if (currentTab === 'local_admin') {
+				data.action = urls.actions.GET_USER_VIEW_ACCESS_LIST;
+				data.viewer = username;
+			}
+			data.session = a.general.currentSession;
+			
+			$.ajax({
+				url: urls.mainUrl,
+				type: 'GET',
+				dataType: 'json',
+				data: data,
+				beforeSend: function () {
+					preloader(true);
+					counterTree.hide();
+					counterTree.resetToolbar(true);
+					recordTree.hide();
+					recordTree.resetToolbar(true);
+				}
+			})
+			.done(function (data) {
+				if (sessionInvalid(data[0])) { return; }
+				
+				var recheckData = extractForRecheck(data[0]);
+				preloader(false);
+				
+				if ( c() ) { return; };
+				if (initiationTab === 'service_admin') {
+					counterTree.recheck( recheckData.counters );
+					if ( c() ) { return; };
+					counterTree.show();
+					counterTree.resetToolbar(false);
+					
+					recordTree.recheck( recheckData.records );
+					if ( c() ) { return; };
+					recordTree.show();
+					recordTree.resetToolbar(false);
+					
+				} else if (initiationTab === 'local_admin') {
+					if ( smallCounterTree ) {
+						counterTree.recheck( recheckData.counters );
+						if ( c() ) { return; };
+						counterTree.show();
+						counterTree.resetToolbar(false);
+					}
+					if ( smallRecordTree ) {
+						recordTree.recheck( recheckData.records );
+						if ( c() ) { return; };
+						recordTree.show();
+						recordTree.resetToolbar(false);
+					}
+				}
+			})
+			.fail(function ( data, errorTitle, errorDetail ) {
+				alertify.error('GetUserAdminAccessList failed<br />'+errorTitle+'<br />'+errorDetail);
+				$('.tree-wrap .preloader-wrapper').addClass('no-display');
+				$('.tree-wrap .treeroot').removeClass('no-display');
+			});
+			
+		},
+		instantiate = function () {
+			autoc = a.instantiateAutoComp('.mgmt', profile.makeAjax);
+			counterTree = instantiateTreeMgmt('.mgmt #fn-counter-tree', '#jstree_demo_div', '.fn-treetoolbar', '#fn-jstree_demo_div-give_access');
+			recordTree = instantiateTreeMgmt('.mgmt #fn-record-tree', '#jstree_demo_div_2', '.fn-treetoolbar', '#fn-jstree_demo_div_2-give_access');
+			counterList = instantiateLister('#fn-counter-list');
+			recordList =  instantiateLister('#fn-record-list');
+			
+			mgmt.autoc = autoc;
+			mgmt.counterTree = counterTree;
+			mgmt.recordTree = recordTree;
+			mgmt.counterList = counterList;
+			mgmt.recordList = recordList;
+		},
+		defEvt = function () {
+			//a.autoc.defEvt('.mgmt');
+			
+			//profile.makeAutocomplete('mgmt-autocomplete_1');
+			
+			//a.adminList.defEvt();
+			
+			profile.defCusEvt();
+			confirmation.defEvt();
+		},
+		defCusEvt = function () {
+			a.mediator.on('fullStrucLoaded', function () {
+				//mgmt.tree.createDivAndTree(a.general.treeStructure, true);
+				bigTreeLoaded = true;
+				if (currentTab === 'service_admin') {
+					counterTree.setStruc(a.general.treeStructure);
+					counterTree.refresh();
+					recordTree.setStruc(a.general.treeStructure);
+					recordTree.refresh();
+					$('.fn-mgmt-tabpre').remove();
+					$('.mgmt .mainpanel').removeClass('no-display');
+				}
+			});
+			role.on('determined', function (data) {
+				if (data.localAdmin) {
+					//mgmt.tree.loadAnotherStruc();
+				}
+				if (data.recordsMaster === true) {
+					$('.mgmt #fn-record-tree').removeClass('no-display');
+					$('.mgmt #fn-record-list').removeClass('no-display');
+				}
+			});
+			a.tab.on('mgmt', function (data) {
+				//autoc.setCurrent('.mgmt', mgmt.profile.makeAjax, mgmt.profile);
+				//mgmt.tree.reset();
+				profile.reset();
+				/*adminList.reset();*/
+				counterList.reset();
+				recordList.reset();
+				counterList.refresh();
+				recordList.refresh();
+				
+				if (data === 'service_admin') {
+					currentTab = 'service_admin';
+					if (bigTreeLoaded === true) {
+						$('.fn-mgmt-tabpre').remove();
+						$('.mgmt .mainpanel').removeClass('no-display');
+						
+						counterTree.setStruc(a.general.treeStructure);
+						counterTree.refresh();
+						recordTree.setStruc(a.general.treeStructure);
+						recordTree.refresh();
+					}
+					counterTree.resetToolbar(true);
+					counterTree.hide();
+					recordTree.resetToolbar(true);
+					recordTree.hide();
+					
+					if (a.general.currentUser.permissions.recordsMaster === true) {
+						$('.mgmt .fn-hiddenable_subpanel').removeClass('no-display');
+					} else {
+						$('.mgmt .fn-hiddenable_subpanel').addClass('no-display');
+					}
+					//mgmt.tree.createDivAndTree(a.general.treeStructure, true);
+					
+				} else if (data === 'local_admin') {
+					//if ( $(this).hasClass('disabled') ) { return; }
+					//mgmt.tree.loadAnotherStrucSilently(); // new
+					currentTab = 'local_admin';
+					counterTree.hide();
+					counterTree.resetToolbar(true);
+					recordTree.hide();
+					recordTree.resetToolbar(true);
+					getSmallTree();
+				}
+			});
+			profile.on('beforeUpdate', function () {
+				//tree.loadTrees();
+				//tree.resetToolbars(true);
+			});
+			profile.on('update', function (d) {
+				getRecheckData(d.initTab);
+			});
+			counterList.on('beforeItemClick', function () {
+				
+			});
+			counterList.on('itemClick', function (d) {
+				profile.callback(d.user);
+				//tree.resetToolbars(true);
+				//tree.loadTrees();
+				getRecheckData(d.initTab);
+			});
+			recordList.on('beforeitemClick', function () {
+				
+			});
+			recordList.on('itemClick', function (d) {
+				profile.callback(d.user);
+				//tree.resetToolbars(true);
+				//tree.loadTrees();
+				getRecheckData(d.initTab);
+			});
+			counterTree.on('select_deselect', function (data) {
+				general.fullPriv.groups.forSend = data.groups.forSend;
+				general.fullPriv.groups.forView = data.groups.forView;
+				general.fullPriv.users.forSend = data.users.forSend;
+			});
+			recordTree.on('select_deselect', function (data) {
+				general.halfPriv.groups.forSend = data.groups.forSend;
+				general.halfPriv.groups.forView = data.groups.forView;
+				general.halfPriv.users.forSend = data.users.forSend;
+			});
+			confirmation.on('gave_access', function (d) {
+				if (d === 'counter') {
+					counterTree.resetToolbar(false);
+				} else if (d === 'record') {
+					recordTree.resetToolbar(false);
+				}
+				instance.publish('audio_time', 'success');
+			});
+			confirmation.on('gave_access_fail', function () {
+				instance.publish('audio_time', 'error');
+			});
+		},
+		start = function () {
+			instantiate();
+			defEvt();
+			defCusEvt();
 		};
-	}())),
-	initialize = function () {
-		if (a.general.currentUser.permissions.recordsMaster === true) {
-			$('.mgmt #fn-record-tree').removeClass('no-display');
-			$('.mgmt #fn-record-list').removeClass('no-display');
-		}
-	},
-	defEvt = function () {
-		a.autoc.defEvt('.mgmt');
-		//profile.makeAutocomplete('mgmt-autocomplete_1');
 		
-		//a.adminList.defEvt();
-		a.mgmt.adminList = instantiateLister('#fn-counter-list');
-		a.mgmt.userList = instantiateLister('#fn-record-list');
-		
-		confirmation.defEvt();
-	};
+		instance.start = start;
+		return instance;
+	}());
 	
 	return {
-		profile: profile,
-		instantiateLister: instantiateLister,
-		tree: tree,
-		confirmation: confirmation,
-		initialize: initialize,
-		defEvt: defEvt
+		mediator: mediator
 	};
 }()),
 manager = (function () {
@@ -2066,7 +3477,9 @@ manager = (function () {
 		
 	},
 	profile = (function () {
-		var update = function (user) {
+		var instance = util.extend( instantiatePubsub() ),
+		
+		updateUi = function (user) {
 			if (typeof user.photo === 'string') {
 				$('.manager .fn-profile-img').attr({ src: user.photo });
 			}
@@ -2076,7 +3489,7 @@ manager = (function () {
 			$('.manager .fn-profile-title').html( user.title );
 			$('.manager .fn-profile-phone').html(  user.number );
 		},
-		reset = function () {
+		resetUi = function () {
 			var img = $.parseHTML(  util.getCommentsInside('.manager .profile-img')[0].nodeValue.trim()  ); 
 			$('.manager .fn-autoc-input')			.val('');
 			$('.manager .fn-profile-img')			.attr({ src: $(img).attr('src') });
@@ -2086,13 +3499,9 @@ manager = (function () {
 			$('.manager .fn-profile-title')			.html( '' );
 			$('.manager .fn-profile-phone')			.html(  '' );
 		},
-		setVars = function (rdyUser) {
-			general.profileUser = rdyUser.username;
-		},
-		callback = function (rdyUser) {
-			setVars(rdyUser);
-			reset();
-			update(rdyUser);
+		resetAndUpdateUi = function (rdyUser) {
+			resetUi();
+			updateUi(rdyUser);
 		},
 		makeAjax = function (username) {
 			$.ajax({
@@ -2109,25 +3518,27 @@ manager = (function () {
 				}
 			})
 			.done(function ( data, textStatus, jqXHR ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				$('.manager .settings-overlay').addClass('no-display');
 				var user = data[0][username],
 					rdyUser = a.general.formatUserInfo(user);
-				callback(rdyUser);
-				settings.makeAjax();
+				resetAndUpdateUi(rdyUser);
+				instance.publish('update', rdyUser);
+				
 			}).fail(function (data, errorTitle, errorDetail) {
 				alertify.error('AcUsername failed<br />'+errorTitle+'<br />'+errorDetail);
 				$('.manager .settings-overlay').addClass('no-display');
 			});
 		};
-		return {
-			reset: reset,
-			callback: callback,
-			makeAjax: makeAjax
-		};
+		
+		instance.resetUi = resetUi;
+		instance.resetAndUpdateUi = resetAndUpdateUi;
+		instance.makeAjax = makeAjax;
+		return instance;
 	}()),
-	userList = (function () {
-		var createHtml = function (arr) {
+	usersList = (function () {
+		var instance = util.extend( instantiatePubsub() ),
+		createHtml = function (arr) {
 			var baseHtml = '',
 				els = [],
 				tr,
@@ -2146,7 +3557,7 @@ manager = (function () {
 				$('.fn-userlist > tbody').append(i);
 			});
 		},
-		reset = function () {
+		resetUi = function () {
 			$('.fn-userlist > tbody').empty();
 		},
 		makeAjax = function () {
@@ -2158,7 +3569,7 @@ manager = (function () {
 			data = {
 				action: urls.actions.GET_USERS_WITH_PERMISSION_LIST,
 				session: a.general.currentSession
-			}
+			};
 			if (dropdownVal === 0) {
 				perms = "ANY";
 			} else if (dropdownVal === 1) {
@@ -2181,7 +3592,7 @@ manager = (function () {
 				}
 			})
 			.done(function ( data ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				//if (  !data[0]['taslimi-p'] ) { alert('data came back messed up'); }
 				var response = data[0],
 					arr = [];
@@ -2201,7 +3612,7 @@ manager = (function () {
 				$('.manager .fn-update_admin_list > i').removeClass('fa-spin');
 			});
 		},
-		userItem = function (e) {
+		itemClicked = function (e) {
 			if ( $('.manager .fn-userlist_item').hasClass('disabled') ) { return; }
 			$.ajax({
 				url: urls.mainUrl,
@@ -2218,13 +3629,12 @@ manager = (function () {
 				}
 			})
 			.done(function ( data, textStatus, jqXHR ) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				$('.manager .fn-userlist_item').removeClass('disabled');
 				$('.manager .settings-overlay').addClass('no-display');
 				var user = data[0][$(e.target).data().username],
 					rdyUser = a.general.formatUserInfo(user);
-				profile.callback(rdyUser);
-				settings.makeAjax(rdyUser.username);
+				instance.publish('submit', rdyUser);
 			})
 			.fail(function (data, errorTitle, errorDetail) {
 				alertify.error('GetUserInfo failed<br />'+errorTitle+'<br />'+errorDetail);
@@ -2232,23 +3642,22 @@ manager = (function () {
 				$('.manager .settings-overlay').addClass('no-display');
 			});
 		},
-		userList = function () {
+		updateList = function () {
 			if ( $(this).hasClass('disabled') ) { return; }
 			makeAjax();
 		},
 		refresh = function () {
-			userList();
+			updateList();
 		},
 		defEvt = function () {
-			$('.manager .fn-update_userlist').on('click', userList);
-			$('.manager .fn-userlist').on('click .fn-userlist_item', userItem);
+			$('.manager .fn-update_userlist').on('click', updateList);
+			$('.manager .fn-userlist').on('click .fn-userlist_item', itemClicked);
 		};
 		
-		return {
-			reset: reset,
-			refresh: refresh,
-			defEvt : defEvt
-		};
+		instance.resetUi = resetUi;
+		instance.refresh = refresh;
+		instance.defEvt = defEvt;
+		return instance;
 	}()),
 	settings = (function () {
 		var
@@ -2309,7 +3718,7 @@ manager = (function () {
 				session: a.general.currentSession,
 				username: general.profileUser,
 				permission: perms.join(',')
-			}
+			};
 			if (state === false) {
 				data.action = urls.actions.ADD_USER_PERMISSION;
 				
@@ -2317,7 +3726,7 @@ manager = (function () {
 				data.action = urls.actions.DEL_USER_PERMISSION;
 			}
 			done = function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				if (data[0].result) {
 					target.removeClass('nonechecked allchecked somechecked');
 					if (state === false) {
@@ -2358,7 +3767,7 @@ manager = (function () {
 			$('.manager .fn-settings-checkbox').prop('checked', false);
 			toCheckArr.forEach(function (i) {
 				var item = $('#'+i);
-				item.prop('checked', true)
+				item.prop('checked', true);
 				adjustSubgroups( item );
 			});
 		},
@@ -2374,7 +3783,7 @@ manager = (function () {
 				}
 			})
 			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				check(data[0]);
 			})
 			.fail(function () {
@@ -2396,7 +3805,7 @@ manager = (function () {
 				data.action = urls.actions.DEL_USER_PERMISSION;
 			}
 			done = function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				$('.manager .settings-overlay').addClass('no-display');
 				if (data[0].result) {
 					//alertify.success(data[0].result);
@@ -2438,7 +3847,9 @@ manager = (function () {
 			});
 		},
 		delPerm = function (perm, target) {
-			if (target.attr('id') === 'PERM_SET_PERMISSION' && general.profileUser === a.general.currentUser.username) {
+			var id = target.attr('id');
+			if ( general.profileUser === a.general.currentUser.username &&
+					(id === 'PERM_SET_PERMISSION' || id === 'PERM_GET_PERMISSION') ) {
 				confirmation.show(changePerm, {
 					addremove: false,
 					perm: perm,
@@ -2497,13 +3908,13 @@ manager = (function () {
 		},
 		setCallback = function (fn, obj) {
 			callback = fn;
-			parameters = obj
+			parameters = obj;
 		},
 		show = function (okFn, pars) {
 			setCallback(okFn, pars);
 			$('#modal3').openModal({
 				dismissible: false,
-				opacity: .5,
+				opacity: 0.5,
 				in_duration: 300,
 				out_duration: 200,
 				ready: function() {
@@ -2525,28 +3936,54 @@ manager = (function () {
 		settings.reset();
 	},
 	initialize = function () {
-		userList.refresh();
+		usersList.refresh();
 		settings.initialize();
 	},
-	defEvt = function () {
-		a.autoc.defEvt('.manager');
-		userList.defEvt();
-		settings.defEvt();
-		confirmation.defEvt();
-	};
+	mediator = (function () {
+		var instance = util.extend( instantiatePubsub() ),
+		
+		defEvt = function () {
+			//a.autoc.defEvt('.manager');
+			a.manager.autoc = a.instantiateAutoComp('.manager', profile.makeAjax);
+			usersList.defEvt();
+			settings.defEvt();
+			confirmation.defEvt();
+		},
+		defCusEvt = function () {
+			a.tab.on('manager', function () {
+				//autoc.setCurrent('.manager', manager.profile.makeAjax, manager.profile);
+				//a.manager.reset();
+				//a.manager.userList.refresh();
+			});
+			profile.on('update', function (user) {
+				general.profileUser = user.username;
+				settings.makeAjax();
+			});
+			usersList.on('submit', function (user) {
+				general.profileUser = user.username;
+				profile.resetAndUpdateUi(user);
+				settings.makeAjax(user.username);
+			});
+			
+		},
+		start = function () {
+			defEvt();
+			defCusEvt();
+			initialize();
+		};
+		
+		instance.start = start;
+		return instance;
+	}());
 	
 	return {
-		reset: reset,
-		profile: profile,
-		userList: userList,
-		settings: settings,
-		confirmation: confirmation,
-		initialize: initialize,
-		defEvt: defEvt
+		mediator: mediator
 	};
 }()),
 emailer = (function () {
-	var
+	var monthpicker,
+		theTree,
+	
 	general = {
 		treeStructure: [],
 		allNodes: [],
@@ -2561,7 +3998,7 @@ emailer = (function () {
 		selectedDate: '',
 		currentYear: 0,
 		recipient: '',
-		specificSend: false
+		specificSend: true
 	},
 	updateProfile = function (user) {
 		if (typeof user.photo === 'string') {
@@ -2572,6 +4009,22 @@ emailer = (function () {
 		$('.emailer .fn-profile-email').html(  user.email );
 		$('.emailer .fn-profile-title').html( user.title );
 		$('.emailer .fn-profile-phone').html(  user.number );
+	},
+	instantiateTreeEmailer = function (root, treeSelector, toolbarItemsSelector) {
+		var baseTree = instantiateTree(root, treeSelector, toolbarItemsSelector),
+			instance = util.extend( baseTree ),
+		
+		setToolbar = function (full) {
+			if (typeof full === 'undefined' || typeof full !== 'boolean') { throw new Error(instance.getObjName()+'resetToolbar(): A boolean argument is necessary.'); }
+			if (full === true) {
+				instance.toolbarItems.removeClass('disabled'); 	// enable
+			} else if (full === false) {
+				instance.toolbarItems.addClass('disabled');		// disable
+			}
+		};
+		
+		instance.setToolbar = setToolbar;
+		return instance;
 	},
 	tree = (function () {
 		var useJstree = function (divId, treeStructure) {
@@ -2696,37 +4149,15 @@ emailer = (function () {
 			});
 		},
 		loadTree = function () {	
-			$('#jstree_emailer').remove();
+			//$('#jstree_emailer').remove();
 			$('#fn-jstree_emailer-parent').append( $.parseHTML('<div id="jstree_emailer"></div>') );
 			
-			/*$.ajax({
-				url : urls.mainUrl,
-				type : 'GET',
-				dataType : 'json',
-				data : {
-					action: urls.actions.GET_GROUPS,
-					session: a.general.currentSession,
-					base: '0',
-					version: '2'	// 1= without icon	2= with icon
-				}
-			})
-			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
-				var treeStructure = data[0];
-				useJstree('jstree_emailer', treeStructure);
-				treeStructure.forEach(function (i) {
-					general.allNodes.push(i.id);
-				});
-			})
-			.fail(function ( data, errorTitle, errorDetail ) {
-				alertify.error('Getgroups failed<br />'+errorTitle+'<br />'+errorDetail);
-			});*/
-			var treeStructure = a.general.treeStructure;
+			/*var treeStructure = a.general.treeStructure;
 			useJstree('jstree_emailer', treeStructure);
 			treeStructure.forEach(function (i) {
 				general.allNodes.push(i.id);
 			});
-			evt('jstree_emailer');
+			evt('jstree_emailer');*/
 		};
 		
 		return {
@@ -2763,9 +4194,10 @@ emailer = (function () {
 				data.recipient = general.recipient;
 			} else if ( util.isEmptyString(general.recipient) ) {
 				data.recipient = inputVal;
-			}/* else { inputVal is not going to be empty anymore since it got initialized during page load
-				recipient = general.currentUser.username;
-			}*/
+			}
+			// else { inputVal is not going to be empty anymore since it got initialized during page load
+			//	recipient = general.currentUser.username;
+			// }
 			
 			$.ajax({
 				url: urls.mainUrl,
@@ -2776,7 +4208,7 @@ emailer = (function () {
 					$('.progress-bar').removeClass('no-opacity');
 					$('.fn-progress-main-msg').text('در حال بررسی...');
 					
-					$('#jstree_emailer').jstree(true).disable_node(general.allNodes);
+					theTree.disableAll();
 					$('#fn-mp-input').attr({disabled: true});
 					$('.fn-us-input').attr({disabled: true});
 					$('.fn-radio').attr({disabled: true});
@@ -2785,7 +4217,7 @@ emailer = (function () {
 				}
 			})
 			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				var response = data[0],
 					error = '';
 				if (response.jobid) {
@@ -2816,7 +4248,7 @@ emailer = (function () {
 					'<p>' + message + '</p>' );
 			$('#modal2').openModal({
 				dismissible: false,
-				opacity: .5,
+				opacity: 0.5,
 				in_duration: 300,
 				out_duration: 200,
 				ready: function () {
@@ -2845,7 +4277,11 @@ emailer = (function () {
 			
 			
 			if (general.recipient) {
-				message += general.recipient;
+				if (general.recipient === '_ToOwner_') {
+					message += 'صاحبان آنها';
+				} else {
+					message += general.recipient;
+				}
 			} else if ( (!general.recipient  ||  util.isEmptyString(general.recipient)) && !util.isEmptyString(inputVal) ) {
 				message += inputVal;
 			} else {
@@ -2958,7 +4394,7 @@ emailer = (function () {
 			// secondBtn.attr({disabled: true});
 			// $('.fn-treetoolbar').attr({disabled: true});
 			
-			confirmation.main(general.selectedNodes.groupNames, general.selectedNodes.users)
+			confirmation.main(general.selectedNodes.groupNames, general.selectedNodes.users);
 			
 		},
 		updatingDelayed = function () {
@@ -2978,7 +4414,7 @@ emailer = (function () {
 				}
 			})
 			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
+				if (sessionInvalid(data[0])) { return; }
 				var status = data[0].status;
 				callback(status);
 			})
@@ -3022,7 +4458,7 @@ emailer = (function () {
 				$('.fn-progress-main-msg').text(msgMain);
 				$('.fn-progress-msg').text(msgRemain);
 				$('.fn-remaining').removeClass('hidden');
-				arr = status.split('/')
+				arr = status.split('/');
 				remainingItems = parseInt(arr[1], 10) - parseInt(arr[0], 10);
 				$('.fn-remaining').text(remainingItems);
 				updatingDelayed();
@@ -3036,7 +4472,7 @@ emailer = (function () {
 			secondClicked = false;
 			alertify[logType](logMsg);
 			$('.progress-bar').addClass('no-opacity');
-			$('#jstree_emailer').jstree(true).enable_node(general.allNodes);
+			theTree.enableAll();
 			firstBtn.attr({disabled: false});
 			firstBtn.removeClass('button-action');
 			firstBtn.addClass('button-caution');
@@ -3085,29 +4521,15 @@ emailer = (function () {
 			callback: callback
 		};
 	}()),
-	monthpicker = (function () {
+	monthpickerOld = (function () {
 		var currentYear = parseInt( $('.fn-mp-year').text(), 10 ),
-		initialize = function () {
-			$.ajax({
-				url: urls.mainUrl,
-				type: 'GET',
-				dataType: 'json',
-				data: {
-					action: urls.actions.GET_DATE
-				}
-			})
-			.done(function (data) {
-				if (sessionTimedout(data[0])) { return; }
-				var response = data[0],
-					month = response.month.number +'',
-					year = response.year.full +'';
-				general.selectedDate = year + month;
-				general.currentYear = response.year.full;
-				$('#fn-mp-input').val( year.slice(-2) + '/' + month);
-			})
-			.fail(function () {
-				alertify.error('GetDate failed.');
-			});
+		initialize = function (date) {
+			var month = date.month.number +'',
+				year = date.year.full +'';
+			
+			general.selectedDate = year + month;
+			general.currentYear = date.year.full;
+			$('#fn-mp-input').val( year.slice(-2) + '/' + month);
 		},
 		show = function (e) {
 			e.stopPropagation();
@@ -3161,7 +4583,7 @@ emailer = (function () {
 			return (cond) ? true : false;
 		},
 		unsetRecep = function () {
-			var userInputVal = $('.fn-us-input').val()
+			var userInputVal = $('.fn-us-input').val();
 			general.recipient = '';
 			if ( util.isEmptyString(userInputVal) ) {
 				buttons.disableBoth();
@@ -3172,14 +4594,17 @@ emailer = (function () {
 		},
 		main = function () {
 			var id = $(this).attr('id');
-			if ( id === 'self-radio' ) {
+			if ( id === 'self-radio' || id === 'ebillingvoip' ) {
 				general.specificSend = false;
-				general.recipient = a.general.currentUser.username;
+				if ( id === 'self-radio' ) {
+					general.recipient = '_ToOwner_';
+				} else if ( id === 'ebillingvoip' ) {
+					general.recipient = 'ebillingvoip';
+				}
 				$('.fn-us-input').val('');
 				$('.fn-us-input').attr({disabled: true});
 				if ( general.selectedNodes.userCount !== 0 ) {
 					$('#fn-submit-first').removeClass('disabled');
-					
 				}
 			} else if ( id === 'user-select-radio' ) {
 				general.recipient = '';
@@ -3198,67 +4623,260 @@ emailer = (function () {
 		};
 	}()),
 	initialize = function (user) {
-		updateProfile( a.general.formatUserInfo(user) );
-		a.general.currentUser.username = user.username;
-		a.general.currentUser.email = user.email;
+		updateProfile(user);
 		general.recipient = a.general.currentUser.username;
 		$('.fn-us-input').val(a.general.currentUser.username);
 		
 		//tree.loadTree(); in mgmt
-		
-		
-		a.emailer.monthpicker.initialize();
+		//a.emailer.monthpicker.initialize();
 		
 	},
-	defEvt = function () {
-		a.mgmt.profile.makeAutocomplete('emailer-autocomplete_1');
-		a.autoc.defEvt('.emailer');//a.autoc.defEvt();
+	mediator = (function () {
+		var instance = util.extend( instantiatePubsub() ),
+		instantiate = function () {
+			theTree = instantiateTreeEmailer('.emailer', '#jstree_emailer', '.fn-treetoolbar');
+			monthpicker = instantiateMonthpicker('.emailer');
+			
+			a.emailer.theTree = theTree;
+			a.emailer.monthpicker = monthpicker;
+		},
+		defEvt = function () {
+			//a.mgmt.profile.makeAutocomplete('emailer-autocomplete_1');
+			//a.autoc.defEvt('.emailer');//a.autoc.defEvt();
+			a.emailer.autoc = a.instantiateAutoComp('.emailer');
+			
+			$('.fn-radio').on('click', userSelect.main);
+			$('.fn-us-input').on('keyup', userSelect.unsetRecep);
+			
+			$('#fn-submit-first').on('click', buttons.first);
+			$('#fn-submit-second').on('click', buttons.second);
+			
+			//monthpicker
+			//$('body').on('click', monthpicker.hide);
+			//$('#fn-mp-input').on('click', monthpicker.show);
+			//$('.fn-month').on('click', monthpicker.main);
+			//$('.fn-mp-next').on('click', monthpicker.next);
+			//$('.fn-mp-prev').on('click', monthpicker.prev);
+			
+			
+			$('#modal2 button').on('click', confirmation.callback);
+		},
+		defCusEvt = function () {
+			a.mediator.on('fullStrucLoaded', function () {
+				//tree.loadTree();
+				//$('#fn-jstree_emailer-parent').append( document.createElement('div') ); // I don't why, but without this, recheck keeps hanging
+				theTree.setStruc(a.general.treeStructure);
+				theTree.refresh();
+				theTree.setToolbar(true);
+			});
+			a.mediator.on('gotDate', function (d) {
+				monthpicker.initialize(d);
+			});
+			a.session.on('valid', function (d) {
+				initialize(d);
+			});
+			a.tab.on('emailer', function () {
+				//autoc.setCurrent('.emailer');
+			});
+			monthpicker.on('select', function (data) {
+				general.selectedDate = data;
+			});
+			theTree.on('select_deselect', function (data) {
+				general.selectedNodes.users = data.users.forSend;
+				general.selectedNodes.userCount = data.userCount;
+				general.selectedNodes.groups = data.groups.forSend;
+				general.selectedNodes.groupNames = data.groups.forView;
+				
+				if ( theTree.selectedCount() === 0 ) {
+					buttons.changeFirstBtn(false);
+				} else {
+					buttons.changeFirstBtn(true);
+				}
+			});
+			theTree.on('deselect_all', function (data) {
+				buttons.disable();
+			});
+		},
+		start = function () {
+			instantiate();
+			defEvt();
+			defCusEvt();
+		};
 		
-		$('.fn-radio').on('click', a.emailer.userSelect.main);
-		$('.fn-us-input').on('keyup', a.emailer.userSelect.unsetRecep);
-		
-		$('#fn-submit-first').on('click', a.emailer.buttons.first);
-		$('#fn-submit-second').on('click', a.emailer.buttons.second);
-		
-		$('body').on('click', a.emailer.monthpicker.hide);
-		$('#fn-mp-input').on('click', a.emailer.monthpicker.show);
-		$('.fn-month').on('click', a.emailer.monthpicker.main)
-
-		$('.fn-mp-next').on('click', a.emailer.monthpicker.next);
-		$('.fn-mp-prev').on('click', a.emailer.monthpicker.prev);
-		
-		$('#modal2 button').on('click', confirmation.callback);
-	};
-	return {
-		updateProfile: updateProfile,
-		tree: tree,
-		buttons: buttons,
-		monthpicker: monthpicker,
-		userSelect: userSelect,
-		initialize: initialize,
-		defEvt: defEvt
-	};
-}());
-
-var test = util.extend(pubsub, (function () {
-	var a = function () {
-		
-		return this.getSubscribers();
-	};
+		instance.start = start;
+		return instance;
+	}());
 	
 	return {
-		a: a
+		mediator: mediator
 	};
-}()));
+}()),
+reporting = (function () {
+	var datepick,
+	
+	mediator = (function () {
+		var instantiate = function () {
+			datepick = instantiateDatepicker('.reporting');
+			a.reporting.datepick = datepick;
+		},
+		defEvt = function () {
+			
+		},
+		defCusEvt = function () {
+			a.mediator.on('gotDate', function (d) {
+				datepick.initialize(d);
+			});
+			
+		},
+		start = function () {
+			instantiate();
+			defEvt();
+			defCusEvt();
+		};
+		
+		return {
+			start: start
+		};
+	}());
+	
+	return {
+		mediator: mediator
+	};
+}()),
+mediator = (function () {
+	var instance = util.extend( instantiatePubsub() ),
+	
+	sessioncheckCallback = function (user) {
+		$('body').removeClass('preloading');
+		$('.header').removeClass('no-display');
+		$('.content').removeClass('no-display');
+		$('.footer').removeClass('no-display');
+			
+		currentUser.updateProfile(user);
+		currentUser.setVars(user);
+		
+		$('.my-preloader').addClass('no-display');
+		
+		start(); // start assinging, binding, instantiating, etc
+		role.determine();
+	},
+	checkSession = function () {
+		session.check(sessioncheckCallback);
+	},
+	getDate = function () {
+		$.ajax({
+			url: urls.mainUrl,
+			type: 'GET',
+			dataType: 'json',
+			data: {
+				action: urls.actions.GET_DATE
+			}
+		})
+		.done(function (data) {
+			if (sessionInvalid(data[0])) { return; }
+			instance.publish('gotDate', data[0]);
+		})
+		.fail(function () {
+			alertify.error('GetDate failed.');
+		});
+	},
+	getFullTreeStruc = function () {
+		$.ajax({
+			url: urls.mainUrl,
+			type : 'GET',
+			dataType : 'json',
+			data : {
+				action: urls.actions.GET_GROUPS,
+				session: a.general.currentSession,
+				base: '0',
+				version: '2'
+			}
+		})
+		.done(function (data) {
+			if (sessionInvalid(data[0])) { return; }
+			a.general.treeStructure = data[0];
+			instance.publish('fullStrucLoaded');
+		})
+		.fail(function ( data, errorTitle, errorDetail ) {
+			alertify.error('Getgroups failed<br />'+errorTitle+'<br />'+errorDetail);
+		});
+	},
+	defEvt = function () {
+		a.initializeMaterial();
+		$('.fn-tablink').on('click', a.tab.change);
+		$('.fn-logout').on('click', a.misc.logout);
+		$(document).on('keydown', function (e) {
+			if ( $('.lean-overlay').length !== 0 && e.which === 27 ) {
+				$('.modal:visible .fn-closemodal').trigger('click');
+			}
+		});
+		$('.fn-themebtn').on('click', function (e) {
+			var target = $(e.target),
+				el = $('html');
+				
+			el.attr('class', '');
+			
+			if ( target.hasClass('fn-theme1') ) {
+				
+			} else if ( target.hasClass('fn-theme2') ) {
+				
+				el.addClass('theme');
+				
+			} else if ( target.hasClass('fn-theme3') ) {
+				
+				el.addClass('themeBlue');
+				
+			}
+		});
+		$('.fn-soundbtn').on('click', function () {
+			$(this).toggleClass('red');
+			audio.toggleOnOff();
+		});
+		help.defEvt();
+	},
+	defCusEvt = function () {
+		role.on('determined', function (data) {
+			if (data.serviceAdmin || data.emailer) {
+				getFullTreeStruc();
+			}
+			getDate();
+		});
+		instance.on('gotDate', function (d) {
+			a.misc.time(d);
+		});
+		tab.on('change', function () {
+			audio.play('tabchange');
+		});
+		mgmt.mediator.on('audio_time', function (d) {
+			audio.play(d);
+		});
+		
+	},
+	start = function () {
+		defEvt();
+		defCusEvt();
+		mgmt.mediator.start();
+		emailer.mediator.start();
+		manager.mediator.start();
+		reporting.mediator.start();
+	};
+	
+	instance.start = start;
+	instance.checkSession = checkSession;
+	return instance;
+}());
+
 
 return {
+	instantiateAutoComp: instantiateAutoComp,
+	instantiateMonthpicker: instantiateMonthpicker,
 	urls: urls,
 	util: util,
 	general: general,
 	initializeMaterial: initializeMaterial,
-	tabs: tabs,
-	checkSession: checkSession,
-	sessionTimedout: sessionTimedout,
+	tab: tab,
+	session: session,
+	sessionInvalid: sessionInvalid,
 	currentUser: currentUser,
 	role: role,
 	autoc: autoc,
@@ -3267,6 +4885,8 @@ return {
 	manager: manager,
 	mgmt: mgmt,
 	emailer: emailer,
-	test: test
+	reporting: reporting,
+	mediator: mediator,
+	t: instantiateMonthpicker('.reporting')
 };
 }());

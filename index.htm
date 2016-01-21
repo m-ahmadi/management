@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-	<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+	<link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
 	
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/materialize.css" />
@@ -17,12 +17,12 @@
 	<link rel="stylesheet" type="text/css" href="css/alertify.core.css" />
 	<link rel="stylesheet" type="text/css" href="css/alertify.default.css" />
 	<link rel="stylesheet" type="text/css" href="css/buttons.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css" /> -->
 	
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<title>سامانه مدیریت</title>
 </head>
 <body class="preloading">
-
 <div class="my-preloader">
 	<h2>در حال بررسی وضعیت ورود...</h2>
 	
@@ -97,7 +97,7 @@
 		<div class="header-leftdata">
 			<h1 class="header-userinfo">
 				<span class="fn-current_user-fullnamefa"></span>&nbsp;-&nbsp;
-				<a class="fn-logout" href="">خروج از سایت</a>
+				<a class="fn-logout" href="#">خروج از سایت</a>
 			</h1>
 			<!-- <h4 class="fn-current_user-title"></h4> -->
 			<h2 class="header-date hidden">
@@ -114,9 +114,16 @@
 				<span class="fn-fadate-monthname"></span>&zwnj;ماه
 				<span class="fn-fadate-year"></span>
 			</h2>
+			
+			<!-- <button class="btn themebtn yellow fn-showhelp" style="color:black;">راهنما</button> -->
+			<button class="btn themebtn soundbtn red fn-soundbtn"><i class="fa fa-bullhorn fa-lg"></i></button>
+			<button class="btn themebtn blue darken-2 fn-themebtn fn-theme3">blyel</button>
+			<button class="btn themebtn pink darken-4 fn-themebtn fn-theme2">purp</button>
+			<button class="btn themebtn teal fn-themebtn fn-theme1">def</button>
 		</div>
 	</div>
 </header>
+
 <div class="content no-display">
 	<!-- sideNav -->
 	<!-- <ul id="slide-out" class="side-nav right">
@@ -132,7 +139,10 @@
 			<li class="fn-manager-tab_link no-display">      <button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="3"><span class="fa fa-check-square-o fa-lg"></span> مدیریت</button></li>
 			<li class="fn-service_admin-tab_link no-display"><button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="1"><span class="fa fa-asterisk fa-lg"></span> مدیر سامانه</button></li>
 			<li class="fn-local_admin-tab_link no-display">  <button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="2"><span class="fa fa-th-list fa-lg"></span> مدیر محلی</button></li>
-			<li class="fn-emailer-tab_link lefty no-display"><button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="4"><span class="fa fa-envelope fa-lg"></span> ارسال قبض</button></li>
+			<li class="">                                    <button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="5"><span class="fa fa-cog fa-lg"></span> test</button></li>
+			<!-- <li class="lefty">                                <a href="beta" class="btn waves-effect waves-light navitem" style="color:red;">                        <span class="fa fa-plane fa-lg"></span> نسخه بتا</a></li> -->
+			<li class="lefty">                               <button class="btn waves-effect waves-light navitem fn-tablink"         data-tab="6"><span class="fa fa-question-circle fa-lg"></span> راهنما</button></li>
+			<li class="fn-emailer-tab_link lefty no-display"><button class="btn waves-effect waves-light navitem fn-tablink "        data-tab="4"><span class="fa fa-envelope fa-lg"></span> ارسال قبض</button></li>
 			<li class="lefty">                               <a      class="btn waves-effect waves-light navitem" href="/app">  <span class="fa fa-area-chart fa-lg"></span> سامانه گزارش گیری</a></li>
 		</ul>
 	</nav>
@@ -142,6 +152,10 @@
 				<!-- <div class="mainpanel-header">
 					<h2 class="fn-mainpanel-roletitle">خانه</h2>
 				</div> -->
+			
+			
+			
+			
 			</div>
 		</div>
 		
@@ -286,7 +300,7 @@
 								</div>
 							</div>
 							<!-- <div id="jstree_demo_div" class="hidden treeroot"></div> -->
-							
+							<div id="jstree_demo_div" class="hidden treeroot"></div>
 						</div>
 						
 					</div>
@@ -336,6 +350,7 @@
 								</div>
 							</div>
 							<!-- <div id="jstree_demo_div_2" class="hidden treeroot"></div> -->
+							<div id="jstree_demo_div_2" class="hidden treeroot"></div>
 						</div>
 					</div>
 				</div>
@@ -359,7 +374,6 @@
 			
 			</div>
 		</div>
-		
 		<div class="tab-item tab2 no-display"></div>
 		<div class="tab-item tab3 manager no-display">
 			<div class="mainpanel">
@@ -458,7 +472,7 @@
 								<div class="settings-overlay no-display">
 								
 									<div class="preloader-wrapper big active">
-										<div class="spinner-layer">
+										<div class="spinner-layer manager-preloader">
 											<div class="circle-clipper left">
 												<div class="circle"></div>
 											</div>
@@ -854,7 +868,7 @@
 							<br />
 							<input id="fn-mp-input" class="mp-input" type="text" value="">
 							
-							<div class="monthpicker hidden opacity-none">
+							<div class="monthpicker no-display">
 								<div class="mp-header">
 									<button class="btn waves-effect waves-light mp-next fn-mp-next">&lt;</button>
 									<h4 class="mp-year"><span class="fn-mp-year">1394</span></h4>
@@ -925,28 +939,327 @@
 								<input name="group1" type="radio" id="self-radio" class="fn-radio"/>
 								<label for="self-radio">ارسال به صاحبان</label>
 							</div>
+							<div style="clear:both"></div>
+							<div>
+								<input name="group1" type="radio" id="ebillingvoip" class="fn-radio"/>
+								<label for="ebillingvoip">loopback</label>
+							</div>
 							
 						</div>
 						
 						<div style="clear:both;"></div>
 						
 						<div class="emailer-tree-wrap" id="fn-jstree_emailer-parent">
-							<div id="jstree_emailer" class=""></div>
+							<div id="jstree_emailer"></div>
 						</div>
 						
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		
+		<div class="tab-item tab5 reporting no-display">
+			<div class="mainpanel">
+				<div class="rightpanel">
+					<div class="subpanel profile">
+						<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> مشخصات</div>
+						<div class="subpanel-body">
+							<div class="profile-wrap">
+								<div class="profile-img">
+									<!-- <img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture"/> -->
+									<img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture"/>
+								</div>
+								<table class="profile-table">
+									<tr>
+										<th><span class="glyphicon glyphicon-user"></span> نام</th>
+										<td class="fn-profile-firstname"></td>
+									</tr>
+									<tr>
+										<th><span class="glyphicon glyphicon-info-sign"></span> نام خانوادگی</th>
+										<td class="fn-profile-lastname"></td>
+									</tr>
+									<tr>
+										<th><span class="glyphicon glyphicon-envelope"></span> ایمیل</th>
+										<td class="fn-profile-email"></td>
+									</tr>
+									<tr>
+										<th><span class="glyphicon glyphicon-file"></span> سمت</th>
+										<td class="fn-profile-title"></td>
+									</tr>
+									<tr>
+										<th><span class="glyphicon glyphicon-earphone"></span> تلفن</th>
+										<td class="fn-profile-phone">
+											<button class="btn waves-light"><span class="fa fa-list"></span> گزارش </button>
+											<button class="btn waves-light"><span class="fa fa-area-chart"></span> نمودار</button>
+										</td>
+									</tr>
+									<tr>
+										<th><span class="fa fa-fax fa-lg"></span> فکس</th>
+										<td class="fn-profile-fax">
+											<button class="btn waves-light"><span class="fa fa-list"></span> گزارش</button>
+											<button class="btn waves-light"><span class="fa fa-area-chart"></span> نمودار</button>
+										</td>
+									</tr>
+									<tr>
+										<th><span class="fa fa-skype fa-lg"></span> اسکایپ</th>
+										<td class="fn-profile-uc">
+											<button class="btn waves-light"><span class="fa fa-list"></span> گزارش</button>
+											<button class="btn waves-light"><span class="fa fa-area-chart"></span> نمودار</button>
+										</td>
+									</tr>
+									<tr>
+										<th></th>
+										<td>
+											<button class="btn waves-light"><span class="fa fa-list"></span> گزارش همه</button>
+										</td>
+										
+									</tr>
+									
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="leftpanel">
+					<div class="subpanel datasec">
+						<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> گزارش مکالمات و ارتباطات</div>
+						<div class="subpanel-body">
+							
+							<div class="mp-wrap">
+								<label for="fn-mp-input">انتخاب ماه</label>
+								<br />
+								<input id="fn-mp-input" class="mp-input" type="text" value="">
+								
+								<div class="monthpicker no-display">
+									<div class="mp-header">
+										<button class="btn waves-effect waves-light mp-next fn-mp-next">&lt;</button>
+										<h4 class="mp-year"><span class="fn-mp-year">1394</span></h4>
+										<button class="btn waves-effect waves-light mp-prev fn-mp-prev">&gt;</button>
+									</div>
+									<div class="mp-body">
+										<table>
+											<tr>
+												<td class="fn-month spring" data-val="01"><a>فروردین</a></td>
+												<td class="fn-month spring" data-val="02"><a>اردیبهشت</a></td>
+												<td class="fn-month spring" data-val="03"><a>خرداد</a></td>
+											</tr>
+											<tr>
+												<td class="fn-month summer" data-val="04"><a>تیر</a></td>
+												<td class="fn-month summer" data-val="05"><a>مرداد</a></td>
+												<td class="fn-month summer" data-val="06"><a>شهریور</a></td>
+											</tr>
+											<tr>
+												<td class="fn-month fall" data-val="07"><a>مهر</a></td>
+												<td class="fn-month fall" data-val="08"><a>آبان</a></td>
+												<td class="fn-month fall" data-val="09"><a>آذر</a></td>
+											</tr>
+											<tr>
+												<td class="fn-month winter" data-val="10"><a>دی</a></td>
+												<td class="fn-month winter" data-val="11"><a>بهمن</a></td>
+												<td class="fn-month winter" data-val="12"><a>اسفند</a></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						
+							<div class="datepicker">
+								<input class="dp-input fn-dp-input" type="text">
+								
+								<div class="box">
+									<div class="dp-header">
+										<button class="btn waves-effect waves-light dp-hdbtn dp-next fn-dp-next">&lt;</button>
+										<button class="btn waves-effect waves-light dp-hdbtn dp-currsec fn-dp-currsec">
+											<span class="fn-dp-currmonth"></span>
+											<span class="fn-dp-curryear"></span>
+										</button>
+										<button class="btn waves-effect waves-light dp-hdbtn dp-prev fn-dp-prev">&gt;</button>
+									</div>
+									<div class="dp-body">
+										<table class="dp-content dp-days">
+											<!-- <tr>
+												<th class="dp-weekday">ش</th>
+												<th class="dp-weekday">ی</th>
+												<th class="dp-weekday">د</th>
+												<th class="dp-weekday">س</th>
+												<th class="dp-weekday">چ</th>
+												<th class="dp-weekday">پ</th>
+												<th class="dp-weekday">ج</th>
+											</tr> -->
+											<tr>
+												<td class="btn fn-day" data-val="1">01</td>
+												<td class="btn fn-day" data-val="2">02</td>
+												<td class="btn fn-day" data-val="3">03</td>
+												<td class="btn fn-day" data-val="4">04</td>
+												<td class="btn fn-day" data-val="5">05</td>
+												<td class="btn fn-day" data-val="6">06</td>
+												<td class="btn fn-day" data-val="7">07</td>
+											</tr>
+											<tr>
+												<td class="btn fn-day" data-val="8">08</td>
+												<td class="btn fn-day" data-val="9">09</td>
+												<td class="btn fn-day" data-val="10">10</td>
+												<td class="btn fn-day" data-val="11">11</td>
+												<td class="btn fn-day" data-val="12">12</td>
+												<td class="btn fn-day" data-val="13">13</td>
+												<td class="btn fn-day" data-val="14">14</td>
+											</tr>
+											<tr>
+												<td class="btn fn-day" data-val="15">15</td>
+												<td class="btn fn-day" data-val="16">16</td>
+												<td class="btn fn-day" data-val="17">17</td>
+												<td class="btn fn-day" data-val="18">18</td>
+												<td class="btn fn-day" data-val="19">19</td>
+												<td class="btn fn-day" data-val="20">20</td>
+												<td class="btn fn-day" data-val="21">21</td>
+											</tr>
+											<tr>
+												<td class="btn fn-day" data-val="22">22</td>
+												<td class="btn fn-day" data-val="23">23</td>
+												<td class="btn fn-day" data-val="24">24</td>
+												<td class="btn fn-day" data-val="25">25</td>
+												<td class="btn fn-day" data-val="26">26</td>
+												<td class="btn fn-day" data-val="27">27</td>
+												<td class="btn fn-day" data-val="28">28</td>
+											</tr>
+											<tr>
+												<td class="btn fn-day" data-val="29">29</td>
+												<td class="btn fn-day fn-dp-day30" data-val="30">30</td>
+												<td class="btn fn-day fn-dp-day31" data-val="31">31</td>
+												<td class="btn">00</td>
+												<td class="btn">00</td>
+												<td class="btn">00</td>
+												<td class="btn">00</td>
+											</tr>
+										</table>
+										<table class="dp-content dp-months no-display">
+											<tr>
+												<td class="fn-month spring btn" data-val="1">فروردین</td>
+												<td class="fn-month spring btn" data-val="2">اردیبهشت</td>
+												<td class="fn-month spring btn" data-val="3">خرداد</td>
+											</tr>
+											<tr>
+												<td class="fn-month summer btn" data-val="4">تیر</td>
+												<td class="fn-month summer btn" data-val="5">مرداد</td>
+												<td class="fn-month summer btn" data-val="6">شهریور</td>
+											</tr>
+											<tr>
+												<td class="fn-month fall btn" data-val="7">مهر</td>
+												<td class="fn-month fall btn" data-val="8">آبان</td>
+												<td class="fn-month fall btn" data-val="9">آذر</td>
+											</tr>
+											<tr>
+												<td class="fn-month winter btn" data-val="10">دی</td>
+												<td class="fn-month winter btn" data-val="11">بهمن</td>
+												<td class="fn-month winter btn" data-val="12">اسفند</td>
+											</tr>
+										</table>
+									</div>
+									<div class="dp-footer">
+										<button class="btn waves-effect waves-light fn-dp-clear">پاک کردن</button>
+										<button class="btn waves-effect waves-light fn-dp-today">امروز</button>
+									</div>
+								</div>
+							</div>
+						
+						
+						
+						
+						
+						
+						
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="tab-item tab6 hlp no-display">
+			<div class="mainpanel">
+				<div class="wrap">
+					<nav>
+						<div class="nav-subgroup">
+							<a href="#" class="helpnav fn-hlpnav" id="access_relations">Access Relations</a>
+						</div>
+						<div class="nav-subgroup">
+							<h1>Access Managements</h1>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="access_managements_group_manager">Group Manager</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="access_managements_local_admin">Local Admin</a>
+						</div>
+						<div class="nav-subgroup">
+							<h1>Permission Managements</h1>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permission_managements_group_manager">Group Manager</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permission_managements_local_admin">Local Admin</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permission_managements_service_admin">Service Admin</a>
+						</div>
+						<div class="nav-subgroup">
+							<h1>Permissions and Accesses</h1>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permissions_and_accesses_group_manager">Group Manager</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permissions_and_accesses_local_admin">Local Admin</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permissions_and_accesses_service_admin">Service Admin</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="permissions_and_accesses_users">Users</a>
+							
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="service_admin_and_group_manager">Service Admin and Group Manager</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="service_admin_and_local_admin">Service Admin and Local Admin</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="service_admin_and_local_admin_and_group_manager">Service/Local Admin and Group Manager</a>
+							<a href="#" class="helpnav hlp-indented fn-hlpnav" id="local_admin_and_group_manager">Local Admin and Group Manager</a>
+							
+						</div>
+						
+					</nav>
+					<div class="fn-hlp-svgroot">
+						<!-- images/svg/ -->
+					</div>
+					<div class="svgs">
+						<img class="fn-helpimg" src="images/svg/access_relations.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/access_managements_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/access_managements_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/local_admin_and_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permission_managements_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permission_managements_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permission_managements_service_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_service_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_users.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/service_admin_and_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/service_admin_and_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/service_admin_and_local_admin_and_group_manager.svg" alt=""/>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	<div>
+
+	<div class="mymodals">
 		<div id="modal1" class="modal">
+			<div class="fn-cnfr-item-template">
+				<!-- <div class="fn-cnfr-item"></div> -->
+			</div>
 			<div class="modal-content">
+				<h1 class="fn-cnfr-counter fn-cnfr-hiddenable">تغییر دسترسی کانترها</h1>
+				<h1 class="fn-cnfr-record fn-cnfr-hiddenable">تغییر دسترسی رکوردها</h1>
+				<p>شما می خواهید
+					<span class="fn-cnfr-singular fn-cnfr-hiddenable">دسترسی </span>
+					<span class="fn-cnfr-plural fn-cnfr-hiddenable">دسترسی های </span>زیر را به&nbsp;&nbsp;
+					<span class="fn-cnfr-user bold"></span>&nbsp;&nbsp;بدهید:<br /><br />
+				</p>
+				
+				<p>
+					<span class="bold">کاربران :</span>
+					<div class="items-wrap fn-cnfr-userscontainer"></div>
+				</p>
+				<p>
+					<span class="bold">پوشه ها :</span>
+					<div class="items-wrap fn-cnfr-folderscontainer"></div>
+				</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn waves-effect waves-light ">انجام بده</button>
-				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">برگرد</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat fn-closemodal">برگرد</a>
 			</div>
 		</div>
 		<div id="modal2" class="modal">
@@ -954,7 +1267,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn waves-effect waves-light ">انجام بده</button>
-				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">برگرد</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat fn-closemodal">برگرد</a>
 			</div>
 		</div>
 		<div id="modal3" class="modal">
@@ -964,20 +1277,101 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn waves-effect waves-light ">انجام بده</button>
-				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">برگرد</a>
+				<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat fn-closemodal">برگرد</a>
 			</div>
 		</div>
 		<div id="modal4" class="modal">
 			<div class="modal-content">
-				<h1>مدت زمان بیکاری شما از حد مجاز گذشته است.</h1>
+				<div class="fn-sesinv-idle fn-sesinv-msg no-display">
+					<h1>مدت زمان بیکاری شما از حد مجاز گذشته است.</h1>
+				</div>
+				<div class="fn-sesinv-relogin fn-sesinv-msg no-display">
+					<h1>ورود شما بی اعتبار شده است.</h1>
+				</div>
 				<p>شما بابد دوباره وارد سایت شوید.</p>
 			</div>
 			<div class="modal-footer">
-				<button class="btn waves-effect waves-light ">برو</button>
+				<button class="btn waves-effect waves-light fn-closemodal">برو</button>
 			</div>
 		</div>
+		<div id="modal5" class="modal help">
+			<div class="modal-content">
+				<div class="wrap">
+					<nav>
+						<div class="nav-subgroup">
+							<a href="#" class="helpnav" id="access_relations">access_relations</a>
+						</div>
+						<div class="nav-subgroup">
+							<h1>Access Managements</h1>
+							<a href="#" class="helpnav" id="access_managements_group_manager">group_manager</a>
+							<a href="#" class="helpnav" id="access_managements_local_admin">local_admin</a>
+						</div>
+						<div class="nav-subgroup">
+							<h1>Permission Managements</h1>
+							<a href="#" class="helpnav" id="permission_managements_group_manager">group_manager</a>
+							<a href="#" class="helpnav" id="permission_managements_local_admin">local_admin</a>
+							<a href="#" class="helpnav" id="permission_managements_service_admin">service_admin</a>
+						</div>
+						<div class="nav-subgroup">
+							<h1>Permissions and Accesses</h1>
+							<a href="#" class="helpnav" id="permissions_and_accesses_group_manager">group_manager</a>
+							<a href="#" class="helpnav" id="permissions_and_accesses_local_admin">local_admin</a>
+							<a href="#" class="helpnav" id="permissions_and_accesses_service_admin">service_admin</a>
+							<a href="#" class="helpnav" id="permissions_and_accesses_users">users</a>
+							
+							<a href="#" class="helpnav" id="service_admin_and_group_manager">service_admin_and_group_manager</a>
+							<a href="#" class="helpnav" id="service_admin_and_local_admin">service_admin_and_local_admin</a>
+							<a href="#" class="helpnav" id="service_admin_and_local_admin_and_group_manager">service_admin_and_local_admin_and_group_manager</a>
+							<a href="#" class="helpnav" id="local_admin_and_group_manager">local_admin_and_group_manager</a>
+							
+						</div>
+						
+					</nav>
+					<div class="fn-hlp-svgroot"><!--
+						images/svg/
+					--></div>
+					<div class="svgs">
+						<img class="fn-helpimg" src="images/svg/access_relations.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/access_managements_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/access_managements_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/local_admin_and_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permission_managements_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permission_managements_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permission_managements_service_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_service_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/permissions_and_accesses_users.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/service_admin_and_group_manager.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/service_admin_and_local_admin.svg" alt=""/>
+						<img class="fn-helpimg no-display" src="images/svg/service_admin_and_local_admin_and_group_manager.svg" alt=""/>
+						
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a class="modal-action modal-close waves-effect waves-green btn-flat fn-closemodal">بستن</a>
+			</div>
+		</div>
+		
+		
+	</div>
+	<div class="audios">
+		<audio class="fn-audio-success">
+			<source src="media/success.mp3" type="audio/ogg">
+			<source src="media/success.mp3" type="audio/mpeg">
+		</audio>
+		<audio class="fn-audio-error">
+			<source src="media/error.mp3" type="audio/ogg">
+			<source src="media/error.mp3" type="audio/mpeg">
+		</audio>
+		<audio class="fn-audio-tabchange">
+			<source src="media/tabchange.mp3" type="audio/ogg">
+			<source src="media/tabchange.mp3" type="audio/mpeg">
+		</audio>
 	</div>
 </div>
+
 <footer class="footer no-display">
 	<ul>
 		<li>شهرداری تهران</li>
@@ -985,16 +1379,14 @@
 		<li><a href="/cgi-bin/oauth2/privacy" target="_blank">درباره ما</a></li>
 	</ul>
 </footer>
-
-
-
 <script type="text/javascript" src="js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/lib/materialize.min.js"></script>
 <script type="text/javascript" src="js/lib/jstree.min.js"></script>
-<script type="text/javascript" src="js/lib/bootbox.min.js"></script>
 <script type="text/javascript" src="js/lib/alertify.js"></script>
 <script type="text/javascript" src="js/lib/base64.min.js"></script>
+<!-- <script type="text/javascript" src="js/lib/chartist.min.js"></script> -->
+<script type="text/javascript" src="js/lib/Chart.js"></script>
 
 <script type="text/javascript" src="js/fn.js"></script>
 <script type="text/javascript" src="js/main.js"></script>

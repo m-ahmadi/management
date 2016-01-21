@@ -1,0 +1,11 @@
+core.settings.data.forEach id
+disableAll	1878.4750000000058 milliseconds.
+enableAll	2000.3700000000244 milliseconds.
+
+setStruc allNodes
+disableAll	2031.7250000000004 milliseconds.
+enableAll	2021.2549999999974 milliseconds.
+
+core.settings.data.forEach obj
+disableAll	1951.9750000000022 milliseconds.
+enableAll	1999.1299999999974 milliseconds.

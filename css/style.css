@@ -135,7 +135,7 @@ input[type=text] {
       max-height: 40px;
       border-radius: 50px;
       border: 1px solid #ddd;
-      box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5); }
+      box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5); }
     .autoc .item-wrap .autoc-data {
       float: right;
       width: 93.2%;
@@ -159,6 +159,65 @@ input[type=text] {
     background: rgba(150, 150, 255, 0.5); }
   .autoc .focused .autoc-data-left > p:last-child {
     color: #555555; }
+
+.mp-wrap {
+  position: relative;
+  float: right;
+  margin-bottom: 10px;
+  z-index: 5; }
+  .mp-wrap .mp-input {
+    width: initial;
+    height: initial;
+    background-color: white;
+    margin: 0; }
+  .mp-wrap .monthpicker {
+    position: absolute;
+    width: 300px;
+    background: white; }
+    .mp-wrap .monthpicker .mp-header {
+      background: white;
+      float: right;
+      width: 100%; }
+      .mp-wrap .monthpicker .mp-header .btn {
+        border-radius: 0; }
+      .mp-wrap .monthpicker .mp-header .mp-next {
+        float: right; }
+      .mp-wrap .monthpicker .mp-header .mp-year {
+        float: right;
+        margin: 10px 58px; }
+      .mp-wrap .monthpicker .mp-header .mp-prev {
+        float: left; }
+    .mp-wrap .monthpicker .mp-body {
+      float: right;
+      width: 100%;
+      background: white; }
+      .mp-wrap .monthpicker .mp-body table * {
+        text-align: center !important; }
+        .mp-wrap .monthpicker .mp-body table * td {
+          border-radius: 0;
+          padding: 20px 10px;
+          transition: background-color .4s; }
+          .mp-wrap .monthpicker .mp-body table * td:hover {
+            cursor: pointer; }
+        .mp-wrap .monthpicker .mp-body table * td.spring:hover {
+          background-color: #98FF53; }
+        .mp-wrap .monthpicker .mp-body table * td.summer:hover {
+          background-color: #FFFE6D; }
+        .mp-wrap .monthpicker .mp-body table * td.fall:hover {
+          background-color: #FFB381; }
+        .mp-wrap .monthpicker .mp-body table * td.winter:hover {
+          background-color: #65C2FF; }
+      .mp-wrap .monthpicker .mp-body li {
+        float: right;
+        width: 100%; }
+      .mp-wrap .monthpicker .mp-body a {
+        color: black; }
+      .mp-wrap .monthpicker .mp-body .btn, .mp-wrap .monthpicker .mp-body .btn-flat {
+        height: initial;
+        line-height: initial;
+        padding: 10px 10px; }
+  .mp-wrap .selected {
+    background: #FF007B; }
 
 .header {
   font-family: "Mj_Beirut_Lt_X3", "Yekan", Tahoma;
@@ -187,6 +246,9 @@ input[type=text] {
     margin-top: 10px;
     margin-right: 9em;
     margin-bottom: 1em; }
+    @media screen and (min-width: 2300px) {
+      .header .header-right {
+        margin-right: 13em; } }
     @media screen and (max-width: 2300px) {
       .header .header-right {
         margin-right: 11em; } }
@@ -286,6 +348,13 @@ input[type=text] {
   font-size: 13px; }
 .modal .larger {
   font-size: 20px; }
+.modal .bold {
+  font-weight: bold; }
+
+.mymodals #modal1 .items-wrap {
+  padding: 5px 0;
+  margin: 5px 20px 5px 0;
+  font-size: 13px; }
 
 .content {
   display: inline-block;
@@ -322,7 +391,7 @@ input[type=text] {
     float: right; }
     .tabigation > ul li {
       float: right; }
-  .tabigation button {
+  .tabigation .btn {
     border-radius: 0; }
   .tabigation .btn.disabled, .tabigation .btn:disabled {
     cursor: pointer; }
@@ -372,8 +441,99 @@ input[type=text] {
     width: 90px;
     height: 90px; }
 
+.themebtn {
+  margin-top: 10px;
+  font-size: 10px;
+  height: initial;
+  line-height: initial;
+  padding: 0 5px;
+  text-transform: initial; }
+
+.soundbtn {
+  background: #A9FF82; }
+  .soundbtn:hover {
+    background: #A9FF82; }
+  .soundbtn:focus {
+    background: #A9FF82; }
+  .soundbtn i {
+    color: black;
+    font-size: 19px;
+    vertical-align: -5px; }
+
+.datepicker {
+  position: relative;
+  float: right;
+  z-index: 5; }
+  .datepicker .dp-input {
+    width: initial;
+    height: initial;
+    background-color: white;
+    margin: 0; }
+  .datepicker .box {
+    position: absolute;
+    width: 400px;
+    background: whitesmoke; }
+  .datepicker .dp-header {
+    background: whitesmoke;
+    float: right;
+    width: 100%; }
+    .datepicker .dp-header .btn {
+      border-radius: 0;
+      padding: 0; }
+    .datepicker .dp-header .dp-hdbtn {
+      float: right; }
+    .datepicker .dp-header .dp-next {
+      width: 9.5%;
+      margin-left: 0.5%; }
+    .datepicker .dp-header .dp-currsec {
+      width: 80%; }
+    .datepicker .dp-header .dp-prev {
+      width: 9.5%;
+      margin-right: 0.5%; }
+  .datepicker .dp-body {
+    float: right;
+    width: 100%;
+    background: whitesmoke; }
+  .datepicker .dp-footer {
+    background: whitesmoke; }
+  .datepicker table {
+    margin: 5px 0;
+    text-align: center; }
+    .datepicker table th {
+      text-align: center; }
+    .datepicker table td {
+      text-align: center;
+      border-radius: 0;
+      transition: background-color .4s; }
+      .datepicker table td:hover {
+        cursor: pointer; }
+  .datepicker .dp-content .btn, .datepicker .dp-content .btn-flat {
+    display: inline-block;
+    height: initial;
+    line-height: initial; }
+  .datepicker .dp-content td {
+    margin: 1px; }
+  .datepicker .dp-months td {
+    padding: 5px 0;
+    width: 100px; }
+  .datepicker .dp-months .spring:hover {
+    background-color: #98FF53; }
+  .datepicker .dp-months .summer:hover {
+    background-color: #FFFE6D; }
+  .datepicker .dp-months .fall:hover {
+    background-color: #FFB381; }
+  .datepicker .dp-months .winter:hover {
+    background-color: #65C2FF; }
+  .datepicker .dp-days td, .datepicker .dp-days th {
+    padding: 1px 0;
+    width: 45px; }
+  .datepicker .dp-days .dp-weekday {
+    display: inline-block; }
+  .datepicker .selected {
+    background: #FF007B; }
+
 .mgmt .tree-preloader {
-  border-color: #834892; }
+  border-color: #26a69a; }
 .mgmt .rightpanel {
   width: 34.5%;
   float: right;
@@ -416,7 +576,7 @@ input[type=text] {
 .mgmt .subpanel {
   float: right;
   background: #BBBBBB;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 1%;
   overflow: auto; }
   .mgmt .subpanel .subpanel-header {
@@ -506,12 +666,73 @@ input[type=text] {
   .mgmt .record .subpanel-body {
     padding: 10px; }
 
+.help {
+  width: 90%;
+  max-height: 90%; }
+  .help .modal-content {
+    padding: 10px; }
+  .help .wrap {
+    width: 100%; }
+  .help nav {
+    color: black;
+    background: none;
+    height: initial;
+    line-height: initial;
+    box-shadow: none;
+    width: 30%;
+    float: left;
+    direction: ltr; }
+    .help nav .nav-subgroup {
+      margin: 5px 0; }
+    .help nav h1 {
+      font-size: 15px;
+      margin-bottom: 0; }
+  .help a {
+    display: block;
+    color: blue;
+    text-align: left; }
+  .help .svgs {
+    width: 70%; }
+    .help .svgs img {
+      width: 100%; }
+
+.hlp .wrap {
+  width: 100%;
+  padding: 10px;
+  background: whitesmoke; }
+.hlp nav {
+  color: black;
+  background: none;
+  height: initial;
+  line-height: initial;
+  box-shadow: none;
+  width: 30%;
+  float: left;
+  direction: ltr; }
+  .hlp nav a {
+    color: blue;
+    text-align: left;
+    display: table; }
+  .hlp nav .current_item {
+    color: #ff4081; }
+  .hlp nav .nav-subgroup {
+    margin: 5px 0; }
+  .hlp nav h1 {
+    margin-bottom: 0; }
+  .hlp nav .hlp-indented {
+    margin-left: 20px; }
+.hlp .svgs {
+  width: 70%; }
+  .hlp .svgs img {
+    width: 100%;
+    height: 700px; }
+
 .manager .mainpanel > :nth-child(1) {
   margin-left: 1%; }
 .manager .subpanel {
   float: right;
   background: #BBBBBB;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 1%;
   overflow: auto; }
   .manager .subpanel .subpanel-body {
@@ -591,6 +812,7 @@ input[type=text] {
   width: 100%;
   padding: 10px; }
   .manager .settings .wrap {
+    clear: both;
     width: 100%;
     position: relative;
     overflow-x: hidden; }
@@ -684,7 +906,7 @@ input[type=text] {
   float: right;
   height: 500px;
   background: #BBBBBB;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 1%;
   overflow: auto; }
   .emailer .subpanel .subpanel-header {
@@ -767,7 +989,7 @@ input[type=text] {
         font-size: 22px; }
   .emailer .main .emailer-tree-wrap {
     width: 100%;
-    height: 242px;
+    height: 217px;
     overflow: auto; }
 .emailer .progress-bar {
   float: right;
@@ -794,70 +1016,6 @@ input[type=text] {
   .emailer .progress-bar span {
     float: right;
     margin-top: 10px; }
-.emailer .mp-wrap {
-  position: relative;
-  float: right;
-  margin-bottom: 10px;
-  z-index: 5; }
-  .emailer .mp-wrap .mp-input {
-    width: initial;
-    height: initial;
-    background-color: white;
-    margin: 0; }
-  .emailer .mp-wrap .monthpicker {
-    position: absolute;
-    width: 300px;
-    background: white; }
-    .emailer .mp-wrap .monthpicker .mp-header {
-      background: white;
-      float: right;
-      width: 100%; }
-      .emailer .mp-wrap .monthpicker .mp-header .btn {
-        border-radius: 0; }
-      .emailer .mp-wrap .monthpicker .mp-header .mp-next {
-        float: right; }
-      .emailer .mp-wrap .monthpicker .mp-header .mp-year {
-        float: right;
-        margin: 10px 58px; }
-      .emailer .mp-wrap .monthpicker .mp-header .mp-prev {
-        float: left; }
-    .emailer .mp-wrap .monthpicker .mp-body {
-      float: right;
-      width: 100%;
-      background: white; }
-      .emailer .mp-wrap .monthpicker .mp-body table * {
-        text-align: center !important; }
-        .emailer .mp-wrap .monthpicker .mp-body table * td {
-          border-radius: 0;
-          padding: 20px 10px;
-          transition: background-color .4s; }
-          .emailer .mp-wrap .monthpicker .mp-body table * td:hover {
-            cursor: pointer; }
-        .emailer .mp-wrap .monthpicker .mp-body table * td.spring:hover {
-          background-color: #98FF53; }
-        .emailer .mp-wrap .monthpicker .mp-body table * td.summer:hover {
-          background-color: #FFFE6D; }
-        .emailer .mp-wrap .monthpicker .mp-body table * td.fall:hover {
-          background-color: #FFB381; }
-        .emailer .mp-wrap .monthpicker .mp-body table * td.winter:hover {
-          background-color: #65C2FF; }
-      .emailer .mp-wrap .monthpicker .mp-body li {
-        float: right;
-        width: 100%; }
-      .emailer .mp-wrap .monthpicker .mp-body a {
-        color: black; }
-      .emailer .mp-wrap .monthpicker .mp-body .btn, .emailer .mp-wrap .monthpicker .mp-body .btn-flat {
-        height: initial;
-        line-height: initial;
-        padding: 10px 10px; }
-  .emailer .mp-wrap .hidden {
-    visibility: hidden; }
-  .emailer .mp-wrap .visible {
-    visibility: visible; }
-  .emailer .mp-wrap .opacity-full {
-    opacity: 1; }
-  .emailer .mp-wrap .opacity-none {
-    opacity: 0; }
 .emailer .user-select {
   float: right;
   margin-right: 10px;
@@ -885,12 +1043,83 @@ input[type=text] {
     background: #DADADA; }
   .emailer .user-select .autoc {
     width: 450px;
-    margin: 0px auto; }
+    margin: 0 auto; }
   .emailer .user-select .autoc .items-wrap {
     height: 250px; }
 .emailer label {
   font-size: 100% !important;
   color: black; }
+
+.reporting .mainpanel > :nth-child(1) {
+  margin-left: 1%; }
+.reporting .rightpanel {
+  width: 34.5%;
+  float: right;
+  margin-left: 1%; }
+  @media screen and (max-width: 800px) {
+    .reporting .rightpanel {
+      width: 100%; } }
+  .reporting .rightpanel > :nth-child(1) {
+    width: 100%; }
+.reporting .leftpanel {
+  width: 64.5%;
+  float: right; }
+  @media screen and (max-width: 800px) {
+    .reporting .leftpanel {
+      width: 100%; } }
+.reporting .subpanel {
+  float: right;
+  background: #BBBBBB;
+  border-radius: 3px;
+  margin-bottom: 1%;
+  overflow: auto; }
+  .reporting .subpanel .subpanel-header {
+    background: #5D5D5D;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    font-size: 16px;
+    color: white; }
+    .reporting .subpanel .subpanel-header span[class^=foundicon] {
+      font-size: 21px; }
+    .reporting .subpanel .subpanel-header span[class^=glyphicon] {
+      font-size: 21px;
+      top: 5px; }
+  .reporting .subpanel .subpanel-body {
+    width: 100%;
+    background: #BBBBBB; }
+.reporting .profile .profile-wrap {
+  width: 100%;
+  overflow: auto; }
+.reporting .profile .profile-img {
+  width: 30%;
+  max-width: 30%;
+  margin: 0 auto;
+  display: block; }
+  .reporting .profile .profile-img img {
+    width: 100%;
+    background: white;
+    padding: 4px 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
+    border-radius: 25px; }
+.reporting .profile .profile-table {
+  width: 80%;
+  text-align: center;
+  margin: 10px auto; }
+  .reporting .profile .profile-table tr {
+    width: 100%;
+    text-align: right;
+    border-top: 1px solid #ddd; }
+  .reporting .profile .profile-table th {
+    padding: 5px;
+    text-align: right; }
+  .reporting .profile .profile-table td {
+    padding: 5px;
+    text-align: center; }
+.reporting .datasec {
+  width: 100%;
+  height: 700px; }
 
 .theme body {
   background: #dfdfdf; }
@@ -939,22 +1168,11 @@ input[type=text] {
 .theme .profile table tr {
   border-top: 1px solid #887488; }
 .theme [type="checkbox"].filled-in:checked + label:after {
-  top: 0px;
-  width: 20px;
-  height: 20px;
   border: 2px solid #943973;
-  background-color: #943973;
-  z-index: 0; }
+  background-color: #943973; }
 .theme [type="radio"]:checked + label:after {
-  border-radius: 50%;
   border: 2px solid #943973;
-  background-color: #943973;
-  z-index: 0;
-  -webkit-transform: scale(1.02);
-  -moz-transform: scale(1.02);
-  -ms-transform: scale(1.02);
-  -o-transform: scale(1.02);
-  transform: scale(1.02); }
+  background-color: #943973; }
 .theme input[type=text]:focus:not([readonly]) {
   border-bottom: 1px solid #FF00C8;
   box-shadow: 0 1px 0 0 #FF00C8; }
@@ -962,6 +1180,12 @@ input[type=text] {
   background: #B59BB5;
   border: thin solid #A18AA1;
   border-radius: 10px; }
+.theme .tab-preloader .spinner-layer {
+  border-color: #834892; }
+.theme .tree-preloader {
+  border-color: #834892; }
+.theme .manager-preloader {
+  border-color: #CB00FF; }
 
 .themeBlue body {
   background: #dfdfdf; }
@@ -1010,7 +1234,7 @@ input[type=text] {
 .themeBlue .profile table tr {
   border-top: 1px solid #887488; }
 .themeBlue [type="checkbox"].filled-in:checked + label:after {
-  top: 0px;
+  top: 0;
   width: 20px;
   height: 20px;
   border: 2px solid #943973;

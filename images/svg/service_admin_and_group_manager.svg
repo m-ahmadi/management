@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 612 792" enable-background="new 0 0 612 792" xml:space="preserve">
+<g>
+	<text transform="matrix(0.7878 0 0 1 7.8276 119.0186)" font-family="'Calibri'" font-size="29.4475">Service Admin </text>
+	<text transform="matrix(0.7878 0 0 1 147.4106 119.0186)" font-family="'Calibri'" font-size="29.4475">&amp; </text>
+	<text transform="matrix(0.7878 0 0 1 168.4702 119.0186)" font-family="'Calibri'" font-size="29.4475">Group Manager </text>
+	<text transform="matrix(0.7878 0 0 1 51.7803 373.5449)" font-family="'Calibri'" font-size="22.0857">User as a Service Admin </text>
+	<text transform="matrix(0.7878 0 0 1 224.4321 373.5449)" font-family="'Calibri'" font-size="22.0857">&amp; </text>
+	<text transform="matrix(0.7878 0 0 1 88.023 400.0547)" font-family="'Calibri'" font-size="22.0857">Group Manager</text>
+	
+		<line fill="none" stroke="#CDCDCD" stroke-width="1.3337" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="9.3333,6.6667" x1="246.7" y1="367.4" x2="342.4" y2="275.4"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.3337" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="9.3333,6.6667" x1="245.2" y1="365.5" x2="340.9" y2="274.4"/>
+	<polygon opacity="0.498" fill-rule="evenodd" clip-rule="evenodd" fill="#CDCDCD" points="342.4,128.1 605.5,128.1 605.5,423.5 
+		342.4,423.5 342.4,128.1 	"/>
+	<g>
+		<defs>
+			<polygon id="SVGID_1_" points="342.4,423.5 605.5,423.5 605.5,128.1 342.4,128.1 342.4,423.5 342.4,423.5 			"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  overflow="visible"/>
+		</clipPath>
+		
+			<polyline opacity="0.498" clip-path="url(#SVGID_2_)" fill="none" stroke="#CDCDCD" stroke-width="1.3337" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="9.3333,6.6667" points="
+			342.4,423.5 605.5,423.5 605.5,128.1 342.4,128.1 342.4,423.5 		"/>
+	</g>
+	<g>
+		<defs>
+			<polygon id="SVGID_3_" points="340.9,421.7 604.1,421.7 604.1,126.3 340.9,126.3 340.9,421.7 340.9,421.7 			"/>
+		</defs>
+		<clipPath id="SVGID_4_">
+			<use xlink:href="#SVGID_3_"  overflow="visible" opacity="0.498"/>
+		</clipPath>
+		<g clip-path="url(#SVGID_4_)">
+			<defs>
+				<polygon id="SVGID_5_" points="340,422.7 605.1,422.7 605.1,125.3 340,125.3 340,422.7 				"/>
+			</defs>
+			<clipPath id="SVGID_6_">
+				<use xlink:href="#SVGID_5_"  overflow="visible"/>
+			</clipPath>
+			<g transform="matrix(1 0 0 1 2.367854e-007 -1.808778e-006)" clip-path="url(#SVGID_6_)">
+				
+					<image overflow="visible" width="8" height="4" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEAzwDPAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
+EAMCAwYAAAFpAAABdAAAAZX/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
+Hh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoa
+JjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAAkACQMBIgACEQEDEQH/
+xABeAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAA
+ACARAQAAAAAAAAAAAAAAAAAAACASAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQAAAKAD/9oA
+CAECAAEFAH//2gAIAQMAAQUAf//aAAgBAQABBQCP/9oACAECAgY/AH//2gAIAQMCBj8Af//aAAgB
+AQEGPwAf/9k=" transform="matrix(0.3479 0 0 -0.4416 6.04 705.982)">
+				</image>
+			</g>
+		</g>
+	</g>
+	
+		<polygon fill="none" stroke="#000000" stroke-width="1.3337" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="9.3333,6.6667" points="
+		340.9,421.7 604.1,421.7 604.1,126.3 340.9,126.3 340.9,421.7 340.9,421.7 	"/>
+	<text transform="matrix(0.7878 0 0 1 344.6377 143.6167)" font-family="'Calibri-Bold'" font-size="17.1776">Service Admin Permissions</text>
+	<text transform="matrix(0.7878 0 0 1 495.2393 143.6167)" font-family="'Calibri-Bold'" font-size="17.1776">:</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 164.4395)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 164.4395)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 164.4395)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 164.4395)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 164.4395)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 164.4395)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 164.4395)" font-family="'Calibri'" font-size="17.1776">PERMISSION</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 185.2979)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 185.2979)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 185.2979)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 185.2979)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 185.2979)" font-family="'Calibri'" font-size="17.1776">SET</text>
+	<text transform="matrix(0.7878 0 0 1 420.7119 185.2979)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 427.4502 185.2979)" font-family="'Calibri'" font-size="17.1776">PERMISSION</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 206.1777)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 206.1777)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 206.1777)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 206.1777)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 206.1777)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 206.1777)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 206.1777)" font-family="'Calibri'" font-size="17.1776">USERS</text>
+	<text transform="matrix(0.7878 0 0 1 464.8447 206.1777)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 471.583 206.1777)" font-family="'Calibri'" font-size="17.1776">WITH</text>
+	<text transform="matrix(0.7878 0 0 1 502.0576 206.1777)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 508.7969 206.1777)" font-family="'Calibri'" font-size="17.1776">PERMISSION</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 227.0576)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 227.0576)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 227.0576)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 227.0576)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 227.0576)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 227.0576)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 227.0576)" font-family="'Calibri'" font-size="17.1776">USER</text>
+	<text transform="matrix(0.7878 0 0 1 458.627 227.0576)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 465.3662 227.0576)" font-family="'Calibri'" font-size="17.1776">ADMIN</text>
+	<text transform="matrix(0.7878 0 0 1 505.2354 227.0576)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 511.9736 227.0576)" font-family="'Calibri'" font-size="17.1776">ACCESS</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 247.916)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 247.916)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 247.916)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 247.916)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 247.916)" font-family="'Calibri'" font-size="17.1776">SET</text>
+	<text transform="matrix(0.7878 0 0 1 420.7119 247.916)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 427.4502 247.916)" font-family="'Calibri'" font-size="17.1776">USER</text>
+	<text transform="matrix(0.7878 0 0 1 456.3057 247.916)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 463.0449 247.916)" font-family="'Calibri'" font-size="17.1776">ADMIN</text>
+	<text transform="matrix(0.7878 0 0 1 502.9189 247.916)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 509.6572 247.916)" font-family="'Calibri'" font-size="17.1776">ACCESS</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 268.8037)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 268.8037)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 268.8037)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 268.8037)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 268.8037)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 268.8037)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 268.8037)" font-family="'Calibri'" font-size="17.1776">USERS</text>
+	<text transform="matrix(0.7878 0 0 1 464.8447 268.8037)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 471.583 268.8037)" font-family="'Calibri'" font-size="17.1776">WITH</text>
+	<text transform="matrix(0.7878 0 0 1 502.0576 268.8037)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 508.7969 268.8037)" font-family="'Calibri'" font-size="17.1776">ADMIN</text>
+	<text transform="matrix(0.7878 0 0 1 548.665 268.8037)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 555.4092 268.8037)" font-family="'Calibri'" font-size="17.1776">ACCESS</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 289.6689)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 289.6689)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 289.6689)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 289.6689)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 289.6689)" font-family="'Calibri'" font-size="17.1776">SEND</text>
+	<text transform="matrix(0.7878 0 0 1 431.1768 289.6689)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 437.9141 289.6689)" font-family="'Calibri'" font-size="17.1776">MAIL</text>
+	<text transform="matrix(0.7878 0 0 1 466.4189 289.6689)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 473.1572 289.6689)" font-family="'Calibri'" font-size="17.1776">BILL</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 310.542)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 310.542)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 310.542)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 310.542)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 310.542)" font-family="'Calibri'" font-size="17.1776">RECORDS</text>
+	<text transform="matrix(0.7878 0 0 1 453.3154 310.542)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 460.0557 310.542)" font-family="'Calibri'" font-size="17.1776">MASTER</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 331.2202)" font-family="'Calibri-Bold'" font-size="17.1776">Group Manager Permissions</text>
+	<text transform="matrix(0.7878 0 0 1 503.6885 331.2202)" font-family="'Calibri-Bold'" font-size="17.1776">:</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 352.0356)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 352.0356)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 352.0356)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 352.0356)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 352.0356)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 352.0356)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 352.0356)" font-family="'Calibri'" font-size="17.1776">USER</text>
+	<text transform="matrix(0.7878 0 0 1 458.627 352.0356)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 465.3662 352.0356)" font-family="'Calibri'" font-size="17.1776">INFO</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 372.9014)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 372.9014)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 372.9014)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 372.9014)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 372.9014)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 372.9014)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 372.9014)" font-family="'Calibri'" font-size="17.1776">GROUPS</text>
+	<text transform="matrix(0.7878 0 0 1 476.5098 372.9014)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 483.2461 372.9014)" font-family="'Calibri'" font-size="17.1776">LIST</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 393.7739)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 393.7739)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 393.7739)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 393.7739)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 393.7739)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 393.7739)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 393.7739)" font-family="'Calibri'" font-size="17.1776">COUNTERS</text>
+	<text transform="matrix(0.7878 0 0 1 344.6377 414.6465)" font-family="'SymbolMT'" font-size="17.1776">•</text>
+	<text transform="matrix(0.7878 0 0 1 350.8604 414.6465)" font-family="'SymbolMT'" font-size="17.1776"> </text>
+	<text transform="matrix(0.7878 0 0 1 362.0381 414.6465)" font-family="'Calibri'" font-size="17.1776">PERM</text>
+	<text transform="matrix(0.7878 0 0 1 394.5527 414.6465)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 401.29 414.6465)" font-family="'Calibri'" font-size="17.1776">GET</text>
+	<text transform="matrix(0.7878 0 0 1 423.0293 414.6465)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 429.7725 414.6465)" font-family="'Calibri'" font-size="17.1776">GROUPS</text>
+	<text transform="matrix(0.7878 0 0 1 476.5098 414.6465)" font-family="'Calibri'" font-size="17.1776">_</text>
+	<text transform="matrix(0.7878 0 0 1 483.2461 414.6465)" font-family="'Calibri'" font-size="17.1776">COUNTERS</text>
+	<g>
+		<defs>
+			<path id="SVGID_7_" d="M407.6,440.1l33.3,19.3h-33.3V440.1L407.6,440.1L407.6,440.1z M340.9,440.1v76.4h100v-57.1h-33.3v-19.3
+				H340.9L340.9,440.1L340.9,440.1z"/>
+		</defs>
+		<clipPath id="SVGID_8_">
+			<use xlink:href="#SVGID_7_"  overflow="visible"/>
+		</clipPath>
+		<g clip-path="url(#SVGID_8_)">
+			<defs>
+				<polygon id="SVGID_9_" points="340,517.4 441.7,517.4 441.7,439 340,439 340,517.4 				"/>
+			</defs>
+			<clipPath id="SVGID_10_">
+				<use xlink:href="#SVGID_9_"  overflow="visible"/>
+			</clipPath>
+			<g transform="matrix(1 0 0 1 2.367854e-007 -1.808778e-006)" clip-path="url(#SVGID_10_)">
+				
+					<image overflow="visible" width="8" height="4" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEAzwDPAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
+EAMCAwYAAAFpAAABdAAAAZX/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
+Hh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoa
+JjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAAkACQMBIgACEQEDEQH/
+xABeAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAA
+ACARAQAAAAAAAAAAAAAAAAAAACASAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQAAAKAD/9oA
+CAECAAEFAH//2gAIAQMAAQUAf//aAAgBAQABBQCP/9oACAECAgY/AH//2gAIAQMCBj8Af//aAAgB
+AQEGPwAf/9k=" transform="matrix(0.3479 0 0 -0.4416 6.04 705.982)">
+				</image>
+			</g>
+		</g>
+	</g>
+	
+		<path fill="#D0DDDC" stroke="#A7A7A7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M407.6,440.1l33.3,19.3h-33.3V440.1L407.6,440.1L407.6,440.1z M340.9,440.1v76.4h100v-57.1h-33.3v-19.3H340.9L340.9,440.1
+		L340.9,440.1z"/>
+	<text transform="matrix(0.7878 0 0 1 357.4463 482.6484)" font-family="'Calibri'" font-size="17.1776">View Access </text>
+	<text transform="matrix(0.7878 0 0 1 354.8135 503.2617)" font-family="'Calibri'" font-size="17.1776">Counter type</text>
+	<path opacity="0.498" fill-rule="evenodd" clip-rule="evenodd" fill="#CDCDCD" d="M21.6,359.1c-4.3,2.2-7.1,7.1-7.3,12.7L14,372
+		v5.5l0.3,0.2c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4c0.1,0.8,0.4,1.5,1,1.9c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4
+		c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.2,0v-10.1l0.2-0.4c-0.2-5.5-3.1-10.4-7.3-12.4l-0.1-0.1l0,0l0,0.1
+		c3.1-3.8,3.1-9.8,0-13.6c-3.1-3.8-8.1-3.7-11.2,0C19.5,349.9,19.2,355.2,21.6,359.1l-0.3,0l0,0L21.6,359.1L21.6,359.1z"/>
+	<g>
+		<defs>
+			<path id="SVGID_11_" d="M21.6,359.1c-4.3,2.2-7.1,7.1-7.3,12.7L14,372v5.5l0.3,0.2c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4
+				c0.1,0.8,0.4,1.5,1,1.9c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.2,0
+				v-10.1l0.2-0.4c-0.2-5.5-3.1-10.4-7.3-12.4l-0.1-0.1l0,0l0,0.1c3.1-3.8,3.1-9.8,0-13.6c-3.1-3.8-8.1-3.7-11.2,0
+				C19.5,349.9,19.2,355.2,21.6,359.1l-0.3,0l0,0L21.6,359.1L21.6,359.1z"/>
+		</defs>
+		<clipPath id="SVGID_12_">
+			<use xlink:href="#SVGID_11_"  overflow="visible"/>
+		</clipPath>
+		
+			<path opacity="0.498" clip-path="url(#SVGID_12_)" fill="none" stroke="#CDCDCD" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+			M21.6,359.1c-4.3,2.2-7.1,7.1-7.3,12.7L14,372v5.5l0.3,0.2c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4c0.1,0.8,0.4,1.5,1,1.9
+			c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.2,0v-10.1l0.2-0.4
+			c-0.2-5.5-3.1-10.4-7.3-12.4l-0.1-0.1l0,0l0,0.1c3.1-3.8,3.1-9.8,0-13.6c-3.1-3.8-8.1-3.7-11.2,0
+			C19.5,349.9,19.2,355.2,21.6,359.1"/>
+	</g>
+	<path opacity="0" fill-rule="evenodd" clip-rule="evenodd" fill="#EF1385" d="M20.2,357.3c-4.3,2.2-7.1,7.1-7.3,12.7l-0.3,0.2v5.5
+		l0.4,0.3c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4c0.1,0.8,0.4,1.5,1,1.9c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4
+		c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.2-0.1v-10.1l0.2-0.3c-0.2-5.5-3.1-10.4-7.3-12.4l-0.2-0.1l0,0l0.1,0.1
+		c3.1-3.8,3.1-9.8,0-13.6s-8.1-3.7-11.2,0C18.2,348.1,17.8,353.5,20.2,357.3l0.3,0l0,0L20.2,357.3L20.2,357.3z"/>
+	
+		<path opacity="0" fill="none" stroke="#404040" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M20.2,357.3c-4.3,2.2-7.1,7.1-7.3,12.7l-0.3,0.2v5.5l0.4,0.3c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4c0.1,0.8,0.4,1.5,1,1.9
+		c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.2-0.1v-10.1l0.2-0.3
+		c-0.2-5.5-3.1-10.4-7.3-12.4l-0.2-0.1l0,0l0.1,0.1c3.1-3.8,3.1-9.8,0-13.6s-8.1-3.7-11.2,0C18.2,348.1,17.8,353.5,20.2,357.3"/>
+	<g>
+		<defs>
+			<path id="SVGID_13_" d="M21.6,382.1c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4c0.5,0.6,1.2,0.7,1.7,0.3
+				c1.3-0.8,2.3-2.1,2.9-3.7l-0.3-0.1v-10.1l0.3-0.3c-0.2-5.5-3.1-10.4-7.3-12.4l-0.3-0.1l-11.6-0.9l-0.2,0
+				c-4.3,2.2-7.1,7.1-7.3,12.7l0.3,0.2v5.5l-0.2,0.3c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4C20.7,381,21.1,381.7,21.6,382.1
+				L21.6,382.1z"/>
+		</defs>
+		<clipPath id="SVGID_14_">
+			<use xlink:href="#SVGID_13_"  overflow="visible" opacity="0"/>
+		</clipPath>
+		<g clip-path="url(#SVGID_14_)">
+			<defs>
+				<polygon id="SVGID_15_" points="16.6,386.9 44.8,386.9 44.8,356.4 16.6,356.4 16.6,386.9 				"/>
+			</defs>
+			<clipPath id="SVGID_16_">
+				<use xlink:href="#SVGID_15_"  overflow="visible"/>
+			</clipPath>
+			<g transform="matrix(1 0 0 1 2.367854e-007 -1.808778e-006)" clip-path="url(#SVGID_16_)">
+				
+					<image overflow="visible" width="8" height="4" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEAzwDPAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
+EAMCAwYAAAFpAAABdAAAAZX/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
+Hh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoa
+JjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAAkACQMBIgACEQEDEQH/
+xABeAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAA
+ACARAQAAAAAAAAAAAAAAAAAAACASAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQAAAKAD/9oA
+CAECAAEFAH//2gAIAQMAAQUAf//aAAgBAQABBQCP/9oACAECAgY/AH//2gAIAQMCBj8Af//aAAgB
+AQEGPwAf/9k=" transform="matrix(0.3479 0 0 -0.4416 6.04 705.982)">
+				</image>
+			</g>
+		</g>
+	</g>
+	
+		<path fill="none" stroke="#404040" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M21.6,382.1c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.3-0.1v-10.1
+		l0.3-0.3c-0.2-5.5-3.1-10.4-7.3-12.4 M24.7,357.3c-4.3,2.2-7.1,7.1-7.3,12.7l0.3,0.2v5.5l-0.2,0.3c0,1.5,0.5,3,1.5,3.9
+		c0.5,0.5,1.2,0.7,1.7,0.4c0.1,0.8,0.4,1.5,1,1.9"/>
+	<g>
+		<defs>
+			<path id="SVGID_17_" d="M39,351.5c0-5.3-3.6-9.6-8-9.6s-8,4.3-8,9.6c0,5.3,3.6,9.6,8,9.6S39,356.8,39,351.5L39,351.5z"/>
+		</defs>
+		<clipPath id="SVGID_18_">
+			<use xlink:href="#SVGID_17_"  overflow="visible"/>
+		</clipPath>
+		<g clip-path="url(#SVGID_18_)">
+			<defs>
+				<polygon id="SVGID_19_" points="22.4,362.1 39.7,362.1 39.7,341 22.4,341 22.4,362.1 				"/>
+			</defs>
+			<clipPath id="SVGID_20_">
+				<use xlink:href="#SVGID_19_"  overflow="visible"/>
+			</clipPath>
+			<g transform="matrix(1 0 0 1 2.367854e-007 -1.808778e-006)" clip-path="url(#SVGID_20_)">
+				
+					<image overflow="visible" width="8" height="4" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEAzwDPAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
+EAMCAwYAAAFpAAABdAAAAZX/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
+Hh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoa
+JjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAAkACQMBIgACEQEDEQH/
+xABeAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAA
+ACARAQAAAAAAAAAAAAAAAAAAACASAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQAAAKAD/9oA
+CAECAAEFAH//2gAIAQMAAQUAf//aAAgBAQABBQCP/9oACAECAgY/AH//2gAIAQMCBj8Af//aAAgB
+AQEGPwAf/9k=" transform="matrix(0.3479 0 0 -0.4416 6.04 705.982)">
+				</image>
+			</g>
+		</g>
+	</g>
+	
+		<path fill="none" stroke="#404040" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M39,351.5c0-5.3-3.6-9.6-8-9.6s-8,4.3-8,9.6c0,5.3,3.6,9.6,8,9.6S39,356.8,39,351.5L39,351.5z"/>
+	
+		<path fill="none" stroke="#404040" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M20.6,380.2c-1.8-6.5-1-12.8,2.5-18.2"/>
+	
+		<path fill="none" stroke="#404040" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M39.4,384.6c1.1-6.5,0.7-13-1.2-19.2"/>
+	
+		<path fill="none" stroke="#404040" stroke-width="0.9602" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M24.7,357.1c2.6,4.3,7.6,5.1,11.2,1.9c0.3-0.3,0.6-0.6,0.9-0.9"/>
+	
+		<path fill="#6FAEC6" stroke="#404040" stroke-width="2.6673" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M24.7,357.3c-4.2,2.2-7.1,7.1-7.3,12.7l0.3,0.2v5.5l-0.2,0.3c0,1.5,0.5,3,1.5,3.9c0.5,0.5,1.2,0.7,1.7,0.4c0.1,0.8,0.4,1.5,1,1.9
+		c4.2,2.6,8.8,3.9,13.4,3.8c1.5,0,3-0.5,4.3-1.4c0.5,0.6,1.2,0.7,1.7,0.3c1.3-0.8,2.3-2.1,2.9-3.7l-0.3-0.1V372l0.3-0.2
+		c0.1-5.9-2.8-11.2-7.3-13.4l-0.3-0.1l0,0l0.2,0.1c3.1-3.8,3.1-9.9,0-13.6c-3.1-3.8-8.1-3.7-11.2,0
+		C22.6,348.1,22.3,353.5,24.7,357.3"/>
+	<g>
+		<defs>
+			<path id="SVGID_21_" d="M407.6,533.9l33.3,19.3h-33.3V533.9L407.6,533.9L407.6,533.9z M340.9,533.9v76.4h100v-57.1h-33.3v-19.3
+				H340.9L340.9,533.9L340.9,533.9z"/>
+		</defs>
+		<clipPath id="SVGID_22_">
+			<use xlink:href="#SVGID_21_"  overflow="visible"/>
+		</clipPath>
+		<g clip-path="url(#SVGID_22_)">
+			<defs>
+				<polygon id="SVGID_23_" points="340,611.5 441.7,611.5 441.7,533 340,533 340,611.5 				"/>
+			</defs>
+			<clipPath id="SVGID_24_">
+				<use xlink:href="#SVGID_23_"  overflow="visible"/>
+			</clipPath>
+			<g transform="matrix(1 0 0 1 2.367854e-007 -1.808778e-006)" clip-path="url(#SVGID_24_)">
+				
+					<image overflow="visible" width="8" height="4" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEAzwDPAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
+EAMCAwYAAAFpAAABdAAAAZX/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
+Hh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoa
+JjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAAkACQMBIgACEQEDEQH/
+xABeAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAA
+ACARAQAAAAAAAAAAAAAAAAAAACASAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQAAAKAD/9oA
+CAECAAEFAH//2gAIAQMAAQUAf//aAAgBAQABBQCP/9oACAECAgY/AH//2gAIAQMCBj8Af//aAAgB
+AQEGPwAf/9k=" transform="matrix(0.3479 0 0 -0.4416 6.04 705.982)">
+				</image>
+			</g>
+		</g>
+	</g>
+	
+		<path fill="#D0DDDC" stroke="#A7A7A7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M407.6,533.9l33.3,19.3h-33.3V533.9L407.6,533.9L407.6,533.9z M340.9,533.9v76.4h100v-57.1h-33.3v-19.3H340.9L340.9,533.9
+		L340.9,533.9z"/>
+	<text transform="matrix(0.7878 0 0 1 357.4463 576.6602)" font-family="'Calibri'" font-size="17.1776">View Access </text>
+	<text transform="matrix(0.7878 0 0 1 357.7012 597.2764)" font-family="'Calibri'" font-size="17.1776">Record type</text>
+	
+		<line fill="none" stroke="#CDCDCD" stroke-width="0.3334" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="340.2" y1="569.8" x2="248.1" y2="369.2"/>
+	<path opacity="0.498" fill-rule="evenodd" clip-rule="evenodd" fill="#CDCDCD" d="M342.4,574.4l-5.1-4.6l-0.2,0
+		c1.9-0.2,3.6-1.4,4.6-3.4l-0.1-0.3L342.4,574.4L342.4,574.4L342.4,574.4z"/>
+	
+		<line opacity="0.498" fill="none" stroke="#404040" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="338.8" y1="568" x2="246.7" y2="368.3"/>
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="#404040" d="M340.9,572.6l-5.1-4.6l-0.1,0.1c1.9-0.2,3.6-1.4,4.6-3.4l-0.2-0.3
+		L340.9,572.6L340.9,572.6L340.9,572.6z"/>
+	
+		<line fill="none" stroke="#CDCDCD" stroke-width="0.3334" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="339.5" y1="476.9" x2="248.1" y2="369.2"/>
+	<path opacity="0.498" fill-rule="evenodd" clip-rule="evenodd" fill="#CDCDCD" d="M342.4,479.6l-5.8-1.8l-0.2,0.1
+		c1.8-0.8,3.1-2.7,3.6-5l0.2,0.3L342.4,479.6L342.4,479.6L342.4,479.6z"/>
+	
+		<line opacity="0.498" fill="none" stroke="#404040" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="338" y1="475" x2="246.7" y2="368.3"/>
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="#404040" d="M340.9,477.8l-5.8-1.8l-0.1,0.1c1.8-0.8,3.1-2.7,3.6-5l0.1,0.3
+		L340.9,477.8L340.9,477.8L340.9,477.8z"/>
+	<g>
+		<defs>
+			<path id="SVGID_25_" d="M421.4,626.9l39.9,19.3h-39.9V626.9L421.4,626.9L421.4,626.9z M340.9,626.9v76.4h120.3v-57.1h-39.9v-19.3
+				H340.9L340.9,626.9L340.9,626.9z"/>
+		</defs>
+		<clipPath id="SVGID_26_">
+			<use xlink:href="#SVGID_25_"  overflow="visible"/>
+		</clipPath>
+		<g clip-path="url(#SVGID_26_)">
+			<defs>
+				<polygon id="SVGID_27_" points="340,704.6 461.9,704.6 461.9,626.2 340,626.2 340,704.6 				"/>
+			</defs>
+			<clipPath id="SVGID_28_">
+				<use xlink:href="#SVGID_27_"  overflow="visible"/>
+			</clipPath>
+			<g transform="matrix(1 0 0 1 2.367854e-007 -1.808778e-006)" clip-path="url(#SVGID_28_)">
+				
+					<image overflow="visible" width="8" height="4" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEAzwDPAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
+EAMCAwYAAAFpAAABdAAAAZX/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
+Hh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoa
+JjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAAkACQMBIgACEQEDEQH/
+xABeAAEBAAAAAAAAAAAAAAAAAAAABwEBAAAAAAAAAAAAAAAAAAAAABABAQAAAAAAAAAAAAAAAAAA
+ACARAQAAAAAAAAAAAAAAAAAAACASAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQAAAKAD/9oA
+CAECAAEFAH//2gAIAQMAAQUAf//aAAgBAQABBQCP/9oACAECAgY/AH//2gAIAQMCBj8Af//aAAgB
+AQEGPwAf/9k=" transform="matrix(0.3479 0 0 -0.4416 6.04 705.982)">
+				</image>
+			</g>
+		</g>
+	</g>
+	
+		<path fill="#D0DDDC" stroke="#A7A7A7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M421.4,626.9l39.9,19.3h-39.9V626.9L421.4,626.9L421.4,626.9z M340.9,626.9v76.4h120.3v-57.1h-39.9v-19.3H340.9L340.9,626.9
+		L340.9,626.9z"/>
+	<text transform="matrix(0.7878 0 0 1 346.6592 669.8262)" font-family="'Calibri'" font-size="17.1776">Unrestricted Access </text>
+	<text transform="matrix(0.7878 0 0 1 350.2773 690.4551)" font-family="'Calibri'" font-size="17.1776">(</text>
+	<text transform="matrix(0.7878 0 0 1 354.377 690.4551)" font-family="'Calibri'" font-size="17.1776">as Service Admin</text>
+	<text transform="matrix(0.7878 0 0 1 447.5742 690.4551)" font-family="'Calibri'" font-size="17.1776">)</text>
+	
+		<line fill="none" stroke="#CDCDCD" stroke-width="0.3334" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="340.9" y1="662.8" x2="248.1" y2="367.4"/>
+	<path opacity="0.498" fill-rule="evenodd" clip-rule="evenodd" fill="#CDCDCD" d="M342.4,667.4l-4.3-5.5l-0.3,0.3
+		c1.9,0.2,3.7-0.7,5-2.5l-0.3,0.4V667.4L342.4,667.4L342.4,667.4z"/>
+	
+		<line opacity="0.498" fill="none" stroke="#404040" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="339.5" y1="660.9" x2="246.7" y2="365.5"/>
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="#404040" d="M340.9,665.5l-4.3-5.5l-0.3,0.3c1.9,0.2,3.7-0.7,5-2.5l-0.3,0.3
+		V665.5L340.9,665.5L340.9,665.5z"/>
+</g>
+</svg>
