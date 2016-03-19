@@ -20,6 +20,17 @@
 	<!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css" /> -->
 	
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	
+	
+	
+	<!-- Jasmine -->
+	<!-- <link rel="shortcut icon" type="image/png" href="jasmine-2.4.1/jasmine_favicon.png">
+	<link rel="stylesheet" href="jasmine-2.4.1/jasmine.css">
+	<script src="jasmine-2.4.1/jasmine.js"></script>
+	<script src="jasmine-2.4.1/jasmine-html.js"></script>
+	<script src="jasmine-2.4.1/boot.js"></script> -->
+	<!-- Jasmine -->
+  
 	<title>سامانه مدیریت</title>
 </head>
 <body class="preloading">
@@ -102,10 +113,10 @@
 			<!-- <h4 class="fn-current_user-title"></h4> -->
 			<h2 class="header-date hidden">
 				<span class="header-endate">
-					<span class="fn-endate-dayname">TUESDAY</span>,
-					<span class="fn-endate-daynumber">10</span>
-					<span class="fn-endate-monthname">FEBRUARY</span>,
-					<span class="fn-endate-year">2015</span>
+					<span class="fn-endate-dayname"></span>,
+					<span class="fn-endate-daynumber"></span>
+					<span class="fn-endate-monthname"></span>,
+					<span class="fn-endate-year"></span>
 				</span>
 				
 				<span class="fn-fadate-dayname"></span>
@@ -277,7 +288,7 @@
 					<div class="subpanel-body">
 						
 						<div class="tree-toolbar">
-							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button>
+							<!-- <button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button> -->
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
@@ -300,7 +311,7 @@
 								</div>
 							</div>
 							<!-- <div id="jstree_demo_div" class="hidden treeroot"></div> -->
-							<div id="jstree_demo_div" class="hidden treeroot"></div>
+							<div id="jstree_demo_div" class="no-display treeroot"></div>
 						</div>
 						
 					</div>
@@ -328,7 +339,7 @@
 					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> دسترسی رکورد</div>
 					<div class="subpanel-body">
 						<div class="tree-toolbar">
-							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button>
+							<!-- <button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button> -->
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_demo_div_2-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
@@ -350,7 +361,7 @@
 								</div>
 							</div>
 							<!-- <div id="jstree_demo_div_2" class="hidden treeroot"></div> -->
-							<div id="jstree_demo_div_2" class="hidden treeroot"></div>
+							<div id="jstree_demo_div_2" class="no-display treeroot"></div>
 						</div>
 					</div>
 				</div>
@@ -840,7 +851,7 @@
 					
 					<div class="subpanel-body">
 						<div class="tree-toolbar">
-							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button>
+							<!-- <button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button> -->
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
 							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
@@ -1282,13 +1293,21 @@
 		</div>
 		<div id="modal4" class="modal">
 			<div class="modal-content">
-				<div class="fn-sesinv-idle fn-sesinv-msg no-display">
+				<div class="fn-errs-idle fn-sesinv-msg no-display">
 					<h1>مدت زمان بیکاری شما از حد مجاز گذشته است.</h1>
+					<p>شما باید دوباره وارد سایت شوید.</p>
 				</div>
-				<div class="fn-sesinv-relogin fn-sesinv-msg no-display">
-					<h1>ورود شما بی اعتبار شده است.</h1>
+				<div class="fn-errs-invalid_session fn-sesinv-msg no-display">
+					<h1>اعتبار ورود شما از بین رفته است.</h1>
+					<p>شما باید دوباره وارد سایت شوید.</p>
 				</div>
-				<p>شما بابد دوباره وارد سایت شوید.</p>
+				<div class="fn-errs-permission_denied fn-sesinv-msg no-display">
+					<h1>شما دسترسی لازم را ندارید.</h1>
+					<p>عملیات شکست خورد.</p>
+				</div>
+				<div class="fn-errs-unknown_err fn-sesinv-msg no-display">
+					<p>خطای نامشخص، شما قادر به انجام کاری نخواهید بود، لطفا با پشتیبانی تماس بگیرید.</p>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button class="btn waves-effect waves-light fn-closemodal">برو</button>
