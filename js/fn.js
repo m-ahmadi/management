@@ -1,6 +1,3 @@
-sessionStorage.session = 'xyz';
-sessionStorage.username = 'ershadi-mo';var t;
-
 if (!window.console) { window.console = {}; }
 if (!window.console.log) { window.console.log = function () {}; }
 $.support.cors = true;
@@ -46,7 +43,7 @@ var urls = {
 		return this.FCPNI;
 	},
 	get mainUrl() {
-		return this.mainServer + this.mainScript;
+		return this.mainScript;
 	}
 },
 general = {
@@ -424,7 +421,7 @@ session = (function () {
 			data: {
 				action: urls.actions.GET_USER_INFO
 			},
-			skip: true
+			skip: true	
 		})
 		.done(function (data) {
 			var user = data[0][sessionStorage.username],
@@ -1270,11 +1267,16 @@ instantiateMonthpicker = function (root) {
 			month = 12+'';
 		}
 		
-		selectedDate = year + month;
 		currentYear = date.year.full;
 		months.removeClass('selected');
-		months.filter('[data-val='+month+']').addClass('selected');
-		input.val( year.slice(-2) + '/' + month);
+	    months.filter('[data-val='+month+']').addClass('selected');
+	    if(month < 10) {
+		month = '0' + month + '';
+		console.log(year + "  " + month);
+	    }
+	    input.val( year.slice(-2) + '/' + month);
+	    selectedDate = year + month;
+	    console.log(year + "  " + month);
 		instance.publish('select', selectedDate);
 	},
 	show = function (e) {
@@ -1290,8 +1292,9 @@ instantiateMonthpicker = function (root) {
 	},
 	next = function () {
 		currentYear += 1;
-		if ( currentYear <= yearLimit ) {
-			$('.fn-mp-year').text(''+currentYear);
+	        if ( currentYear <= yearLimit ) {
+		        yearEl.text(currentYear+'');
+			//$('.fn-mp-year').text(''+currentYear);
 		} else {
 			currentYear = yearLimit;
 		}
@@ -1308,7 +1311,8 @@ instantiateMonthpicker = function (root) {
 		
 		months.removeClass('selected');
 		months.filter('[data-val='+month+']').addClass('selected');
-		box.addClass('no-display');
+     	        box.addClass('no-display');
+	    	console.log("selected " + year + "  " + month);
 		instance.publish('select', selectedDate);
 	},
 	defEvt = function () {
@@ -3498,8 +3502,10 @@ mgmt = (function () {
 			type = '',
 			currentTab,
 		
-		getData = function () {
+		callback = function () {
 			var data = {};
+				
+			$('#modal1').closeModal();
 			
 			if (currentTab === 'service_admin') {
 				data.action = urls.actions.SET_USER_ADMIN_ACCESS_LIST;
@@ -3512,13 +3518,10 @@ mgmt = (function () {
 			data.groups = groups.forSend.join(',') || '';
 			data.users = users.forSend.join(',') || '';
 			
-			return data;
-		},
-		makeAjax = function () {
 			ajax({
-				data : getData(),
+				data : data,
 			})
-			.done(function (data) {
+			.done(function ( data, textStatus, jqXHR ) {
 				var status = '', // 'error' || 'success'
 					message = '';
 				
@@ -3598,10 +3601,6 @@ mgmt = (function () {
 				alertify.error('SetUserAdminAccessList failed<br />'+errorTitle+'<br />'+errorDetail);
 				instance.publish('gave_access_fail');
 			});*/
-		},
-		callback = function () {
-			$('#modal1').closeModal();
-			makeAjax();
 		},
 		showMessage = function (title, message) {
 			$('#modal1').openModal({
@@ -4714,8 +4713,7 @@ manager = (function () {
 	};
 }()),
 emailer = (function () {
-	var autoc,
-		monthpicker,
+	var monthpicker,
 		theTree,
 	
 	general = {
@@ -5083,12 +5081,12 @@ emailer = (function () {
 		defEvt = function () {
 			$('#modal2 button').on('click', callback);
 		};
-		
+
 		return {
 			defEvt: defEvt,
 			main: main
 		};
-		
+
 	}()),
 	buttons = (function () {
 		var instance = util.extend( instantiatePubsub() ),
@@ -5299,7 +5297,6 @@ emailer = (function () {
 			firstBtn.addClass('button-caution');
 		};
 		
-		
 		instance.disableBoth = disableBoth;
 		instance.changeFirstBtn = changeFirstBtn;
 		instance.disable = disable;
@@ -5310,14 +5307,24 @@ emailer = (function () {
 		instance.callback = callback;
 		
 		return instance;
+		// return {
+			// disableBoth: disableBoth,
+			// changeFirstBtn: changeFirstBtn,
+			// disable: disable,
+			// first: first,
+			// second: second,
+			// reset: reset,
+			// updating: updating,
+			// callback: callback
+		// };
 	}()),
-	monthpickerOld = (function () {
+	/*monthpickerOld = (function () {
 		var currentYear = parseInt( $('.fn-mp-year').text(), 10 ),
 		initialize = function (date) {
 			var month = date.month.number +'',
 				year = date.year.full +'';
 			
-			general.selectedDate = year + month;
+		    general.selectedDate = year + month;
 			general.currentYear = date.year.full;
 			$('#fn-mp-input').val( year.slice(-2) + '/' + month);
 		},
@@ -5364,7 +5371,7 @@ emailer = (function () {
 			hide: hide,
 			main: main
 		};
-	}()),
+	}())*/
 	userSelect = (function () {
 		var userCount,
 		isInputValid = function () {
@@ -5437,7 +5444,6 @@ emailer = (function () {
 		defEvt = function () {
 			//a.mgmt.profile.makeAutocomplete('emailer-autocomplete_1');
 			//a.autoc.defEvt('.emailer');//a.autoc.defEvt();
-			
 			
 			$('.fn-radio').on('click', userSelect.main);
 			$('.fn-us-input').on('keyup', userSelect.unsetRecep);
