@@ -1170,13 +1170,16 @@ input[type=text] {
         font-size: 22px; }
     .automail .main .subpanel-body #dayinput {
       width: 5%; }
-    .automail .main .subpanel-body #timeselect {
-      width: initial;
+    .automail .main .subpanel-body .timelabel {
+      color: black; }
+    .automail .main .subpanel-body .timecolon {
+      font-size: 22px; }
+    .automail .main .subpanel-body .timepick {
+      background-color: white;
+      width: 50px;
       height: initial;
-      display: inline-block;
-      padding: 0;
-      border: 0;
-      border-radius: 2px; }
+      margin: 0;
+      padding: 0 10px 0 0; }
   .automail .main .automail-tree-wrap {
     width: 100%;
     height: 217px;
@@ -1341,6 +1344,9 @@ input[type=text] {
 .theme input[type=text]:focus:not([readonly]) {
   border-bottom: 1px solid #FF00C8;
   box-shadow: 0 1px 0 0 #FF00C8; }
+.theme input[type=number]:focus:not([readonly]) {
+  border-bottom: 1px solid #FF00C8;
+  box-shadow: 0 1px 0 0 #FF00C8; }
 .theme ::-webkit-scrollbar-thumb {
   background: #B59BB5;
   border: thin solid #A18AA1;
@@ -1416,6 +1422,9 @@ input[type=text] {
   -o-transform: scale(1.02);
   transform: scale(1.02); }
 .themeBlue input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid #FF00C8;
+  box-shadow: 0 1px 0 0 #FF00C8; }
+.themeBlue input[type=number]:focus:not([readonly]) {
   border-bottom: 1px solid #FF00C8;
   box-shadow: 0 1px 0 0 #FF00C8; }
 .themeBlue ::-webkit-scrollbar-thumb {

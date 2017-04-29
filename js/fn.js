@@ -5641,7 +5641,10 @@ automail = (function () {
 			setTimeout(isTreeRdy, 1000);
 		}
 	},
-	createRow = function (p) {
+	formatTime = function (timestamp) {
+		return new Date(timestamp).toTimeString().split(" ")[0].slice(0, -3);
+	},
+	createRow = function (p, preformatted) {
 		var src = $( util.getCommentsInside('#automail_template')[0].nodeValue.trim() );
 		
 		src.attr('data-automailid', p.automailid);
@@ -5658,7 +5661,13 @@ automail = (function () {
 			});
 		}
 		src.find('[data-groups]').html( t );
+		if (preformatted) {
+			src.find('[data-time]').html( p.time );
+		} else {
+			src.find('[data-time]').html( formatTime(parseInt(p.time, 10)) );
+		}
 		src.find('[data-day]').html( p.day );
+		
 		
 		els.table.append(src);
 	},
@@ -5688,7 +5697,7 @@ automail = (function () {
 		
 		d.action = urls.actions.ADD_AUTO_MAIL;
 		d.day = els.input1.val().trim();
-		d.time = 12;
+		d.time = els.hour.val().trim() +":"+ els.min.val().trim();
 		d.users = selected.users.forSend.join(" ");
 		d.groups = selected.groups.forSend.join(" ");
 		d.recipient = general.recipient || els.input2.val();
@@ -5707,9 +5716,10 @@ automail = (function () {
 					recipient:  d.recipient,
 					users:      d.users,
 					groups:     d.groups,
-					day:        d.day
+					day:        d.day,
+					time:       d.time
 				};
-				createRow(p);
+				createRow(p, true);
 				enable();
 				alertify.success("اضافه شد.");
 			} else {
@@ -5785,6 +5795,33 @@ automail = (function () {
 				var j = $(e.target);
 				els.overlay.removeClass('no-display');
 				delAutoMail( j.parent().parent().data('automailid'), j.parent().parent() );
+			});
+			els.nums.on('blur', function () {
+				var val = this.value;
+				if (val === "") {
+					this.value = "00";
+				}
+				if (val.length > 2) {
+					this.value = val.slice(0, 2);
+				}
+			});
+			els.hour.on('input keyup', function () {
+				var val = this.value ? parseInt(this.value, 10) : 0;
+				if (val > 23) {
+					this.value = "23";
+				}
+				if (val < 0) {
+					this.value = "00";
+				}
+			});
+			els.min.on('input keyup', function () {
+				var val = this.value ? parseInt(this.value, 10) : 0;
+				if (val > 59) {
+					this.value = "59";
+				}
+				if (val < 0) {
+					this.value = "00";
+				}
 			});
 		},
 		defCusEvt = function () {

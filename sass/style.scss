@@ -1619,14 +1619,18 @@ input[type=text] {
 			#dayinput {
 				width: 5%;
 			}
-			#timeselect {
-				width: initial;
+			.timelabel {
+				color: black;
+			}
+			.timecolon {
+				font-size: 22px;
+			}
+			.timepick {
+				background-color: white;
+				width: 50px;
 				height: initial;
-				display: inline-block;
-				padding: 0;
-				border: 0;
-				border-radius: 2px;
-				
+				margin: 0;
+				padding: 0 10px 0 0;
 			}
 		}
 		.automail-tree-wrap {
@@ -1897,6 +1901,10 @@ input[type=text] {
 		border-bottom: 1px solid #FF00C8;
 		box-shadow: 0 1px 0 0 #FF00C8;
 	}
+	input[type=number]:focus:not([readonly]) {
+		border-bottom: 1px solid #FF00C8;
+		box-shadow: 0 1px 0 0 #FF00C8;
+	}
 	::-webkit-scrollbar-thumb {
 		background: #B59BB5;
 		border: thin solid #A18AA1;
@@ -2008,6 +2016,10 @@ input[type=text] {
 		transform: scale(1.02);
 	}
 	input[type=text]:focus:not([readonly]) {
+		border-bottom: 1px solid #FF00C8;
+		box-shadow: 0 1px 0 0 #FF00C8;
+	}
+	input[type=number]:focus:not([readonly]) {
 		border-bottom: 1px solid #FF00C8;
 		box-shadow: 0 1px 0 0 #FF00C8;
 	}

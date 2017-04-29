@@ -1020,6 +1020,7 @@
 								<tr>
 									<th>دریافت کننده</th>
 									<th>روز</td>
+									<th>زمان</td>
 									<th>کاربران</th>
 									<th>پوشه ها</th>
 									<th>تنظیمات</td>
@@ -1037,6 +1038,7 @@
 <!-- <tr data-automailid>
 <td data-recipient></td>
 <td data-day class="daycell"></td>
+<td data-time></td>
 <td data-users></td>
 <td data-groups></td>
 <td><button class="button button-caution button-tiny" data-delete>delete</button></td>
@@ -1052,8 +1054,11 @@
 						<label for="dayinput">انتخاب روز</label>
 						<input id="dayinput" type="text" value="" data-el="input1">
 						
-						<!-- <label for="timeselect">انتخاب ساعت</label>
-						<input id="timeselect" type="text" value="" data-el="input3"> -->
+						
+						<label class="timelabel">انتخاب زمان</label>
+						<input type="number" min="0" max="59" value="00" class="timepick" data-el="min" data-els="nums" />
+						<span class="timecolon">:</span>
+						<input type="number" min="0" max="23" value="00" class="timepick" data-el="hour" data-els="nums" />
   
 						<div class="user-select">
 							<div>
