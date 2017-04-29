@@ -2,6 +2,9 @@ if (!window.console) { window.console = {}; }
 if (!window.console.log) { window.console.log = function () {}; }
 $.support.cors = true;
 
+sessionStorage.session = 'xyz';
+sessionStorage.username = 'ershadi-mo';
+
 var a = (function () {
 'use strict';
 var urls = {
@@ -9,6 +12,7 @@ var urls = {
 	SERVER_2: 'http://10.255.135.92',
 	SERVER_3: 'http://100.80.0.177',
 	SERVER_4: 'http://185.4.29.188', // only "cgi-bin/cpni" script on this server
+	SERVER_5: 'http://usvps.joobeen.com',
 	CPNI: '/cgi-bin/cpni',
 	FCPNI: '/fcpni',
 	actions: {
@@ -31,19 +35,22 @@ var urls = {
 		GET_USERS_WITH_PERMISSION: 'GetUsersWithPermission',
 		ADD_USER_PERMISSION: 'AddUserPermission',
 		DEL_USER_PERMISSION: 'DelUserPermission',
+		GET_AUTO_MAIL: 'GetAutoMail',
+		ADD_AUTO_MAIL: 'AddAutoMail',
+		DEL_AUTO_MAIL: 'DelAutoMail',
 		LOGOUT: 'Logout'
 	},
 	get returnUrl() {
 		return window.location.href;
 	},
 	get mainServer() {
-		return this.SERVER_2;
+		return this.SERVER_5;
 	},
 	get mainScript() {
 		return this.FCPNI;
 	},
 	get mainUrl() {
-		return this.mainScript;
+		return this.mainServer + this.mainScript;
 	}
 },
 general = {
@@ -73,6 +80,7 @@ general = {
 	currentTab: 0,
 	authUrl: '',
 	treeStructure: undefined,
+	groups: undefined,
 	localmanagerTreeLoaded: false,
 	formatUserInfo: function (user) {
 		//console.log(arguments.callee.caller.toString());
@@ -196,6 +204,25 @@ util = {
 			});
 		}
 		return result;
+	},
+	getEls: function (root, obj) {
+		var o = {};
+		$(root+" [data-el]").each((i, domEl) => {
+			var jEl = $(domEl);
+			o[ jEl.data("el") ] = jEl; 
+		});
+		$(root+" [data-els]").each((i, domEl) => {
+			var jEl = $(domEl);
+			var k = jEl.data("els");
+			if (!o[k]) {
+				o[k] = $(root+" [data-els="+k+"]");
+			}
+		});
+		if (obj) {
+			obj = o;
+		} else {
+			return o;
+		}
 	},
 	getCommentsInside: function (selector) {
 		return $(selector).contents().filter( function () { return this.nodeType == 8; } );
@@ -5517,6 +5544,293 @@ emailer = (function () {
 		mediator: mediator
 	};
 }()),
+automail = (function () {
+	var autoc, theTree,
+		els,
+		LB = '&#10;',
+		tableInitData = undefined,
+		
+	general = {
+		treeStructure: [],
+		selectedDate: '',
+		recipient: ''
+	},
+	updateProfile = function (user) {
+		if (typeof user.photo === 'string') {
+			$('.automail .fn-profile-img').attr({ src: user.photo });
+		}
+		$('.automail .fn-profile-firstname').html( user.firstname );
+		$('.automail .fn-profile-lastname').html( user.lastname );
+		$('.automail .fn-profile-email').html(  user.email );
+		$('.automail .fn-profile-title').html( user.title );
+		$('.automail .fn-profile-phone').html(  user.number );
+	},
+	instantiateTreeAutomail = function (root, treeSelector, toolbarItemsSelector) {
+		var baseTree = instantiateTree(root, treeSelector, toolbarItemsSelector),
+			instance = util.extend( baseTree ),
+		
+		setToolbar = function (full) {
+			if (typeof full === 'undefined' || typeof full !== 'boolean') { throw new Error(instance.getObjName()+'resetToolbar(): A boolean argument is necessary.'); }
+			if (full === true) {
+				instance.toolbarItems.removeClass('disabled'); 	// enable
+			} else if (full === false) {
+				instance.toolbarItems.addClass('disabled');		// disable
+			}
+		};
+		
+		instance.setToolbar = setToolbar;
+		return instance;
+	},
+	userSelect = (function () {
+		var userCount,
+		isInputValid = function () {
+			var el = els.input2,
+				cond = ( el.prop('disabled') === false   &&
+						!util.isEmptyString( el.val() )  );
+			return (cond) ? true : false;
+		},
+		unsetRecep = function (e) {
+			var userInputVal = e.target.value;
+			general.recipient = '';
+			if ( util.isEmptyString(userInputVal) ) {
+				els.submit.addClass('disabled');
+			} else if ( userCount !== 0 ) {
+				els.submit.removeClass('disabled');
+				
+			}
+		},
+		main = function () {
+			var id = $(this).attr('id');
+			if ( id === 'self-radio1' || id === 'ebillingvoip1' ) {
+				if ( id === 'self-radio1' ) {
+					general.recipient = '_ToOwner_';
+				} else if ( id === 'ebillingvoip1' ) {
+					general.recipient = 'ebillingvoip';
+				}
+				els.input2.val('');
+				els.input2.attr({disabled: true});
+				if ( userCount !== 0 ) {
+					els.submit.removeClass('disabled');
+				}
+			} else if ( id === 'user-select-radio1' ) {
+				general.recipient = false;
+				els.input2.attr({disabled: false});
+				if ( userCount === 0 || !isInputValid() ) {
+					els.submit.addClass('disabled');
+				}
+			}
+		};
+		
+		return {
+			set userCount(v) { userCount = v; },
+			unsetRecep: unsetRecep,
+			main: main
+		};
+	}()),
+	initialize = function (user) {
+		updateProfile(user);
+		general.recipient = a.general.currentUser.username;
+		els.input2.val(a.general.currentUser.username);
+	},
+	isTreeRdy = function () {
+		console.log('checking.......');
+		if (a.general.groups !== undefined) {
+			els.overlay.addClass('no-display');
+			createInitTable(tableInitData);
+		} else {
+			setTimeout(isTreeRdy, 1000);
+		}
+	},
+	createRow = function (p) {
+		var src = $( util.getCommentsInside('#automail_template')[0].nodeValue.trim() );
+		
+		src.attr('data-automailid', p.automailid);
+		src.find('[data-recipient]').html( p.recipient );
+		if (p.users) {
+			src.find('[data-users]').html( p.users.split(' ').join(LB) );
+		}
+		var t = '';
+		if (p.groups) {
+			var g = p.groups.split(' ');
+			g.forEach(function (i) {
+				t += a.general.groups[i];
+				t += LB;
+			});
+		}
+		src.find('[data-groups]').html( t );
+		src.find('[data-day]').html( p.day );
+		
+		els.table.append(src);
+	},
+	createInitTable = function (o) {
+		Object.keys(o).forEach(function (i) {
+			createRow( o[i] );
+		});
+	},
+	getAutoMail = function () {
+		ajax({
+			data: {
+				action: urls.actions.GET_AUTO_MAIL
+			}
+		})
+		.done(function (data) {
+			var o = data[0];
+			tableInitData = o;
+			isTreeRdy();
+		})
+		.fail(function () {
+			
+		});
+	},
+	addAutoMail = function () {
+		var d = {};
+		var selected = theTree.getSelected();
+		
+		d.action = urls.actions.ADD_AUTO_MAIL;
+		d.day = els.input1.val().trim();
+		d.time = 12;
+		d.users = selected.users.forSend.join(" ");
+		d.groups = selected.groups.forSend.join(" ");
+		d.recipient = general.recipient || els.input2.val();
+		
+		ajax({
+			data: d
+		})
+		.done(function (data) {
+			var o = data[0];
+			if (o.automailid) {
+				// successfull
+				// ToDo: add row to table
+				// release overlay
+				var p = {
+					automailid: o.automailid,
+					recipient:  d.recipient,
+					users:      d.users,
+					groups:     d.groups,
+					day:        d.day
+				};
+				createRow(p);
+				enable();
+				alertify.success("اضافه شد.");
+			} else {
+				alertify.error("متاسفانه اضافه نشد.");
+			}
+		});
+	},
+	delAutoMail = function (automailid, toRemove) {
+		ajax({
+			data: {
+				action: urls.actions.DEL_AUTO_MAIL,
+				automailid: automailid
+			}
+		})
+		.done(function (data) {
+			var o = data[0];
+			if (o.automailid) {
+				toRemove.remove();
+				els.overlay.addClass('no-display');
+				alertify.success("حذف شد.");
+			} else {
+				alertify.error("متاسفانه خذف نشد.");
+			}
+		});
+	},
+	isInvalid = function () {
+		return (
+			theTree.selectedCount() === 0 ||
+			els.input1.val().length === 0 ||
+			(els.radio1.is(':checked') && els.input2.val().length === 0 )
+		);
+	},
+	disable = function () {
+		els.overlay.removeClass('no-display');
+		els.submit.addClass('disabled');
+		// els.table.find('[data-delete]').addClass("disabled");
+		// theTree.disableAll();
+	},
+	enable = function () {
+		els.overlay.addClass('no-display');
+		els.submit.removeClass('disabled');
+		// els.table.find('[data-delete]').removeClass("disabled");
+		// theTree.enableAll();
+	},
+	mediator = (function () {
+		var instance = util.extend( instantiatePubsub() ),
+		instantiate = function () {
+			autoc = a.instantiateAutoComp('.automail');
+			theTree = instantiateTreeAutomail('.automail', '#jstree_automail', '.fn-treetoolbar');
+			
+			a.automail.autoc = autoc;
+			a.automail.theTree = theTree;
+		},
+		defEvt = function () {
+			els = util.getEls('.automail');
+			
+			els.radios.on('click', userSelect.main);
+			els.input2.on('keyup', userSelect.unsetRecep);
+			els.input1.on('keyup', function () {
+				var val = this.value;
+				general.selectedDate = val;
+				if ( isInvalid() ) {
+					els.submit.addClass('disabled');
+				} else {
+					els.submit.removeClass('disabled');
+				}
+			});
+			els.submit.on('click', function () {
+				disable();
+				addAutoMail();
+			});
+			els.table.on('click', '[data-delete]', function (e) {
+				var j = $(e.target);
+				els.overlay.removeClass('no-display');
+				delAutoMail( j.parent().parent().data('automailid'), j.parent().parent() );
+			});
+		},
+		defCusEvt = function () {
+			a.mediator.on('fullStrucLoaded', function () {
+				theTree.setStruc(a.general.treeStructure);
+				theTree.refresh();
+				theTree.setToolbar(true);
+			});
+			a.mediator.on('gotDate', function (d) {
+				els.input1.val(d.day.monthday.number);
+			});
+			a.session.on('valid', function (d) {
+				initialize(d);
+			});
+			theTree.on('select_deselect', function (data) {
+				userSelect.userCount = theTree.getSelected().userCount;
+				if ( isInvalid() ) {
+					els.submit.addClass('disabled');
+				} else {
+					els.submit.removeClass('disabled');
+				}
+			});
+			theTree.on('deselect_all', function (data) {
+				els.submit.addClass('disabled');
+			});
+			autoc.on('select', function () {
+				if ( !isInvalid() ) {
+					els.submit.removeClass('disabled');
+				}
+			});
+		},
+		start = function () {
+			getAutoMail();
+			instantiate();
+			defEvt();
+			defCusEvt();
+		};
+		
+		instance.start = start;
+		return instance;
+	}());
+	
+	return {
+		mediator: mediator
+	};
+}()),
 reporting = (function () {
 	var datepick,
 	
@@ -5581,21 +5895,6 @@ mediator = (function () {
 		.fail(function () {
 			
 		});
-		/*$.ajax({
-			url: urls.mainUrl,
-			type: 'GET',
-			dataType: 'json',
-			data: {
-				action: urls.actions.GET_DATE
-			}
-		})
-		.done(function (data) {
-			if (sessionInvalid(data[0])) { return; }
-			instance.publish('gotDate', data[0]);
-		})
-		.fail(function () {
-			alertify.error('GetDate failed.');
-		});*/
 	},
 	getFullTreeStruc = function () {
 		ajax({
@@ -5607,31 +5906,22 @@ mediator = (function () {
 			}
 		})
 		.done(function (data) {
-			a.general.treeStructure = data[0];
+			var arr = data[0];
+			var g = {};
+			a.general.treeStructure = arr;
+			var i, k, len = arr.length;
+			for (i=0 ; i<len; i+=1) {
+				k = arr[i];
+				if (k.icon === undefined) {
+					g[k.id] = k.text;
+				}
+			}
+			a.general.groups = g;
 			instance.publish('fullStrucLoaded');
 		})
 		.fail(function () {
 			
 		});
-		/*$.ajax({
-			url: urls.mainUrl,
-			type : 'GET',
-			dataType : 'json',
-			data : {
-				action: urls.actions.GET_GROUPS,
-				session: a.general.currentSession,
-				base: '0',
-				version: '2'
-			}
-		})
-		.done(function (data) {
-			if (sessionInvalid(data[0])) { return; }
-			a.general.treeStructure = data[0];
-			instance.publish('fullStrucLoaded');
-		})
-		.fail(function ( data, errorTitle, errorDetail ) {
-			alertify.error('Getgroups failed<br />'+errorTitle+'<br />'+errorDetail);
-		});*/
 	},
 	defEvt = function () {
 		a.initializeMaterial();
@@ -5689,6 +5979,7 @@ mediator = (function () {
 		defCusEvt();
 		mgmt.mediator.start();
 		emailer.mediator.start();
+		automail.mediator.start();
 		manager.mediator.start();
 		reporting.mediator.start();
 	};
@@ -5718,6 +6009,7 @@ return {
 	manager: manager,
 	mgmt: mgmt,
 	emailer: emailer,
+	automail: automail,
 	reporting: reporting,
 	mediator: mediator,
 	t: instantiateMonthpicker('.reporting')

@@ -142,6 +142,7 @@
 			<!-- <li class="">                                    <button class="btn waves-effect waves-light navitem fn-tablink "         data-tab="5"><span class="fa fa-cog fa-lg"></span> test</button></li> -->
 			<!-- <li class="lefty">                                <a href="beta" class="btn waves-effect waves-light navitem" style="color:red;">                        <span class="fa fa-plane fa-lg"></span> نسخه بتا</a></li> -->
 			<li class="lefty">                               <button class="btn waves-effect waves-light navitem fn-tablink"         data-tab="6"><span class="fa fa-question-circle fa-lg"></span> راهنما</button></li>
+			<li class="lefty">                               <button class="btn waves-effect waves-light navitem fn-tablink"         data-tab="7"><span class="fa fa-envelope fa-lg"></span> ارسال خودکار</button></li>
 			<li class="fn-emailer-tab_link lefty no-display"><button class="btn waves-effect waves-light navitem fn-tablink "        data-tab="4"><span class="fa fa-envelope fa-lg"></span> ارسال قبض</button></li>
 			<li class="lefty">                               <a      class="btn waves-effect waves-light navitem" href="/app">  <span class="fa fa-area-chart fa-lg"></span> سامانه گزارش گیری</a></li>
 		</ul>
@@ -957,7 +958,163 @@
 				</div>
 			</div>
 		</div>
-		
+		<div class="tab-item tab7 automail no-display">
+			<div class="mainpanel">
+				<!-- <div class="mainpanel-header">
+					<h2 class="fn-mainpanel-roletitle">مدیر سامانه</h2>
+				</div> -->
+				<div class="subpanel profile">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-user"></span> مشخصات</div>
+					
+					<div class="subpanel-body">
+						
+						<div class="profile-img">
+							<img src="images/profpic.png" class="fn-profile-img" alt="Profile Picture"/>
+						</div>
+						<table class="">
+							<tr>
+								<th><span class="glyphicon glyphicon-user"></span> نام</th>
+								<td class="fn-profile-firstname"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-info-sign"></span> نام خانوادگی</th>
+								<td class="fn-profile-lastname"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-envelope"></span> ایمیل</th>
+								<td class="fn-profile-email"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-file"></span> سمت</th>
+								<td class="fn-profile-title"></td>
+							</tr>
+							<tr>
+								<th><span class="glyphicon glyphicon-earphone"></span> تلفن</th>
+								<td class="fn-profile-phone"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="subpanel main">
+					<div class="subpanel-header"><span class="glyphicon glyphicon-asterisk"></span> لیست کاربران</div>
+					
+					<div class="subpanel-body">
+						<div class="overlay" data-el="overlay">
+							<div class="preloader-wrapper big active">
+								<div class="spinner-layer manager-preloader">
+									<div class="circle-clipper left">
+										<div class="circle"></div>
+									</div>
+									<div class="gap-patch">
+										<div class="circle"></div>
+									</div>
+									<div class="circle-clipper right">
+										<div class="circle"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div id="autotable-wrap">
+							<table id="autotable" class="bordered responsive-table" data-el="table">
+								<tr>
+									<th>دریافت کننده</th>
+									<th>روز</td>
+									<th>کاربران</th>
+									<th>پوشه ها</th>
+									<th>تنظیمات</td>
+								</tr>
+								<!-- <tr>
+									<td>ershadi-mo</td>
+									<td>7</td>
+									<td>a&#10;s&#10;d</td>
+									<td>e&#10;f&#10;g</td>
+									<td><button class="button button-caution button-tiny" data-delete>delete</button></td>
+								</tr> -->
+							</table>
+						</div>
+<div id="automail_template">
+<!-- <tr data-automailid>
+<td data-recipient></td>
+<td data-day class="daycell"></td>
+<td data-users></td>
+<td data-groups></td>
+<td><button class="button button-caution button-tiny" data-delete>delete</button></td>
+</tr> -->
+</div>
+						
+						<div class="submit-btns">
+							<button class="button button-3d button-action disabled" data-el="submit">اضافه کن</button>
+						</div>
+						
+						<div style="clear:both"></div>
+						
+						<label for="dayinput">انتخاب روز</label>
+						<input id="dayinput" type="text" value="" data-el="input1">
+						
+						<!-- <label for="timeselect">انتخاب ساعت</label>
+						<input id="timeselect" type="text" value="" data-el="input3"> -->
+  
+						<div class="user-select">
+							<div>
+							  <input name="g3" type="radio" id="user-select-radio1" data-el="radio1" data-els="radios" checked />
+							  <label for="user-select-radio1">ارسال به کاربر</label>
+							</div>
+							
+							<div class="autoc">
+								<input class="fn-autoc-input" type="text" placeholder="جست و جوی کاربران" data-el="input2" />
+								<div class="items-wrap no-display">
+									<table class="autoc-suggestions">
+										<!--
+										<tr class="fn-autoc-item" id="fn-num-">
+											<td class="item-wrap" data-username="">
+												<img src="images/profpic.png" alt="Profile Pic"/>
+												<div class="autoc-data">
+													<div class="autoc-data-right">
+														<p class="autoc-fullname-fa"></p>
+														<p class="autoc-title"></p>
+													</div>
+													<div class="autoc-data-left">
+														<p class="autoc-username"></p>
+														<p class="autoc-email"></p>
+													</div>
+												</div>
+											</td>
+										</tr>
+										-->
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div>
+								<input name="g3" type="radio" id="self-radio1" data-els="radios" />
+								<label for="self-radio1">ارسال به صاحبان</label>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<input name="g3" type="radio" id="ebillingvoip1" data-els="radios" />
+								<label for="ebillingvoip1">loopback</label>
+							</div>
+							
+						</div>
+						
+						<div style="clear:both;"></div>
+						
+						<div class="tree-toolbar">
+							<!-- <button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_emailer-open_all"><span class="glyphicon glyphicon-plus"></span> بازکردن همه</button> -->
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_automail-close_all"><span class="glyphicon glyphicon-minus"></span> بستن همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_automail-select_all"><span class="glyphicon glyphicon-ok"></span> انتخاب همه</button>
+							<button class="btn waves-effect waves-light disabled fn-treetoolbar" id="fn-jstree_automail-deselect_all"><span class="glyphicon glyphicon-remove"></span> عدم انتخاب همه</button>
+						</div>
+						<div class="automail-tree-wrap" id="fn-jstree_automail-parent">
+							<div id="jstree_automail"></div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 		
 		<div class="tab-item tab5 reporting no-display">
 			<div class="mainpanel">
