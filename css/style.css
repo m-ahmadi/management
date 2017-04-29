@@ -1146,7 +1146,7 @@ input[type=text] {
       .automail .main .subpanel-body #autotable button {
         padding: 0 5px;
         border-radius: 50px; }
-      .automail .main .subpanel-body #autotable .daycell {
+      .automail .main .subpanel-body #autotable .larger {
         font-weight: bold;
         font-size: 16px; }
     .automail .main .subpanel-body .tree-toolbar {
