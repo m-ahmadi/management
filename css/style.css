@@ -1169,12 +1169,12 @@ input[type=text] {
       .automail .main .subpanel-body .submit-btns .enabled {
         font-size: 22px; }
     .automail .main .subpanel-body #dayinput {
-      width: 5%; }
+      margin-left: 4px; }
     .automail .main .subpanel-body .timelabel {
       color: black; }
     .automail .main .subpanel-body .timecolon {
       font-size: 22px; }
-    .automail .main .subpanel-body .timepick {
+    .automail .main .subpanel-body .numput {
       background-color: white;
       width: 50px;
       height: initial;

@@ -5552,6 +5552,7 @@ automail = (function () {
 		
 	general = {
 		treeStructure: [],
+		today: undefined,
 		selectedDate: '',
 		recipient: ''
 	},
@@ -5786,6 +5787,23 @@ automail = (function () {
 				} else {
 					els.submit.removeClass('disabled');
 				}
+				
+				var n = parseInt(val, 10);
+				if (n > 31) {
+					this.value = "31";
+				}
+				if (n <= 0) {
+					this.value = "1";
+				}
+			});
+			els.input1.on('blur', function () {
+				var val = this.value;
+				if (val === "") {
+					this.value = a.general.today || "";
+				}
+				if ( !isInvalid() && this.value ) {
+					els.submit.removeClass('disabled');
+				}
 			});
 			els.submit.on('click', function () {
 				disable();
@@ -5831,7 +5849,9 @@ automail = (function () {
 				theTree.setToolbar(true);
 			});
 			a.mediator.on('gotDate', function (d) {
-				els.input1.val(d.day.monthday.number);
+				let v = d.day.monthday.number;
+				a.general.today = v;
+				els.input1.val(v);
 			});
 			a.session.on('valid', function (d) {
 				initialize(d);

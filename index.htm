@@ -1022,7 +1022,7 @@
 									<th>روز</td>
 									<th>زمان</td>
 									<th>کاربران</th>
-									<th>پوشه ها</th>
+									<th>گروه ها</th>
 									<th>تنظیمات</td>
 								</tr>
 								<!-- <tr>
@@ -1052,13 +1052,13 @@
 						<div style="clear:both"></div>
 						
 						<label for="dayinput">انتخاب روز</label>
-						<input id="dayinput" type="text" value="" data-el="input1">
+						<input type="number" min="1" max="31" value="" id="dayinput" class="numput" data-el="input1">
 						
 						
 						<label class="timelabel">انتخاب زمان</label>
-						<input type="number" min="0" max="59" value="00" class="timepick" data-el="min" data-els="nums" />
+						<input type="number" min="0" max="59" value="00" class="numput" data-el="min" data-els="nums" />
 						<span class="timecolon">:</span>
-						<input type="number" min="0" max="23" value="00" class="timepick" data-el="hour" data-els="nums" />
+						<input type="number" min="0" max="23" value="00" class="numput" data-el="hour" data-els="nums" />
   
 						<div class="user-select">
 							<div>
@@ -1415,7 +1415,7 @@
 					<div class="items-wrap fn-cnfr-userscontainer"></div>
 				</p>
 				<p>
-					<span class="bold">پوشه ها :</span>
+					<span class="bold">گروه ها :</span>
 					<div class="items-wrap fn-cnfr-folderscontainer"></div>
 				</p>
 			</div>
