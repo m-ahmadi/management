@@ -5704,14 +5704,12 @@ automail = (function () {
 		d.recipient = general.recipient || els.input2.val();
 		
 		ajax({
-			data: d
+			data: d,
+			skip: true
 		})
 		.done(function (data) {
 			var o = data[0];
 			if (o.automailid) {
-				// successfull
-				// ToDo: add row to table
-				// release overlay
 				var p = {
 					automailid: o.automailid,
 					recipient:  d.recipient,
@@ -5721,11 +5719,13 @@ automail = (function () {
 					time:       d.time
 				};
 				createRow(p, true);
-				enable();
 				alertify.success("اضافه شد.");
+			} else if (o.error_code && o.error_code === -21) {
+				alertify.error("دریافت کننده وجود ندارد!");
 			} else {
 				alertify.error("متاسفانه اضافه نشد.");
 			}
+			enable();
 		});
 	},
 	delAutoMail = function (automailid, toRemove) {
@@ -5739,11 +5739,11 @@ automail = (function () {
 			var o = data[0];
 			if (o.automailid) {
 				toRemove.remove();
-				els.overlay.addClass('no-display');
 				alertify.success("حذف شد.");
 			} else {
 				alertify.error("متاسفانه خذف نشد.");
 			}
+			els.overlay.addClass('no-display');
 		});
 	},
 	isInvalid = function () {
